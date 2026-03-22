@@ -1,0 +1,14 @@
+state: Alaska
+abbreviation: AK
+adapter: spending_app
+portal:
+  url: https
+spending_app:
+  api_base: httpsapi
+  years: ["2025", "2024", "2023", "2022", "2021"]
+  batch_size: 10000
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map: {}
+notes: "Socrata Spending App. Vendor-level aggregated data via /api/chart_data.json."

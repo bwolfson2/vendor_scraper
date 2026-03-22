@@ -1,0 +1,14 @@
+state: South Dakota
+abbreviation: SD
+adapter: spending_app
+portal:
+  url: https://open.sd.gov/
+spending_app:
+  api_base: https://southdakota.spending.socrata.com/api
+  years: ["2026", "2025", "2024", "2023", "2022"]
+  batch_size: 10000
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map: {}
+notes: "Socrata Spending App at southdakota.spending.socrata.com."

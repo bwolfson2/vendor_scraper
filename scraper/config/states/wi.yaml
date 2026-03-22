@@ -1,0 +1,36 @@
+state: Wisconsin
+abbreviation: WI
+adapter: playwright
+portal:
+  url: https://openbook.wi.gov/Contracts.aspx
+playwright:
+  mode: export
+  wait_time: 5
+  search_actions:
+    - type: select
+      selector: "#ctl00_Main_cmbxFiscalYear"
+      value: "2025"
+    - type: wait
+      value: "1"
+    - type: click
+      selector: "#ctl00_Main_btnSearchAgency"
+    - type: wait
+      value: "5"
+  export_button: "#ctl00_Main_ViewExpenditureAgencies1_ExportTool1_btnExport_input"
+pagination:
+  max_pages: 0
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map:
+  agency_name: Agency
+  vendor_name: Vendor
+  contract_id: Contract Number
+  description: Description
+  amount: Amount
+  start_date: Start Date
+  end_date: End Date
+  contract_type: Contract Type
+notes: |
+  ASP.NET with Telerik controls. Export downloads ZIP with XLS.
+  Need to iterate through fiscal years for complete data.

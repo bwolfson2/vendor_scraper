@@ -1,0 +1,29 @@
+state: New York
+abbreviation: NY
+adapter: socrata
+portal:
+  url: https://www.osc.ny.gov/open-book-new-york
+socrata:
+  domain: data.ny.gov
+  dataset_id: ehig-g5x3  # Procurement Report for State Authorities
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: authority_name
+  vendor_name: vendor_name
+  contract_id: ""
+  description: procurement_description
+  start_date: begin_date
+  end_date: end_date
+  amount: amount_expended_for_fiscal_year
+  procurement_method: award_process
+  contract_type: type_of_procurement
+  commodity_category: ""
+notes: |
+  275,763 records. Dataset ehig-g5x3: Procurement Report for State Authorities.
+  Other datasets: cfjm-ii27 (SUCF Contracts), 8w5p-k45m (Local Authorities),
+  g8c2-grs5 (MWBE Vendor Spending)

@@ -1,0 +1,13 @@
+state: Georgia
+abbreviation: GA
+adapter: playwright
+portal:
+  url: https://open.ga.gov/openga/expenditures
+playwright:
+  mode: table
+  wait_time: 5
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map: {}
+notes: "Excel/PDF reports. Limited to annual fiscal year downloads."

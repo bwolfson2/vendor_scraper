@@ -1,0 +1,1639 @@
+{
+  "CO": [
+    {
+      "id": "rifs-n6ib",
+      "name": "Transparency Online Project (TOPS) - State Government Revenue and Expenditures in Colorado",
+      "type": "story",
+      "description": "Revenue and Expenditures for Colorado State Governmental departments provided by the Department of P",
+      "columns": []
+    },
+    {
+      "id": "fjyf-bdat",
+      "name": "Transparency Online Project (TOPS) - State Government Revenue and Expenditures in Colorado",
+      "type": "story",
+      "description": "Revenue and Expenditures for Colorado State Governmental departments provided by the Department of P",
+      "columns": []
+    },
+    {
+      "id": "rkmy-yymq",
+      "name": "CDOT Payroll Expenditures",
+      "type": "dataset",
+      "description": "Payroll expenditures for Colorado Department of Transportation for the current and previous state fi",
+      "columns": [
+        "Amount",
+        "Job Description",
+        "Employee",
+        "Area Description",
+        "Fiscal Year"
+      ]
+    },
+    {
+      "id": "n55r-9hud",
+      "name": "Personal Consumption Expenditures",
+      "type": "dataset",
+      "description": "State personal consumption expenditures in millions of current dollars (not adjusted for inflation) ",
+      "columns": [
+        "Other nondurable goods",
+        "Other durable goods",
+        "Nondurable goods",
+        "Food and beverages purchased for off-premises consumption",
+        "Clothing and footwear",
+        "Other services",
+        "GeoFIPS",
+        "GeoName",
+        "Region",
+        "Personal consumption expenditures"
+      ]
+    },
+    {
+      "id": "synw-se9p",
+      "name": "Professional Lobbyist Expenditures in Colorado",
+      "type": "dataset",
+      "description": "Monthly expenditures as entered into lobbyist's monthly Disclosure Report by Lobbyist.",
+      "columns": [
+        "fiscalYear",
+        "expenditurePurpose",
+        "expenditureName",
+        "lobbyistName",
+        "reportDueDate",
+        "annualLobbyistRegistrationID",
+        "primaryLobbyistID",
+        "lobbyistLastName",
+        "lobbyistFirstName",
+        "expenditureForMediaFlag"
+      ]
+    },
+    {
+      "id": "7ygc-diyx",
+      "name": "City of Littleton Monthly Financial Reports",
+      "type": "href",
+      "description": "Each month, the Finance Department prepares a report for Littleton City Council which presents the g",
+      "columns": []
+    },
+    {
+      "id": "df5p-p6jt",
+      "name": "Professional Lobbyist Disclosure Report Summary in Colorado",
+      "type": "dataset",
+      "description": "For each monthly Disclosure Report, a summary of income, expenditures, and business associated with ",
+      "columns": [
+        "lobbyistFirstName",
+        "primaryLobbyistID",
+        "runDate",
+        "reportDueDate",
+        "businessAssociatedWithLegislation",
+        "totalMonthlyExpenditures",
+        "reportMonth",
+        "fiscalYear",
+        "totalMonthlyIncome",
+        "annualLobbyistRegistrationID"
+      ]
+    },
+    {
+      "id": "eudi-jgs4",
+      "name": "Monthly Consumer Price Index Data for Denver-Aurora-Lakewood",
+      "type": "dataset",
+      "description": "Monthly Consumer Price Index (CPI)  for goods and services in major\nexpenditure groups for Denver-Au",
+      "columns": [
+        "durables",
+        "motorFuel",
+        "motorVehclIns",
+        "newUsedMotorVehcl",
+        "newVehcl",
+        "nonalchBevsMatrl",
+        "nondurLessFood",
+        "nondurLessFoodBevs",
+        "otherFoodAtHome",
+        "otherGoods"
+      ]
+    },
+    {
+      "id": "443p-eijy",
+      "name": "Energy Profile in Colorado 2014",
+      "type": "dataset",
+      "description": "Data collected to measure success of implementing Smart Grid, and other quick facts about Colorado\u2019s",
+      "columns": [
+        "Category",
+        "Period",
+        "U.S. Average",
+        "Subcategory2",
+        "Share of U.S.",
+        "Colorado",
+        "U.S. Rank",
+        "Subcategory1"
+      ]
+    },
+    {
+      "id": "yk7f-aegj",
+      "name": "Professional Lobbyist Directory in Colorado",
+      "type": "dataset",
+      "description": "This lists all professional lobbyists and the years they were registered with CDOS.",
+      "columns": [
+        "lobbyistFirmName",
+        "runDate",
+        "lobbyistSuffix",
+        "lobbyistLastName",
+        "lobbyistFirstName",
+        "lobbyistDesignation",
+        "lobbyistState",
+        "registrationEndDate",
+        "lobbyistType",
+        "lobbyistPhone"
+      ]
+    },
+    {
+      "id": "3c2i-n5zp",
+      "name": "Web Spending and Revenue Correlation 2021",
+      "type": "chart",
+      "description": "A resilience survey instrument was created by Energize Colorado that assessed the social and operati",
+      "columns": []
+    },
+    {
+      "id": "sn8z-q44h",
+      "name": "EnergizeCO Small Business Resiliency Index (SBRI)",
+      "type": "dataset",
+      "description": "A resilience survey instrument was created by Energize Colorado that assessed the social and operati",
+      "columns": [
+        "Q_On important matters that impact the wellbeing of my business, I believe Colorado\u2019s local and state government have high integrity.",
+        "Q_My company would be able to continue to operate if there was another lockdown today.",
+        "Q_What is your monthly spend for your website and digital solutions for Customer Growth?",
+        "Q_My company often invests in online/digital security tools to protect company and customer data.",
+        "Q_How has your profit increased or decreased over the last year?",
+        "Q_My company\u2019s current ability to meet customer needs is negatively impacted by external forces (e.g., suppliers, environmental).",
+        "business_interferences",
+        "improved_process_2020",
+        "digital_security_measures",
+        "business_sector"
+      ]
+    },
+    {
+      "id": "5b9u-fuzs",
+      "name": "EnergizeCO Small Business Resiliency Index (SBRI) 2nd Ed.",
+      "type": "dataset",
+      "description": "A resilience survey instrument was created by Energize Colorado that assessed the social and operati",
+      "columns": [
+        "number_of_partTime_employees",
+        "number_of_contractors_1099",
+        "12_month_revenue",
+        "Among the local community with whom I work most every day, I feel there is a sense of camaraderie.",
+        "Among the local community I can depend on people to help me if I need them.",
+        "I consider the people I work with in the local community to be my friends even outside of work.",
+        "veteran_status",
+        "business_sector",
+        "gender",
+        "disability_status"
+      ]
+    },
+    {
+      "id": "ew9y-6tv9",
+      "name": "Paid Solicitor Solicitation Notices in Colorado",
+      "type": "dataset",
+      "description": "Recent modifications in the data transformation process may result in data changes.  Additional deta",
+      "columns": [
+        "snId",
+        "accountingRecordsCity",
+        "accountingRecordsAddress",
+        "filingStatus",
+        "contractSigner4Organization",
+        "contractSigner3Organization",
+        "contractSigner3FirstName",
+        "solicitorName",
+        "charityName",
+        "contractSigner2Organization"
+      ]
+    },
+    {
+      "id": "q2qp-xhnj",
+      "name": "Bicycle and Pedestrian Counts in Colorado",
+      "type": "dataset",
+      "description": "Location and counts for number of pedestrians and bicyclists to pass by a specific spot in a given h",
+      "columns": [
+        "long",
+        "hr08",
+        "Counties",
+        "Location 1 (address)",
+        "Location 1 (zip)",
+        "Location 1 (state)",
+        "dataCollected",
+        "county",
+        "location",
+        "lat"
+      ]
+    },
+    {
+      "id": "5qb7-udmm",
+      "name": "Eagle County - Bicycle and Pedestrian Counts",
+      "type": "filter",
+      "description": "Location and counts for number of pedestrians and bicyclists to pass by a specific spot in a given h",
+      "columns": [
+        "month",
+        "stationId",
+        "hr17",
+        "hr09",
+        "hr12",
+        "hr10",
+        "hr15",
+        "hr14",
+        "Location 1",
+        "hr19"
+      ]
+    },
+    {
+      "id": "869n-zj3f",
+      "name": "Restaurant Inspections in Tri-County Colorado",
+      "type": "dataset",
+      "description": "Restaruant Inspection data for food service facilities within Adams, Arapahoe, and Douglas counties ",
+      "columns": [
+        "FC12",
+        "FC36",
+        "FC02",
+        "FC44",
+        "St",
+        "FC10",
+        "PE",
+        "FC25",
+        "FC24",
+        "FC23"
+      ]
+    },
+    {
+      "id": "wtpp-eaj8",
+      "name": "Map of Census Counties in Colorado 2010",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "wcvg-8vki",
+      "name": "Map of Census Zip Codes in Colorado 2010",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "9b7x-qm8d",
+      "name": "Map of Census School Districts in Colorado 2010",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "gu6r-zvv2",
+      "name": "Map of Census Tracts in Colorado 2010",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "us3j-cyz6",
+      "name": "Map of Census Block Groups SF3 in Colorado 2000",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "p674-r4hf",
+      "name": "Map of Census Tracts SF3 in Colorado 2000",
+      "type": "map",
+      "description": "Census Data is collected every 10 years by mail surveys to every household with primary data collect",
+      "columns": []
+    },
+    {
+      "id": "wnau-xrqi",
+      "name": "City of Denver Checkbook",
+      "type": "dataset",
+      "description": "These datasets include accounts payable payments and procurement card transactions made to vendors b",
+      "columns": [
+        "PaymentId",
+        "RowId",
+        "Department",
+        "Payee",
+        "PaymentDate",
+        "State",
+        "FundingSourceDescription",
+        "ProgramArea",
+        "City",
+        "Amount"
+      ]
+    },
+    {
+      "id": "66zf-qjdd",
+      "name": "City of Denver Procurement Transactions",
+      "type": "dataset",
+      "description": "These datasets include accounts payable payments and procurement card transactions made to vendors b",
+      "columns": [
+        "Reference_number",
+        "Purchase_Amount",
+        "Item_Description",
+        "Merchant_State",
+        "ID",
+        "Purchase_Type",
+        "Program_Area",
+        "Transaction_Amount",
+        "Merchant",
+        "Transaction_Date"
+      ]
+    }
+  ],
+  "MA": [
+    {
+      "id": "uaqe-2tpk",
+      "name": "Non-Budgeted Special Revenue and Trusts",
+      "type": "dataset",
+      "description": "This is the production dataset for the Non-Budgeted Special Revenue Funds and Trusts site.",
+      "columns": [
+        "Unexpended",
+        "Fund Name",
+        "Transfer In",
+        "Revenue Collected",
+        "Beginning Balance",
+        "Appropriation/Account Name",
+        "Cabinet/Secretariat",
+        "Department Name",
+        "Balance Forward",
+        "Fund Number"
+      ]
+    },
+    {
+      "id": "kv7m-35wn",
+      "name": "Budget_Actual_With_Other_Spending_Authorizationv3_Gen2",
+      "type": "dataset",
+      "description": "This is the production dataset for Budget Actual with Other Spending Authorization used for CTHRU Bu",
+      "columns": [
+        "Fiscal Year",
+        "Fund Name",
+        "Department Name",
+        "Appropriation/Account Name",
+        "Authorized Retained Revenue Floor",
+        "Appropriation Class Description",
+        "Authorized Retained Revenue Ceiling",
+        "Total Enacted Budget Appropriation",
+        "Total Available for Spending",
+        "Unexpended/Reverted"
+      ]
+    },
+    {
+      "id": "pegc-naaa",
+      "name": "Comptroller of the Commonwealth Spending",
+      "type": "dataset",
+      "description": "This is the production dataset for the CTHRU Statewide Spending site.",
+      "columns": [
+        "Fund",
+        "Fund_Code",
+        "Appropriation_Code",
+        "Object",
+        "Department_Code",
+        "Vendor",
+        "Vendor_Id",
+        "Payment_Id",
+        "Payment_Method",
+        "State"
+      ]
+    },
+    {
+      "id": "2pjv-vqie",
+      "name": "Medicaid Budget-to-Actual Spending",
+      "type": "chart",
+      "description": "This is the development dataset for Budget_Actual_With_Other_Spending_Authorizationv3.  This dataset",
+      "columns": []
+    },
+    {
+      "id": "cqdr-v9ez",
+      "name": "Budget-to-Actual Spending, Budgeted Funds Only",
+      "type": "chart",
+      "description": "This is the development dataset for Budget_Actual_With_Other_Spending_Authorizationv3.  This dataset",
+      "columns": []
+    },
+    {
+      "id": "bwca-qkra",
+      "name": "Commonwealth Annual Pension Contributions Budget-to-Actual Spending",
+      "type": "chart",
+      "description": "This is the production dataset for Budget Actual with Other Spending Authorization used for CTHRU Bu",
+      "columns": []
+    },
+    {
+      "id": "uumy-eci5",
+      "name": "Direct Local Aid Budget-to-Actual Spending",
+      "type": "chart",
+      "description": "This is the production dataset for Budget Actual with Other Spending Authorization used for CTHRU Bu",
+      "columns": []
+    },
+    {
+      "id": "2fg9-qdpt",
+      "name": "Fair Share 4% Surtax Budget-to-Actual Spending",
+      "type": "chart",
+      "description": "This is the production dataset for Budget Actual with Other Spending Authorization used for CTHRU Bu",
+      "columns": []
+    },
+    {
+      "id": "ic7y-gy58",
+      "name": "Group Health Insurance Budget-to-Actual Spending",
+      "type": "chart",
+      "description": "This is the production dataset for Budget Actual with Other Spending Authorization used for CTHRU Bu",
+      "columns": []
+    },
+    {
+      "id": "vys2-y3d6",
+      "name": "CTHRU Budgets",
+      "type": "story",
+      "description": "Data on budget-to-actual spending in Commonwealth of Massachusetts budgeted fund accounts, dating ba",
+      "columns": []
+    },
+    {
+      "id": "9ttk-7vz6",
+      "name": "Commonwealth Of Massachusetts Payrollv3",
+      "type": "dataset",
+      "description": "This is the production dataset for the Statewide Payroll site.",
+      "columns": [
+        "A07",
+        "BARGAINING_GROUP_NO",
+        "PAY_BASE_ACTUAL",
+        "SERVICE_END_DATE",
+        "POSITION_TITLE",
+        "DEPARTMENT_DIVISION",
+        "YEAR",
+        "DEPARTMENT_CODE",
+        "CONTRACT",
+        "PAY_YEAR_TO_DATE"
+      ]
+    }
+  ],
+  "NY": [
+    {
+      "id": "42wv-qbv6",
+      "name": "Public Assistance (PA) Caseloads and Expenditures: Beginning 2002",
+      "type": "dataset",
+      "description": "These data are monthly listings of cases, recipients, adults, children and expenditures in the Famil",
+      "columns": [
+        "Month Code",
+        "Safety Net Assistance Federally Participating Cases",
+        "Safety Net Assistance Federally Participating Children",
+        "Safety Net Federally Non-Participating Expenditures",
+        "Federally Participating Temporary Assistance for Needy Families Recipients",
+        "Safety Net Assistance Adults",
+        " Safety Net Assistance Cases",
+        "Family Assistance Federally Participating Expenditures",
+        "Family Assistance Federally Participating Recipients",
+        "Total Temporary Assistance Cases"
+      ]
+    },
+    {
+      "id": "62eq-hqts",
+      "name": "Suffolk County Budget Expenditures: 2013",
+      "type": "dataset",
+      "description": "The Operating Budget details the expenditures for the County's day-today operation. The Operating Bu",
+      "columns": [
+        "DEPT_NM",
+        "ACTV_CD",
+        "2012 Estimated",
+        "FUND_CD",
+        "BFY",
+        "Grant",
+        "OBJ_CD",
+        "ACTV_NM",
+        "2010 Actuals",
+        "2011 Actuals"
+      ]
+    },
+    {
+      "id": "kym4-b5dg",
+      "name": "Supplemental Security Income (SSI) Recipients and Expenditures: Beginning 2002",
+      "type": "dataset",
+      "description": "These data are monthly listings of recipients and expenditures for the Supplemental Security Income ",
+      "columns": [
+        "Total SSI Expenditures",
+        "Federal SSI Expenditures",
+        "District Code",
+        "Month",
+        "Month Code",
+        "Year",
+        "State SSI Expenditures",
+        "District",
+        "SSI Recipients"
+      ]
+    },
+    {
+      "id": "dq6j-8u8z",
+      "name": "Supplemental Nutrition Assistance Program (SNAP) Caseloads and Expenditures: Beginning 2002",
+      "type": "dataset",
+      "description": "These data are monthly listings of households, recipients and expenditures for the Supplemental Nutr",
+      "columns": [
+        "Temporary Assistance SNAP Benefits",
+        "Non-Temporary Assistance SNAP Households",
+        "Month Code",
+        "Non-Temporary Assistance SNAP Persons",
+        "Month",
+        "District",
+        "Non-Temporary Assistance SNAP Benefits",
+        "Temporary Assistance SNAP Persons",
+        "Total SNAP Households",
+        "Temporary Assistance SNAP Households"
+      ]
+    },
+    {
+      "id": "7sw8-sdsd",
+      "name": "Office for the Aging Service Expenditures: Beginning Fiscal Year 2009",
+      "type": "dataset",
+      "description": "Dataset showing expenditures by county, by service for the following State Fiscal Years beginning 20",
+      "columns": [
+        "County",
+        "County Name",
+        "Fiscal Year",
+        "Personal Care Level II ",
+        "Home Health Aide",
+        "Home Delivered Meals",
+        "Adult Day Services",
+        "Case Management",
+        "Congregate Meals",
+        "Nutrition Counseling"
+      ]
+    },
+    {
+      "id": "ajsb-8pni",
+      "name": "Campaign Finance Disclosure Reports Expenditures: Beginning 1999",
+      "type": "filter",
+      "description": "All Campaign Finance Disclosure Reports expenditures Filed with the New York Board of Elections sinc",
+      "columns": [
+        "FLNG_ENT_MIDDLE_NAME",
+        "FLNG_ENT_FIRST_NAME",
+        "FLNG_ENT_ADD1",
+        "PAY_NUMBER",
+        "ORG_AMT",
+        "FILER_ID",
+        "ELECTION_YEAR",
+        "COUNTY_DESC",
+        "LOAN_LIB_NUMBER",
+        "FLNG_ENT_LAST_NAME"
+      ]
+    },
+    {
+      "id": "huva-pmc4",
+      "name": "Excelsior Jobs Program Tax Credit:  Beginning Calendar Year 2012",
+      "type": "dataset",
+      "description": "Tax Law section 31(e) requires the Tax Department to produce an Excelsior Jobs Program Credit Report",
+      "columns": [
+        "Recapture of Previous Tax Credit",
+        "Notes",
+        "Real Property Tax Component",
+        "Total Credit",
+        "Research and Development Component",
+        "Investment Credit Component",
+        "Net Total Credit",
+        "Jobs Credit Component",
+        "Taxpayer Name",
+        "Tax Year"
+      ]
+    },
+    {
+      "id": "g8c2-grs5",
+      "name": "Amount Spent with MWBE Vendors: Beginning FY 2019",
+      "type": "dataset",
+      "description": "Amount spent with MWBE vendors since fiscal year 2019",
+      "columns": [
+        "Fiscal Year",
+        "Amount"
+      ]
+    },
+    {
+      "id": "in6g-eta3",
+      "name": "New York State Executive Budget Capital Appropriations: 2016-2017",
+      "type": "dataset",
+      "description": "This data set includes capital project appropriations and reappropriations as they relate to the 201",
+      "columns": [
+        "Agency\u00a0Name",
+        "Reference\u00a0Number",
+        "Program\u00a0Name",
+        "State\u00a0Purpose",
+        "Fund\u00a0Name",
+        "Financing\u00a0Source",
+        "Chapter/Section/Year",
+        "Description",
+        "Reappropriations Recommended 2016-17",
+        "Encumbrance\u00a0as\u00a0of\u00a01/11/2016"
+      ]
+    },
+    {
+      "id": "mpnb-pa8k",
+      "name": "New York State Enacted Budget Capital Appropriations: 2016-2017",
+      "type": "dataset",
+      "description": "This data set includes capital project appropriations and reappropriations as they relate to the 201",
+      "columns": [
+        "Agency\u00a0Name",
+        "Reference\u00a0Number",
+        "Program\u00a0Name",
+        "State\u00a0Purpose",
+        "Fund\u00a0Name",
+        "Financing\u00a0Source",
+        "Chapter/Section/Year",
+        "Description",
+        "Enacted Reappropriations 2016-17",
+        "Encumbrance\u00a0as\u00a0of\u00a05/13/2016"
+      ]
+    },
+    {
+      "id": "4mpt-rfrw",
+      "name": "New York State Budget and Actuals: Beginning Fiscal Year 1994-95",
+      "type": "dataset",
+      "description": "This data includes disbursement information for the budget year and prior years going back to 1994 f",
+      "columns": [
+        "Subfund Name",
+        "Fund Type",
+        "Agency",
+        "Fund",
+        "2024-25 Actuals",
+        "2017-18 Actuals",
+        "2015-16 Actuals",
+        "2005-06  Actuals",
+        "2003-04  Actuals",
+        "1999-00  Actuals"
+      ]
+    },
+    {
+      "id": "4apg-4kt9",
+      "name": "MTA Subway Customer Journey-Focused Metrics: 2020-2024",
+      "type": "dataset",
+      "description": "Additional Platform Time (APT) is the estimated average extra time that customers spend waiting on t",
+      "columns": [
+        "division",
+        "over_five_mins",
+        "month",
+        "total_apt",
+        "num_passengers",
+        "additional train time",
+        "customer journey time performance",
+        "over_five_mins_perc",
+        "total_att",
+        "additional platform time"
+      ]
+    },
+    {
+      "id": "r7qk-6tcy",
+      "name": "MTA Subway Customer Journey-Focused Metrics: 2015-2019",
+      "type": "dataset",
+      "description": "Additional Platform Time (APT) is the estimated average extra time that customers spend waiting on t",
+      "columns": [
+        "total_apt",
+        "over_five_mins",
+        "over_five_mins_perc",
+        "customer journey time performance",
+        "period",
+        "division",
+        "additional platform time",
+        "month",
+        "additional train time",
+        "line"
+      ]
+    },
+    {
+      "id": "s4u6-t435",
+      "name": "MTA Subway Customer Journey-Focused Metrics: Beginning 2025",
+      "type": "dataset",
+      "description": "Additional Platform Time (APT) is the estimated average extra time that customers spend waiting on t",
+      "columns": [
+        "customer journey time performance",
+        "over_five_mins_perc",
+        "over_five_mins",
+        "total_att",
+        "total_apt",
+        "additional train time",
+        "additional platform time",
+        "num_passengers",
+        "line",
+        "month"
+      ]
+    },
+    {
+      "id": "pfh5-epwm",
+      "name": "MTA Employee Availability: Beginning 2013",
+      "type": "dataset",
+      "description": "Employee availability measures the proportion of employee scheduled time that is spent on productive",
+      "columns": [
+        "Total Hours",
+        "Availability Subtype",
+        "Department",
+        "Job Group Description",
+        "RC Name",
+        "Agency",
+        "Month",
+        "Availability Type",
+        "RC"
+      ]
+    },
+    {
+      "id": "8mkn-d32t",
+      "name": "MTA Bus Customer Journey-Focused Metrics: Beginning 2017",
+      "type": "dataset",
+      "description": "Additional Bus Stop Time is the average time that customers spend waiting at a stop beyond their sch",
+      "columns": [
+        "number_of_customers",
+        "route_id",
+        "trip_type",
+        "month",
+        "borough",
+        "period",
+        "customer_journey_time_performance",
+        "additional_travel_time",
+        "additional_bus_stop_time"
+      ]
+    },
+    {
+      "id": "6ifx-7aaq",
+      "name": "MTA 2025-2029 Capital Plan ACEP Projects",
+      "type": "dataset",
+      "description": "The MTA Capital Program is comprised of a series of five-year capital investment plans. These capita",
+      "columns": [
+        "Agency Code",
+        "Needs Code",
+        "Total Budget",
+        "Parent ACEP",
+        "Project Title",
+        "Element Description",
+        "Category Description",
+        "Agency Name",
+        "ACEP",
+        "Project Code"
+      ]
+    },
+    {
+      "id": "4ry5-tfin",
+      "name": "Title V Emissions Inventory: Beginning 2010",
+      "type": "dataset",
+      "description": "A list by county of New York State Title V facilities and the air pollutants emitted from those faci",
+      "columns": [
+        "NYS Municipal Boundaries",
+        "New York Zip Codes",
+        "Counties",
+        "Facility Name",
+        "Year",
+        "Location",
+        "PM2.5 (tons)",
+        "DEC ID",
+        "Particulates (tons)",
+        "CO2 (tons)"
+      ]
+    },
+    {
+      "id": "26ei-n4eb",
+      "name": "Database of Economic Incentives",
+      "type": "dataset",
+      "description": "The Database of Economic Incentives (DOEI) is a public, searchable database for various economic dev",
+      "columns": [
+        "Original Recipient",
+        "Contact",
+        "Total Lead Agency Benefits Awarded",
+        "NYS MWBE Utilization Goal Applied",
+        "Total Public-Private Investment",
+        "Project Status",
+        "Compliant with Terms and Conditions",
+        "Reason for Non-Compliant Status",
+        "Penalties Applied?",
+        "Rationale for Termination"
+      ]
+    },
+    {
+      "id": "cfjm-ii27",
+      "name": "State University Construction Fund (SUCF) Contracts: Beginning 1995",
+      "type": "dataset",
+      "description": "Capital Contracts (Design, Construction and associated services) including expended and encumbrance ",
+      "columns": [
+        "Country",
+        "MWBE Proposals",
+        "Vendor Name",
+        "Address Line 1",
+        "Expended Amount LTD",
+        "Contract Award Date",
+        "Status",
+        "Title",
+        "Georeference",
+        "Zip Code"
+      ]
+    },
+    {
+      "id": "n9bu-8eic",
+      "name": "Community Development Block Grant (CDBG) Contracts",
+      "type": "dataset",
+      "description": "Listing of open and closed CDBG contracts between NYS Homes & Community Renewal\u2019s Office of Communit",
+      "columns": [
+        "Project Type",
+        "County",
+        "Recipient Type",
+        "Grant Recipient",
+        "Current Status",
+        "Project Number",
+        "Project Year",
+        "Project Name",
+        "Contract Amount"
+      ]
+    },
+    {
+      "id": "adec-zj7s",
+      "name": "New York State Parks Concession Contracts",
+      "type": "dataset",
+      "description": "he New York State Office of Parks, Recreation and Historic Preservation (OPRHP) oversees more than 2",
+      "columns": [
+        "Facility",
+        "Region",
+        "Contract #",
+        "Name",
+        "End Date",
+        "Start Date",
+        "Type"
+      ]
+    },
+    {
+      "id": "42p9-5jn8",
+      "name": "Community Development Block Grant (CDBG) Contracts Data Lens",
+      "type": "story",
+      "description": "Listing of open and closed CDBG contracts between NYS Homes & Community Renewal\u2019s Office of Communit",
+      "columns": []
+    },
+    {
+      "id": "cjqa-a3p4",
+      "name": "Master Contract Value Added Resellers (VAR) Report",
+      "type": "dataset",
+      "description": "A listing of New York State Master contracts by vendors and associated resellers, provided by NYS Of",
+      "columns": [
+        "Master Contract/Vendor ID #",
+        "Value-Added Re-seller (VAR) Vendor Name",
+        "Master Contract Vendor Name",
+        "Contract Description",
+        "Value-Added Re-seller (VAR) ID #",
+        "Master Contract ID #"
+      ]
+    },
+    {
+      "id": "ss7k-76ub",
+      "name": "Governor\u2019s Office of Storm Recovery (GOSR) Quarterly Contract Reporting",
+      "type": "dataset",
+      "description": "A listing of contracts between the Governor\u2019s Office of Storm Recovery \u2013 organized under the NYS Hou",
+      "columns": [
+        "Total Contract Amount",
+        "DUNS Number",
+        "Contract Execution Date",
+        "Contractor Name",
+        "Amount of CDBG-DR Funds",
+        "Contract End Date",
+        "Brief Description of Contract",
+        "Procured By"
+      ]
+    },
+    {
+      "id": "e3e7-qwer",
+      "name": "MTA Eye on the Future Contract Solicitations: June 2018 \u2013 May 2019",
+      "type": "dataset",
+      "description": "Until March 2020, the MTA publicized solicitations on its website for capital projects in its Eye on",
+      "columns": [
+        "Solicitation_Month",
+        "Task_11",
+        "Solicitation_Year",
+        "Project_Description",
+        "Duration_of_Contract",
+        "Contract_Description",
+        "Task_14",
+        "Task_13",
+        "Task_12",
+        "Task_6"
+      ]
+    },
+    {
+      "id": "ehig-g5x3",
+      "name": "Procurement Report for State Authorities",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "Amount Expended for Fiscal Year",
+        "Authority Name",
+        "FMV Explanation",
+        "Fair Market Value",
+        "Contract Amount",
+        "Begin Date",
+        "Renewal Date",
+        "End Date",
+        "Vendor Province/Region",
+        "Vendor is a MWBE"
+      ]
+    },
+    {
+      "id": "8w5p-k45m",
+      "name": "Procurement Report for Local Authorities",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "Authority Name",
+        "FMV Explanation",
+        "Fair Market Value",
+        "Contract Amount",
+        "End Date",
+        "Award Date",
+        "Award Process",
+        "Type of Procurement",
+        "Procurement Description",
+        "Vendor Country"
+      ]
+    },
+    {
+      "id": "d84c-dk28",
+      "name": "Procurement Report for Local Development Corporations",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "Authority Name",
+        "Fiscal Year End Date",
+        "Procurements",
+        "Vendor Name",
+        "Vendor Address 1",
+        "Vendor Address 2",
+        "Vendor City",
+        "Vendor State",
+        "Vendor Postal Code",
+        "Vendor Province/Region"
+      ]
+    },
+    {
+      "id": "85j2-hzta",
+      "name": "Design & Construction Total Vendor Payments by Quarter: Beginning 2014",
+      "type": "filter",
+      "description": "This dataset provides the public with the value of individual payments made to vendors for Professio",
+      "columns": [
+        "Quarter",
+        " Payment Amount ",
+        "Vendor",
+        "Fiscal Year"
+      ]
+    },
+    {
+      "id": "rb9h-9fit",
+      "name": "Design & Construction Capital Projects Vendor Payments:  Beginning 2014",
+      "type": "dataset",
+      "description": "This dataset provides the public with the value of individual payments made to vendors for Professio",
+      "columns": [
+        "Fiscal Year",
+        "Type Of Service",
+        "Quarter",
+        "Contract Number",
+        "Vendor",
+        " Payment Amount ",
+        "County"
+      ]
+    },
+    {
+      "id": "p3p6-xqr5",
+      "name": "Procurement Report for Industrial Development Agencies",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "End Date",
+        "Vendor Country",
+        "Fair Market Value",
+        "FMV Explanation",
+        "Authority Name",
+        "Fiscal Year End Date",
+        "Procurements",
+        "Vendor Name",
+        "Vendor Address 1",
+        "Vendor Address 2"
+      ]
+    },
+    {
+      "id": "twsw-2mqa",
+      "name": "MTA Procurements: Beginning 2018",
+      "type": "dataset",
+      "description": "The dataset consists of annual procurement contracts data reported by the Metropolitan Transportatio",
+      "columns": [
+        "Number of MWBE Proposals",
+        "Status",
+        "Solicited MWBE",
+        "Exempt from Article 4c",
+        "Transaction Number",
+        "Address Line 1",
+        "Country",
+        "Award Process",
+        "Basis for exemption",
+        "Address Line 2"
+      ]
+    },
+    {
+      "id": "y6wc-tvay",
+      "name": "Summary Financial Information for State Authorities",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "Authority Name",
+        "Fiscal Year End Date",
+        "Cash and Cash Equivalents",
+        "Investments",
+        "Receivables, Net",
+        "Other Assets (Current)",
+        "Total Current Assets",
+        "Restricted Cash And Investments",
+        "Long-Term Receivables, Net",
+        "Other Assets (Noncurrent)"
+      ]
+    },
+    {
+      "id": "wgry-y5zd",
+      "name": "Summary Financial Information for Local Development Corporations",
+      "type": "dataset",
+      "description": "Public authorities are required by Section 2800 of Public Authorities Law to submit annual reports t",
+      "columns": [
+        "Authority Name",
+        "Fiscal Year End Date",
+        "Cash And Cash Equivalents",
+        "Investments",
+        "Receivables, Net",
+        "Other Assets (Current)",
+        "Total Current Assets",
+        "Restricted Cash And Investments",
+        "Long-Term Receivables, Net",
+        "Other Assets (Noncurrent)"
+      ]
+    }
+  ],
+  "WA": [
+    {
+      "id": "tijg-9zyp",
+      "name": "Expenditures by Candidates and Political Committees",
+      "type": "dataset",
+      "description": "This dataset contains expenditures made by Washington State Candidates and Political Committees for ",
+      "columns": [
+        "recipient_city",
+        "committee_id",
+        "origin",
+        "report_number",
+        "recipient_location",
+        "recipient_zip",
+        "description",
+        "jurisdiction",
+        "amount",
+        "for_or_against"
+      ]
+    },
+    {
+      "id": "ti55-mvy5",
+      "name": "Surplus Funds Expenditures",
+      "type": "dataset",
+      "description": "This dataset contains expenditures made by from surplus funds accounts of Washington State Candidate",
+      "columns": [
+        "code",
+        "url",
+        "type",
+        "origin",
+        "recipient_city",
+        "filer_id",
+        "amount",
+        "recipient_address",
+        "recipient_zip",
+        "recipient_state"
+      ]
+    },
+    {
+      "id": "67cp-h962",
+      "name": "Independent Campaign Expenditures and Electioneering Communications",
+      "type": "dataset",
+      "description": "This dataset contains information about independent expenditures, independent expenditure ads, and e",
+      "columns": [
+        "candidate_filer_id",
+        "candidate_jurisdiction",
+        "candidate_party",
+        "ballot_number",
+        "portion_of_amount",
+        "date_received",
+        "amount",
+        "funders_state",
+        "funders_employer_state",
+        "funders_location"
+      ]
+    },
+    {
+      "id": "3b7q-74f4",
+      "name": "State IT Expenditures - FY17",
+      "type": "dataset",
+      "description": "The Office of the CIO (OCIO) oversees the state's expenditures on technology. This detailed data set",
+      "columns": [
+        "gl_account",
+        "Data Processing Interagency",
+        "TBM Unique ID",
+        "Program Index Title",
+        "IT Acquisitions",
+        "Account Subgroup",
+        "Owner",
+        "Cost Center",
+        "Program",
+        "fund"
+      ]
+    },
+    {
+      "id": "mzg4-pm9n",
+      "name": "Expenditures by out-of-state political committees",
+      "type": "dataset",
+      "description": "This dataset contains reportable expenditures made by out-of-state political committees that meet th",
+      "columns": [
+        "description",
+        "purpose",
+        "amount",
+        "report_id",
+        "expense_date",
+        "entity_id",
+        "recipient_candidacy_id",
+        "recipient_name",
+        "recipient_jurisdiction",
+        "ballot_number"
+      ]
+    },
+    {
+      "id": "nm4j-29kd",
+      "name": "Asotin County Library District Expenditures",
+      "type": "dataset",
+      "description": "This dataset reports annual operating and capital expenditures by the Asotin County (WA) Library Dis",
+      "columns": [
+        "Employee Benefits",
+        "Non-Database Licensing Expenditures",
+        "Year",
+        "Salaries & Wages",
+        "Total Capital Expenditures",
+        "Grand Total All Expenditures",
+        "Non-Book Print Materials Expenditures",
+        "Database Licensing Expenditures",
+        "Total Electronic Materials Expenditures",
+        "Total Collection Expenditures"
+      ]
+    },
+    {
+      "id": "k5p7-4crk",
+      "name": "Master Expenditure Tracking Table 07-15-2016",
+      "type": "dataset",
+      "description": "Showing Chehalis River Basin Flood Authority's small projects funding program and individual local p",
+      "columns": [
+        "Project Website:",
+        "Project Name:",
+        "Funding Agreement Start:",
+        "Percent Spent To Date:",
+        "Expenditures To Date:",
+        "Planned To Spend:",
+        "Local Project:",
+        "Funding Website:",
+        "Project Sign:"
+      ]
+    },
+    {
+      "id": "knvg-qm85",
+      "name": "Master Expenditure Tracking Table 3-21-2018",
+      "type": "dataset",
+      "description": "Showing Chehalis River Basin Flood Authority's local projects funding program and individual 2015-17",
+      "columns": [
+        "Spent: %",
+        "Start:",
+        "End:",
+        "Funding Website:",
+        "Map:",
+        "Sign:",
+        "Project Website:",
+        "Jurisdiction:",
+        "Project:",
+        "Budget:  $"
+      ]
+    },
+    {
+      "id": "ktwz-dygw",
+      "name": "Master Expenditure Tracking Table (3-15-2016)",
+      "type": "dataset",
+      "description": "From RCO's publicly available, project-level expenditure website.",
+      "columns": [
+        "Local Project:",
+        "Project Website:",
+        "Funding Website:",
+        "Funding Agreement Start:",
+        "Percent  Spent To Date:",
+        "Planned To Spend:",
+        "Paid To Date:"
+      ]
+    },
+    {
+      "id": "3biz-7njc",
+      "name": "Share of State IT Expenditures by Cost Pool",
+      "type": "chart",
+      "description": "The Office of the CIO (OCIO) oversees the state's expenditures on technology",
+      "columns": []
+    },
+    {
+      "id": "n2fh-rfrz",
+      "name": "WaTech - Statewide IT Spend data",
+      "type": "dataset",
+      "description": "This dataset contains annual statewide IT spend information as required by RCW 43.88.092.",
+      "columns": [
+        "IT Spend Type",
+        "Agency Name",
+        "Cost",
+        "Functional Group",
+        "Agency Code",
+        "Biennium",
+        "Fiscal Year",
+        "Technology Tower",
+        "Cost Pool"
+      ]
+    },
+    {
+      "id": "agvw-ch2s",
+      "name": "State Agency Amazon Spend Fiscal Year 22",
+      "type": "dataset",
+      "description": "DES is publishing the Amazon spend for state agencies collected through the Washington State Amazon ",
+      "columns": [
+        "Listed PPU",
+        "Discount Program",
+        "ASIN",
+        "Brand",
+        "Brand Code",
+        "Item model number",
+        "Item Quantity",
+        "Item Shipping & Handling",
+        "Item Tax",
+        "Payment Amount"
+      ]
+    },
+    {
+      "id": "4rhj-k96j",
+      "name": "FY16 YTD IT Spend By Functional Group",
+      "type": "dataset",
+      "description": "Year to date IT Spend numbers for fiscal year 2016",
+      "columns": [
+        "IT Acquisitions YTD",
+        "Total ",
+        "IT Maintenance and Ops YTD",
+        "Functional Group"
+      ]
+    },
+    {
+      "id": "28pv-s4zc",
+      "name": "Shares of IT Spend by Category",
+      "type": "chart",
+      "description": "The Office of the CIO (OCIO) oversees the state's expenditures on technology",
+      "columns": []
+    },
+    {
+      "id": "y927-8vp7",
+      "name": "IT Spend Biennial Budget Report - Informing the 2025-27 Biennium",
+      "type": "story",
+      "description": "Dashboard on State of Washington fiscal year (FY) 2023 - 2024 information technology (IT) spend to i",
+      "columns": []
+    },
+    {
+      "id": "5wav-rrs8",
+      "name": "Fiscal Year 2017 IT Spend By Functional Group",
+      "type": "dataset",
+      "description": "Spend numbers are reflected as of the most recently closed fiscal month.",
+      "columns": [
+        "IT Acquisitions YTD",
+        "Functional Group",
+        "Total ",
+        "IT Maintenance and Ops YTD"
+      ]
+    },
+    {
+      "id": "jpsg-gf9y",
+      "name": "State IT Spend by Cost Pools",
+      "type": "chart",
+      "description": "The Office of the CIO (OCIO) oversees the state's expenditures on technology",
+      "columns": []
+    },
+    {
+      "id": "9kav-dq2q",
+      "name": "State Agency Amazon Spend Fiscal Year 23",
+      "type": "dataset",
+      "description": "State Agency Amazon Spend Fiscal Year 23",
+      "columns": [
+        "Shipment Date",
+        "ASIN",
+        "Item model number",
+        "Part number",
+        "Listed PPU",
+        "Purchase PPU",
+        "Item Shipping & Handling",
+        "Item Promotion",
+        "Pricing Discount applied ($ off)",
+        "Order Date"
+      ]
+    },
+    {
+      "id": "6fpy-npmv",
+      "name": "FY17-18 IT Spend By Functional Group",
+      "type": "dataset",
+      "description": "Summary level information of statewide IT expenditures by government functional group. Data broken d",
+      "columns": [
+        "IT Maintenance and Operations FY18 YTD",
+        "IT Maintenance and Operations FY17",
+        "Cost FY18 YTD",
+        "Data Processing Interagency FY18 YTD",
+        "Data Processing Interagency FY17",
+        "IT Acquisitions FY17",
+        "Functional Group",
+        "Cost FY17",
+        "IT Acquisitions FY18 YTD"
+      ]
+    },
+    {
+      "id": "e48s-c9au",
+      "name": "State Agency Amazon Spend Fiscal Year 24",
+      "type": "dataset",
+      "description": "Amazon Spend FY2024",
+      "columns": [
+        "Order Date",
+        "Seller Name",
+        "Item Net Total",
+        "Item Tax",
+        "Item Promotion",
+        "Item Shipping & Handling",
+        "Item Subtotal",
+        "Purchase PPU",
+        "Item model number",
+        "Manufacturer"
+      ]
+    },
+    {
+      "id": "n8q6-4twj",
+      "name": "Statewide Contract (Master Contract) Sales Data by Customer, Contract, Vendor",
+      "type": "dataset",
+      "description": "DES is publishing Statewide Contract (Master Contract) spend as data becomes available. The spend is",
+      "columns": [
+        "Q2 Sales Reported",
+        "Small Business",
+        "Customer Name",
+        "Diverse Options",
+        "Vet Owned",
+        "OMWBE",
+        "Q4 Sales Reported",
+        "Q3 Sales Reported",
+        "Q1 Sales Reported",
+        "Calendar Year"
+      ]
+    },
+    {
+      "id": "buf8-6px9",
+      "name": "Agency Contracts Fiscal Year 2021",
+      "type": "dataset",
+      "description": "This list of agency contracts is published in compliance with RCW 39.26.210.",
+      "columns": [
+        "Contract Effective Start Date",
+        "Non-Financial Contract Yes/No (Optional)",
+        "Contract Modifications",
+        "Small Business Status (Optional)",
+        "Procurement Type (Competitive or Non-Competitive)",
+        "Explanation of Costs (Optional)",
+        "Cost of Contract",
+        "Contractor Name D/B/A (Optional)",
+        "Statewide Vendor Number (Optional)",
+        "Purpose of the Contract"
+      ]
+    },
+    {
+      "id": "s8d5-pj78",
+      "name": "Agency Contracts Fiscal Year 2024",
+      "type": "dataset",
+      "description": "Agency Contracts Fiscal Year 2024",
+      "columns": [
+        "Agency Number - Agency Name",
+        "Agency Contract No.",
+        "Purpose of the Contract",
+        "Minority/Woman Owned",
+        "Small Business",
+        "Veteran",
+        "Statewide Vendor Number (Optional)",
+        "Contract Effective Start Date",
+        "Federal Amount",
+        "State Amount"
+      ]
+    },
+    {
+      "id": "mz6y-pfem",
+      "name": "Agency Contracts Fiscal Year 2023",
+      "type": "dataset",
+      "description": "Agency Contracts Fiscal Year 2023",
+      "columns": [
+        "Other Amount",
+        "Diversity Status Explanation",
+        "Minority/Woman Owned",
+        "Explanation of Costs (Optional)",
+        "Federal Amount",
+        "Period of Performance End Date",
+        "Period of Performance Start Date",
+        "Contract Effective End Date",
+        "Purpose of the Contract Description (Optional)",
+        "Purpose of the Contract"
+      ]
+    },
+    {
+      "id": "jeuk-pueh",
+      "name": "Agency Contracts Fiscal Year 2014",
+      "type": "dataset",
+      "description": "List of agency contracts in compliance with RCW 39.26",
+      "columns": [
+        "Contractor Name",
+        "Contractor Name D/B/A (Optional)",
+        "Purpose of the Contract ",
+        "Contract Effective Start Date",
+        "Cost of Contract",
+        "Contract Effective End Date",
+        "Purpose of the Contract Description (Optional)",
+        "Agency Contract No.",
+        "Agency Name",
+        "Period of Performance Start Date"
+      ]
+    },
+    {
+      "id": "87uq-bpim",
+      "name": "Agency Contracts Fiscal Year 2019",
+      "type": "dataset",
+      "description": "This list of agency contracts is published in compliance with RCW 39.26.210.",
+      "columns": [
+        "Period of Performance End Date",
+        "Contractor Name",
+        "Contractor Name D/B/A (Optional)",
+        "Other Amount",
+        "Small Business Status (Optional)",
+        "Agency Name",
+        "Procurement Type (Competitive or Non-Competitive)",
+        "Explanation of Costs (Optional)",
+        "Cost of Contract",
+        "Federal Amount"
+      ]
+    },
+    {
+      "id": "evgq-dn24",
+      "name": "Web Contracts",
+      "type": "filter",
+      "description": "List of agency contracts in compliance with RCW 39.26",
+      "columns": [
+        "Contract Effective Start Date",
+        "Period of Performance Start Date",
+        "State Amount",
+        "Federal Amount",
+        "Other Amount",
+        "Contract Effective End Date",
+        "Small Business Status (Optional)",
+        "Contractor Name",
+        "Procurement Type (Competitive or Non-Competitive)",
+        "Explanation of Costs (Optional)"
+      ]
+    },
+    {
+      "id": "xfwh-dmij",
+      "name": "Agency Contracts Fiscal Year 2017",
+      "type": "dataset",
+      "description": "This list of agency contracts is published in compliance with RCW 39.26.210.",
+      "columns": [
+        "Cost of Contract",
+        "Procurement Type (Competitive or Non-Competitive)",
+        "Explanation of Costs (Optional)",
+        "Other Amount",
+        "Federal Amount",
+        "Period of Performance Start Date",
+        "Contract Effective End Date",
+        "Contract Effective Start Date",
+        "Purpose of the Contract Description (Optional)",
+        "Purpose of the Contract "
+      ]
+    },
+    {
+      "id": "dzvi-rs2c",
+      "name": "IT Contracts Report 2022",
+      "type": "dataset",
+      "description": "IT Contracts Reporting",
+      "columns": [
+        "Total Contract Amount",
+        "Explanation of Contract Amount",
+        "Contract Amount FY50",
+        "Contract Amount FY49",
+        "Contract Amount FY48",
+        "Contract Amount FY46",
+        "Contract Amount FY45",
+        "Contract Amount FY44",
+        "Contract Amount FY43",
+        "Contract Amount FY42"
+      ]
+    },
+    {
+      "id": "xay9-khix",
+      "name": "DOH Contracts List",
+      "type": "filter",
+      "description": "List of agency contracts in compliance with RCW 39.26",
+      "columns": [
+        "State Amount",
+        "Explanation of Costs (Optional)",
+        "Agency Contract No.",
+        "Agency Name",
+        "Contract Effective End Date",
+        "Federal Amount",
+        "Small Business Status (Optional)",
+        "Contractor Name",
+        "Contractor Name D/B/A (Optional)",
+        "Purpose of the Contract "
+      ]
+    },
+    {
+      "id": "2di7-6ncs",
+      "name": "State Agency Amazon Spend Fiscal Year 21",
+      "type": "dataset",
+      "description": "DES is publishing the Amazon spend for state agencies collected through the Washington State Amazon ",
+      "columns": [
+        "Purchase PPU",
+        "Product Condition",
+        "Payment Date",
+        "Payment Amount",
+        "Part number",
+        "Manufacturer",
+        "Item Subtotal",
+        "Item Shipping & Handling",
+        "Item Quantity",
+        "Item Promotion"
+      ]
+    },
+    {
+      "id": "fpbu-w4ay",
+      "name": "State Agency Amazon Spend Fiscal Year 20",
+      "type": "dataset",
+      "description": "DES is publishing the Amazon spend for state agencies collected through the Washington State Amazon ",
+      "columns": [
+        "Pricing Discount applied ($ off)",
+        "ASIN",
+        "Brand Code",
+        "Payment Date",
+        "Agency Name",
+        "Order Date",
+        "UNSPSC",
+        "Purchase PPU",
+        "Product Condition",
+        "Product Category"
+      ]
+    },
+    {
+      "id": "msv2-8gcv",
+      "name": "State Agency Amazon Spend Fiscal Year 19",
+      "type": "dataset",
+      "description": "DES is publishing the Amazon spend for state agencies collected through the Washington State Amazon ",
+      "columns": [
+        "Part number",
+        "Seller Name",
+        "Pricing Discount applied (% off)",
+        "Item Net Total",
+        "Item Promotion",
+        "Purchase PPU",
+        "Listed PPU",
+        "Brand",
+        "UNSPSC",
+        "Product Category"
+      ]
+    },
+    {
+      "id": "ja54-ddzj",
+      "name": "State Agency Amazon Spend Fiscal Year 18",
+      "type": "dataset",
+      "description": "DES is publishing the Amazon spend for state agencies collected through the Washington State Amazon ",
+      "columns": [
+        "Item model number",
+        "Item Tax",
+        "Agency Name",
+        "ASIN",
+        "Brand",
+        "Brand Code",
+        "Item Promotion",
+        "Item Quantity",
+        "Item Subtotal",
+        "Listed PPU"
+      ]
+    },
+    {
+      "id": "was8-3ni8",
+      "name": "DCYF Licensed Childcare Center and School Age Program Providers",
+      "type": "dataset",
+      "description": "The DCYF Licensed Childcare Provider data set is comprised of license and facility information for a",
+      "columns": [
+        "DoingBusinessAs",
+        "SSPSProviderNumber",
+        "FamLinkId",
+        "PrimaryContactPersonName",
+        "PrimaryContactPhoneNumber",
+        "PrimaryContactEmail",
+        "WacompassId",
+        "PhysicalZip",
+        "EaParticipation",
+        "LicenseCapacity"
+      ]
+    },
+    {
+      "id": "biux-xiwe",
+      "name": "Lobbyist Employers Summary",
+      "type": "dataset",
+      "description": "This dataset is a list of all lobbyist employers and shows compensation/expenses totals for each yea",
+      "columns": [
+        "Employer_State",
+        "l3_nid",
+        "lobbying_comm",
+        "expert_retain",
+        "id",
+        "Employer_Address",
+        "Employer_Email",
+        "Employer_Name",
+        "itemized_exp",
+        "political"
+      ]
+    }
+  ]
+}

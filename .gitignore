@@ -1,0 +1,25 @@
+# Data files (too large for git)
+output/
+downloads/
+scraper/output/
+scraper/logs/
+scraper/__pycache__/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.eggs/
+dist/
+build/
+venv/
+.env
+
+# Claude/IDE
+.claude-flow/
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db

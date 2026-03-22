@@ -1,0 +1,27 @@
+state: Vermont
+abbreviation: VT
+adapter: socrata
+portal:
+  url: https://spotlight.vermont.gov
+socrata:
+  domain: data.vermont.gov
+  dataset_id: ud6m-kdia
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: description
+  vendor_name: vendor_name
+  contract_id: voucher_number
+  description: ""
+  start_date: payment_date
+  end_date: ""
+  amount: amount
+  procurement_method: ""
+  contract_type: ""
+  commodity_category: ""
+notes: |
+  687,319 records. Town Payment Report with vendor names.

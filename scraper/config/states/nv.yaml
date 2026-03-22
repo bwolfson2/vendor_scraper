@@ -1,0 +1,19 @@
+state: Nevada
+abbreviation: NV
+adapter: spending_app
+portal:
+  url: https://checkbook.nv.gov/
+spending_app:
+  api_base: https://nvof-open.data.socrata.com/api
+  years: ["All Years"]
+  batch_size: 10000
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map:
+  vendor_name: label
+  amount: total
+notes: |
+  Nevada Checkbook on Socrata spending platform.
+  API base: nvof-open.data.socrata.com
+  Uses /api/chart_data.json endpoint for vendor summaries.

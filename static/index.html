@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FACTS Vendor Intelligence - Florida Procurement</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --surface2: #334155; --border: #475569;
+  --text: #f1f5f9; --text2: #94a3b8; --accent: #3b82f6; --accent2: #60a5fa;
+  --green: #22c55e; --yellow: #eab308; --red: #ef4444; --orange: #f97316;
+  --purple: #a855f7; --cyan: #06b6d4; --pink: #ec4899; --lime: #84cc16;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+a { color: var(--accent2); text-decoration: none; cursor: pointer; }
+a:hover { text-decoration: underline; }
+
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.header h1 { font-size: 18px; font-weight: 600; }
+.header h1 span { color: var(--accent2); }
+.header .nav { display: flex; gap: 6px; flex-wrap: wrap; }
+.header .nav button { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: all 0.15s; }
+.header .nav button:hover, .header .nav button.active { background: var(--accent); border-color: var(--accent); }
+
+.container { max-width: 1440px; margin: 0 auto; padding: 20px; }
+.page { display: none; }
+.page.active { display: block; }
+
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+.card h2 { font-size: 16px; margin-bottom: 12px; color: var(--text2); font-weight: 500; }
+.card h3 { font-size: 14px; margin-bottom: 8px; color: var(--text2); }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+.stat-card .value { font-size: 24px; font-weight: 700; color: var(--accent2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-card .label { font-size: 11px; color: var(--text2); margin-top: 4px; }
+.metric .val { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.search-box { display: flex; gap: 8px; margin-bottom: 16px; }
+.search-box input { flex: 1; background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 10px 16px; border-radius: 8px; font-size: 15px; outline: none; }
+.search-box input:focus { border-color: var(--accent); }
+.search-box button { background: var(--accent); border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; white-space: nowrap; }
+.search-box button:hover { background: var(--accent2); }
+
+.filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.filters select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 6px; font-size: 13px; }
+
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; padding: 8px 10px; color: var(--text2); font-weight: 500; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); cursor: pointer; user-select: none; white-space: nowrap; }
+th:hover { color: var(--text); }
+th .sort-arrow { font-size: 10px; margin-left: 3px; opacity: 0.3; }
+th.sort-asc .sort-arrow, th.sort-desc .sort-arrow { opacity: 1; color: var(--accent2); }
+td { padding: 8px 10px; border-bottom: 1px solid rgba(71,85,105,0.3); max-width: 220px; overflow: hidden; text-overflow: ellipsis; }
+tr:hover td { background: rgba(59,130,246,0.05); }
+.right { text-align: right; white-space: nowrap; }
+
+.tier { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.tier-PLATINUM { background: rgba(168,85,247,0.2); color: var(--purple); }
+.tier-GOLD { background: rgba(234,179,8,0.2); color: var(--yellow); }
+.tier-SILVER { background: rgba(148,163,184,0.2); color: var(--text2); }
+.tier-BRONZE { background: rgba(249,115,22,0.2); color: var(--orange); }
+.tier-UNRATED { background: rgba(71,85,105,0.3); color: var(--text2); }
+
+.risk { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+.risk-low { background: rgba(34,197,94,0.2); color: var(--green); }
+.risk-moderate { background: rgba(234,179,8,0.2); color: var(--yellow); }
+.risk-high { background: rgba(239,68,68,0.2); color: var(--red); }
+
+.status { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+.status-ACTIVE { background: rgba(34,197,94,0.15); color: var(--green); }
+.status-COMPLETED { background: rgba(59,130,246,0.15); color: var(--accent2); }
+.status-CANCELLED { background: rgba(239,68,68,0.15); color: var(--red); }
+.status-IN_PROGRESS { background: rgba(234,179,8,0.15); color: var(--yellow); }
+
+.score-bar { display: inline-flex; align-items: center; gap: 6px; }
+.score-bar .bar { width: 60px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.score-bar .bar .fill { height: 100%; border-radius: 3px; }
+
+/* Modals */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; overflow-y: auto; }
+.modal-overlay.open { display: block; }
+.modal-panel { max-width: 1000px; margin: 30px auto; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+.modal-header { padding: 18px 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: start; }
+.modal-header h2 { font-size: 18px; font-weight: 600; }
+.modal-header .close-btn { background: var(--surface2); border: none; color: var(--text); width: 32px; height: 32px; border-radius: 6px; cursor: pointer; font-size: 18px; }
+.modal-body { padding: 24px; }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+.metric { background: var(--surface); border-radius: 8px; padding: 12px; }
+.metric .val { font-size: 18px; font-weight: 600; }
+.metric .lbl { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.section { margin-bottom: 24px; }
+.section h3 { font-size: 14px; color: var(--text2); margin-bottom: 10px; font-weight: 500; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+
+.chart-container { position: relative; height: 280px; margin-bottom: 16px; }
+
+/* Procure */
+.procure-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 12px; }
+.procure-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; cursor: pointer; transition: border-color 0.15s; }
+.procure-card:hover { border-color: var(--accent); }
+.procure-card .vendor-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+.procure-card .commodity { font-size: 12px; color: var(--accent2); margin-bottom: 8px; }
+.procure-card .mini-stats { display: flex; gap: 16px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
+.procure-card .mini-stats strong { color: var(--text); }
+
+/* Score tooltip */
+.score-tip { position: relative; cursor: help; }
+.score-tip .tip-content { display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; width: 280px; z-index: 300; box-shadow: 0 8px 24px rgba(0,0,0,0.5); pointer-events: none; }
+.score-tip:hover .tip-content { display: block; pointer-events: auto; }
+.tip-content h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.tip-content .tip-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px; }
+.tip-content .tip-row .tip-label { color: var(--text2); }
+.tip-content .tip-row .tip-val { font-weight: 600; min-width: 40px; text-align: right; }
+.tip-content .tip-bar-bg { flex: 1; height: 5px; background: var(--surface2); border-radius: 3px; margin: 0 8px; overflow: hidden; }
+.tip-content .tip-bar-fill { height: 100%; border-radius: 3px; }
+.tip-content .tip-total { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
+.tip-content .tip-desc { font-size: 11px; color: var(--text2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.4; }
+
+.score-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--text2); }
+.score-legend .legend-item { display: flex; align-items: center; gap: 4px; }
+.score-legend .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Breadcrumb */
+.breadcrumb { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
+.breadcrumb a { color: var(--accent2); }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+.loading { text-align: center; padding: 40px; color: var(--text2); }
+.empty { text-align: center; padding: 40px; color: var(--text2); }
+
+/* HHI badge */
+.hhi-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+
+/* Letter grades */
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 8px; font-size: 16px; font-weight: 800; letter-spacing: -0.5px; }
+.grade-sm { width: 32px; height: 32px; font-size: 13px; border-radius: 6px; }
+.grade-lg { width: 64px; height: 64px; font-size: 26px; border-radius: 12px; }
+.grade-xl { width: 90px; height: 90px; font-size: 36px; border-radius: 16px; }
+.grade-A\+ { background: #065f46; color: #34d399; border: 2px solid #34d399; }
+.grade-A { background: #065f4688; color: #34d399; border: 2px solid #34d39988; }
+.grade-A- { background: #065f4666; color: #6ee7b7; border: 2px solid #6ee7b766; }
+.grade-B\+ { background: #1e3a5f; color: #60a5fa; border: 2px solid #60a5fa; }
+.grade-B { background: #1e3a5f88; color: #60a5fa; border: 2px solid #60a5fa88; }
+.grade-B- { background: #1e3a5f66; color: #93c5fd; border: 2px solid #93c5fd66; }
+.grade-C\+ { background: #713f12; color: #fbbf24; border: 2px solid #fbbf24; }
+.grade-C { background: #713f1288; color: #fbbf24; border: 2px solid #fbbf2488; }
+.grade-C- { background: #713f1266; color: #fde68a; border: 2px solid #fde68a66; }
+.grade-D\+ { background: #7c2d12; color: #fb923c; border: 2px solid #fb923c; }
+.grade-D { background: #7c2d1288; color: #fb923c; border: 2px solid #fb923c88; }
+.grade-D- { background: #7c2d1266; color: #fdba74; border: 2px solid #fdba7466; }
+.grade-F { background: #7f1d1d; color: #f87171; border: 2px solid #f87171; }
+
+/* Performance page */
+.perf-state-banner { background: linear-gradient(135deg, var(--surface) 0%, #1a2744 100%); border: 1px solid var(--border); border-radius: 14px; padding: 28px; margin-bottom: 20px; display: flex; gap: 28px; align-items: center; }
+.perf-state-banner .grade-box { text-align: center; }
+.perf-state-banner .grade-box .grade-label { font-size: 11px; color: var(--text2); margin-top: 6px; }
+.perf-state-banner .state-info { flex: 1; }
+.perf-state-banner .state-info h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+.perf-state-banner .state-info .subtitle { color: var(--text2); font-size: 13px; }
+.perf-sub-scores { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+.perf-sub-scores .sub-item { flex: 1; min-width: 120px; }
+.perf-sub-scores .sub-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+.perf-sub-scores .sub-bar { height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.perf-sub-scores .sub-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.perf-sub-scores .sub-val { font-size: 12px; font-weight: 600; margin-top: 2px; }
+
+.dept-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; }
+.dept-card:hover { border-color: var(--accent); background: #1e293bcc; }
+.dept-card .dept-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.dept-card .dept-meta { display: flex; gap: 16px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
+.dept-card .dept-meta strong { color: var(--text); }
+.dept-card .dept-right { text-align: right; min-width: 100px; }
+.dept-card .dept-right .spend { font-size: 16px; font-weight: 600; color: var(--accent2); }
+.dept-card .dept-right .count { font-size: 11px; color: var(--text2); }
+
+.vendor-perf-row { display: grid; grid-template-columns: 36px 1fr auto auto auto auto; gap: 12px; align-items: center; padding: 10px 12px; border-bottom: 1px solid rgba(71,85,105,0.3); font-size: 13px; }
+.vendor-perf-row:hover { background: rgba(59,130,246,0.05); }
+.vendor-perf-row .vp-name { font-weight: 500; }
+.vendor-perf-row .vp-meta { font-size: 11px; color: var(--text2); }
+.vendor-perf-header { font-weight: 500; color: var(--text2); border-bottom: 1px solid var(--border); }
+
+.perf-sort-bar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; font-size: 13px; color: var(--text2); flex-wrap: wrap; }
+.perf-sort-bar select { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 4px 10px; border-radius: 6px; font-size: 12px; }
+
+.grade-legend { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+.grade-legend .gl-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text2); }
+
+/* View toggle tabs */
+.view-tabs { display: flex; gap: 0; margin-bottom: 16px; }
+.view-tabs button { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text2); padding: 10px 16px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+.view-tabs button:first-child { border-radius: 8px 0 0 8px; }
+.view-tabs button:last-child { border-radius: 0 8px 8px 0; }
+.view-tabs button.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+/* Score breakdown card */
+.score-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 12px; }
+.score-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+.score-card h4 .formula { font-size: 11px; font-weight: 400; color: var(--text2); }
+.score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.score-row .score-label { width: 110px; font-size: 12px; color: var(--text2); }
+.score-row .score-bar-track { flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+.score-row .score-bar-fill { height: 100%; border-radius: 5px; transition: width 0.4s ease; }
+.score-row .score-val { width: 50px; text-align: right; font-size: 12px; font-weight: 600; }
+.score-row .score-weight { width: 35px; text-align: right; font-size: 10px; color: var(--text2); }
+.score-row .score-icon { width: 18px; font-size: 14px; text-align: center; }
+
+/* Vendor grade card (for vendor view) */
+.vg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; margin-bottom: 8px; display: grid; grid-template-columns: 42px 1fr 200px auto; gap: 14px; align-items: center; cursor: pointer; transition: border-color 0.15s; }
+.vg-card:hover { border-color: var(--accent); }
+.vg-card .vg-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
+.vg-card .vg-info h3 a { color: var(--text); }
+.vg-card .vg-info h3 a:hover { color: var(--accent2); }
+.vg-card .vg-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.vg-card .vg-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
+.vg-card .vg-stats strong { color: var(--text); }
+.vg-card .vg-bars { display: flex; flex-direction: column; gap: 3px; }
+.vg-card .vg-right { text-align: right; }
+.vg-card .vg-right .spend { font-size: 15px; font-weight: 600; color: var(--accent2); }
+.vg-card .vg-right .count { font-size: 11px; color: var(--text2); }
+
+.mini-bar-labeled { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+.mini-bar-labeled .mbl-label { width: 60px; color: var(--text2); text-align: right; }
+.mini-bar-labeled .mbl-track { width: 80px; height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.mini-bar-labeled .mbl-fill { height: 100%; border-radius: 3px; }
+.mini-bar-labeled .mbl-val { width: 28px; font-weight: 600; }
+
+/* Grade distribution bar */
+.grade-dist { display: flex; height: 24px; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.grade-dist .gd-seg { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; min-width: 1px; transition: all 0.3s; }
+
+@media (max-width: 800px) { .vg-card { grid-template-columns: 42px 1fr auto; } .vg-card .vg-bars { display: none; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>FACTS</span> Vendor Intelligence</h1>
+  <div class="nav">
+    <button class="active" data-page="dashboard" onclick="navTo('dashboard')">Dashboard</button>
+    <button data-page="analytics" onclick="navTo('analytics')">Analytics</button>
+    <button data-page="vendors" onclick="navTo('vendors')">Vendors</button>
+    <button data-page="contracts" onclick="navTo('contracts')">Contracts</button>
+    <button data-page="procure" onclick="navTo('procure')">Find Vendors</button>
+    <button data-page="performance" onclick="navTo('performance')">Performance</button>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <div class="stats-grid" id="overview-stats"></div>
+    <div class="card"><h2>Statewide Spend Over Time</h2><div class="chart-container"><canvas id="chart-yearly"></canvas></div></div>
+    <div class="two-col">
+      <div class="card"><h2>Top Vendors by Score</h2><div id="top-vendors-table"></div></div>
+      <div class="card"><h2>Agency Spending</h2><div id="agency-table"></div></div>
+    </div>
+    <div class="card"><h2>Top Commodity Categories</h2><div id="commodity-table"></div></div>
+  </div>
+
+  <!-- ANALYTICS -->
+  <div id="page-analytics" class="page">
+    <div class="two-col">
+      <div class="card"><h2>Spend by Department (Top 10)</h2><div class="chart-container"><canvas id="chart-agency-spend"></canvas></div></div>
+      <div class="card"><h2>Spend by Vendor (Top 10)</h2><div class="chart-container"><canvas id="chart-vendor-spend"></canvas></div></div>
+    </div>
+    <div class="two-col">
+      <div class="card"><h2>New vs Returning Vendors</h2><div class="chart-container"><canvas id="chart-new-returning"></canvas></div></div>
+      <div class="card"><h2>Commodity Category Trends</h2><div class="chart-container"><canvas id="chart-commodity-trend"></canvas></div></div>
+    </div>
+    <div class="card"><h2>Risk Overview</h2><div id="risk-overview-content"></div></div>
+  </div>
+
+  <!-- VENDORS -->
+  <div id="page-vendors" class="page">
+    <div class="search-box">
+      <input id="vendor-search" placeholder="Search vendors by name, commodity, agency..." onkeydown="if(event.key==='Enter')searchVendors()">
+      <button onclick="searchVendors()">Search</button>
+    </div>
+    <div class="filters">
+      <select id="vendor-tier-filter" onchange="searchVendors()">
+        <option value="">All Tiers</option><option value="PLATINUM">Platinum</option><option value="GOLD">Gold</option><option value="SILVER">Silver</option><option value="BRONZE">Bronze</option><option value="UNRATED">Unrated</option>
+      </select>
+      <select id="vendor-score-filter" onchange="searchVendors()">
+        <option value="">Any Score</option><option value="75">75+</option><option value="50">50+</option><option value="25">25+</option>
+      </select>
+    </div>
+    <div class="card"><div id="vendor-results"><div class="empty">Search for vendors or browse top-rated vendors</div></div></div>
+  </div>
+
+  <!-- CONTRACTS -->
+  <div id="page-contracts" class="page">
+    <div class="search-box">
+      <input id="contract-search" placeholder="Search contracts by keyword, vendor, commodity..." onkeydown="if(event.key==='Enter')searchContracts()">
+      <button onclick="searchContracts()">Search</button>
+    </div>
+    <div class="filters">
+      <select id="contract-status-filter" onchange="searchContracts()"><option value="">All Statuses</option><option value="ACTIVE">Active</option><option value="COMPLETED">Completed</option><option value="CANCELLED">Cancelled</option></select>
+      <select id="contract-type-filter" onchange="searchContracts()"><option value="">All Types</option><option value="CONTRACT">Contracts</option><option value="PURCHASE_ORDER">Purchase Orders</option><option value="GRANT">Grants</option></select>
+    </div>
+    <div class="card"><div id="contract-results"><div class="empty">Search across 2.1M+ contracts</div></div></div>
+  </div>
+
+  <!-- PERFORMANCE -->
+  <div id="page-performance" class="page">
+    <div id="perf-state-banner"></div>
+
+    <!-- Dept/Vendor toggle -->
+    <div class="view-tabs">
+      <button id="tab-depts" class="active" onclick="switchPerfView('depts')">Departments</button>
+      <button id="tab-vendors" onclick="switchPerfView('vendors')">Vendors</button>
+    </div>
+
+    <!-- DEPARTMENTS VIEW -->
+    <div id="perf-view-depts">
+      <div id="perf-dept-score-card"></div>
+      <div class="perf-sort-bar">
+        <span>Sort by:</span>
+        <select id="perf-dept-sort" onchange="renderDeptCards()">
+          <option value="grade">Grade (best first)</option>
+          <option value="grade-worst">Grade (worst first)</option>
+          <option value="spend">Total Spend</option>
+          <option value="cancel">Cancellation Rate</option>
+          <option value="vendors">Vendor Count</option>
+        </select>
+      </div>
+      <div id="perf-dept-list"></div>
+    </div>
+
+    <!-- VENDORS VIEW -->
+    <div id="perf-view-vendors" style="display:none;">
+      <div id="perf-vendor-score-card"></div>
+      <div id="perf-vendor-dist"></div>
+      <div class="perf-sort-bar">
+        <span>Sort by:</span>
+        <select id="perf-vendor-sort" onchange="loadVendorPerf()">
+          <option value="grade">Grade (best)</option>
+          <option value="grade-worst">Grade (worst)</option>
+          <option value="spend">Total Spend</option>
+          <option value="records">Records</option>
+          <option value="cancel">Cancellation Rate</option>
+          <option value="overrun">Overrun Rate</option>
+        </select>
+        <span>Grade:</span>
+        <select id="perf-vendor-grade-filter" onchange="loadVendorPerf()">
+          <option value="">All</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="F">F</option>
+        </select>
+        <span>Tier:</span>
+        <select id="perf-vendor-tier-filter" onchange="loadVendorPerf()">
+          <option value="">All</option>
+          <option value="PLATINUM">Platinum</option>
+          <option value="GOLD">Gold</option>
+          <option value="SILVER">Silver</option>
+          <option value="BRONZE">Bronze</option>
+        </select>
+        <span>Min Records:</span>
+        <select id="perf-vendor-min-records" onchange="loadVendorPerf()">
+          <option value="3">3+</option>
+          <option value="10">10+</option>
+          <option value="25">25+</option>
+          <option value="50">50+</option>
+          <option value="100">100+</option>
+        </select>
+      </div>
+      <div id="perf-vendor-list"><div class="loading">Loading vendor grades...</div></div>
+    </div>
+  </div>
+
+  <!-- DEPT VENDORS PANEL (slides open inside performance page) -->
+  <div class="modal-overlay" id="dept-vendor-modal" onclick="if(event.target===this)closeModal('dept-vendor-modal')">
+    <div class="modal-panel" style="max-width:1100px;">
+      <div class="modal-header">
+        <div><h2 id="dv-name"></h2><div id="dv-subtitle" style="margin-top:4px;font-size:13px;color:var(--text2);"></div></div>
+        <button class="close-btn" onclick="closeModal('dept-vendor-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="dv-body"></div>
+    </div>
+  </div>
+
+  <!-- FIND VENDORS -->
+  <div id="page-procure" class="page">
+    <div class="card" style="margin-bottom:20px;">
+      <h2>What do you need to procure?</h2>
+      <p style="color:var(--text2); font-size:13px; margin-bottom:12px;">Describe what you need and we'll find vendors with relevant experience</p>
+      <div class="search-box">
+        <input id="procure-search" placeholder="e.g. cybersecurity consulting, building maintenance, medical supplies..." onkeydown="if(event.key==='Enter')searchProcure()">
+        <button onclick="searchProcure()">Find Vendors</button>
+      </div>
+    </div>
+    <div id="procure-results"></div>
+  </div>
+
+</div>
+
+<!-- VENDOR MODAL -->
+<div class="modal-overlay" id="vendor-modal" onclick="if(event.target===this)closeModal('vendor-modal')">
+  <div class="modal-panel">
+    <div class="modal-header"><div><h2 id="vd-name"></h2><div id="vd-tier" style="margin-top:6px;"></div></div><button class="close-btn" onclick="closeModal('vendor-modal')">&times;</button></div>
+    <div class="modal-body" id="vd-body"></div>
+  </div>
+</div>
+
+<!-- AGENCY MODAL -->
+<div class="modal-overlay" id="agency-modal" onclick="if(event.target===this)closeModal('agency-modal')">
+  <div class="modal-panel">
+    <div class="modal-header"><div><h2 id="ad-name"></h2><div id="ad-subtitle" style="margin-top:4px;font-size:13px;color:var(--text2);"></div></div><button class="close-btn" onclick="closeModal('agency-modal')">&times;</button></div>
+    <div class="modal-body" id="ad-body"></div>
+  </div>
+</div>
+
+<!-- COMMODITY MODAL -->
+<div class="modal-overlay" id="commodity-modal" onclick="if(event.target===this)closeModal('commodity-modal')">
+  <div class="modal-panel">
+    <div class="modal-header"><div><h2 id="cd-name"></h2><div id="cd-subtitle" style="margin-top:4px;font-size:13px;color:var(--text2);"></div></div><button class="close-btn" onclick="closeModal('commodity-modal')">&times;</button></div>
+    <div class="modal-body" id="cd-body"></div>
+  </div>
+</div>
+
+<script>
+const API = '';
+const COLORS = ['#3b82f6','#a855f7','#22c55e','#eab308','#ef4444','#06b6d4','#ec4899','#f97316','#84cc16','#6366f1','#14b8a6','#f43f5e','#8b5cf6','#0ea5e9','#d946ef'];
+let charts = {};
+
+// ── Helpers ──────────────────────────────────────────────────────────
+function $(id) { return document.getElementById(id); }
+function fmt(n) { return n == null ? '-' : Number(n).toLocaleString('en-US'); }
+function fmtD(n) { if(n==null)return'-'; n=Number(n); const a=Math.abs(n); if(a>=1e12)return'$'+(n/1e12).toFixed(1)+'T'; if(a>=1e9)return'$'+(n/1e9).toFixed(1)+'B'; if(a>=1e6)return'$'+(n/1e6).toFixed(1)+'M'; if(a>=1e4)return'$'+(n/1e3).toFixed(1)+'K'; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:0}); }
+function fmtDFull(n) { return n == null ? '-' : '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits:0}); }
+function fmtPct(n) { return n == null ? '-' : (n * 100).toFixed(1) + '%'; }
+function tierBadge(t) { return t ? `<span class="tier tier-${t}">${t}</span>` : ''; }
+function statusBadge(s) { return s ? `<span class="status status-${s}">${s}</span>` : ''; }
+function riskBadge(r) { r = r||0; return r<0.05?'<span class="risk risk-low">LOW RISK</span>':r<0.15?'<span class="risk risk-moderate">MODERATE</span>':'<span class="risk risk-high">HIGH RISK</span>'; }
+function hhiBadge(h) { const c = h<1500?'var(--green)':h<2500?'var(--yellow)':'var(--red)'; const l = h<1500?'Competitive':h<2500?'Moderate':'Concentrated'; return `<span class="hhi-badge" style="background:${c}22;color:${c}">${l} (HHI: ${h})</span>`; }
+function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function scoreColor(s) { return s>=75?'var(--purple)':s>=55?'var(--yellow)':s>=35?'var(--text2)':'var(--orange)'; }
+function scoreFill(s) { const p=Math.min(100,(s/100)*100); return `<div class="score-bar"><span>${s?.toFixed(1)||'-'}</span><div class="bar"><div class="fill" style="width:${p}%;background:${scoreColor(s)}"></div></div></div>`; }
+
+function scoreBreakdown(v) {
+  if(!v||v.vendor_score==null) return null;
+  const lon=Math.min(20,(v.years_active||0)*2), vol=Math.min(20,v.total_records>0?Math.log(v.total_records)*4:0);
+  const bre=Math.min(15,(v.num_agencies_served||0)*1.5), rel=25*(1-Math.min(1,(v.cancellation_rate||0)*5));
+  const comp=v.total_records>0?10*(v.completed_contracts||0)/v.total_records:0;
+  let rec=0; if(v.last_contract_date){const d=(Date.now()-new Date(v.last_contract_date))/(365.25*864e5); rec=d<=1?10:d<=3?7:d<=5?4:0;}
+  return [{label:'Reliability',pts:rel,max:25,color:'var(--green)',desc:'Low cancellation rate'},{label:'Longevity',pts:lon,max:20,color:'var(--accent2)',desc:'Years active'},{label:'Volume',pts:vol,max:20,color:'var(--purple)',desc:'Record count (log)'},{label:'Breadth',pts:bre,max:15,color:'var(--yellow)',desc:'Agencies served'},{label:'Completion',pts:comp,max:10,color:'var(--orange)',desc:'Completed ratio'},{label:'Recency',pts:rec,max:10,color:'var(--red)',desc:'Recent contracts'}];
+}
+
+function scoreTooltipHTML(v) {
+  const bd=scoreBreakdown(v); if(!bd)return scoreFill(0);
+  const tot=bd.reduce((s,b)=>s+b.pts,0);
+  return `<div class="score-tip">${scoreFill(v.vendor_score)}<div class="tip-content"><h4>Score Breakdown</h4>${bd.map(b=>`<div class="tip-row"><span class="tip-label">${b.label}</span><div class="tip-bar-bg"><div class="tip-bar-fill" style="width:${(b.pts/b.max*100).toFixed(0)}%;background:${b.color}"></div></div><span class="tip-val">${b.pts.toFixed(1)}/${b.max}</span></div>`).join('')}<div class="tip-total"><span>Total</span><span style="color:${scoreColor(tot)}">${tot.toFixed(1)}/100</span></div><div class="tip-desc">Reliability(25)+Longevity(20)+Volume(20)+Breadth(15)+Completion(10)+Recency(10)</div></div></div>`;
+}
+
+function scoreBreakdownFull(v) {
+  const bd=scoreBreakdown(v); if(!bd) return '';
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">${bd.map(b=>`<div style="background:var(--surface);border-radius:8px;padding:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:500;">${b.label}</span><span style="font-size:13px;font-weight:600;color:${b.color}">${b.pts.toFixed(1)}/${b.max}</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${(b.pts/b.max*100).toFixed(0)}%;background:${b.color};border-radius:3px;"></div></div><div style="font-size:11px;color:var(--text2);margin-top:4px;">${b.desc}</div></div>`).join('')}</div>`;
+}
+
+async function api(path) { const r=await fetch(API+path); return r.json(); }
+
+function makeChart(canvasId, cfg) { if(charts[canvasId]){charts[canvasId].destroy();} const ctx=$(canvasId).getContext('2d'); charts[canvasId]=new Chart(ctx,cfg); return charts[canvasId]; }
+
+// ── Sortable Tables ──────────────────────────────────────────────────
+function parseSortVal(text) {
+  // Strip HTML tags, trim
+  const clean = text.replace(/<[^>]+>/g, '').trim();
+  // Try to extract a number: $1.2B, $45.6M, 1,234, 45.6%, etc.
+  const dollar = clean.match(/^\$?([\-\d,.]+)\s*([TBMK])?$/i);
+  if (dollar) {
+    let num = parseFloat(dollar[1].replace(/,/g, ''));
+    const suffix = (dollar[2] || '').toUpperCase();
+    if (suffix === 'T') num *= 1e12;
+    else if (suffix === 'B') num *= 1e9;
+    else if (suffix === 'M') num *= 1e6;
+    else if (suffix === 'K') num *= 1e3;
+    if (!isNaN(num)) return num;
+  }
+  // Percentage
+  const pct = clean.match(/^([\-\d,.]+)%$/);
+  if (pct) { const n = parseFloat(pct[1]); if (!isNaN(n)) return n; }
+  // Plain number with commas
+  const plain = clean.replace(/,/g, '');
+  const num = parseFloat(plain);
+  if (!isNaN(num) && /^[\-\d.]+$/.test(plain)) return num;
+  // Date
+  if (/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(clean) || /^\d{4}-\d{2}-\d{2}/.test(clean)) {
+    const d = new Date(clean); if (!isNaN(d)) return d.getTime();
+  }
+  // Text
+  return clean.toLowerCase();
+}
+
+document.addEventListener('click', function(e) {
+  const th = e.target.closest('th');
+  if (!th) return;
+  // Don't sort if clicking on interactive elements inside th
+  if (e.target.closest('a, button, input, select')) return;
+  const table = th.closest('table');
+  if (!table) return;
+  const thead = table.querySelector('thead');
+  const tbody = table.querySelector('tbody');
+  if (!thead || !tbody) return;
+
+  const ths = Array.from(thead.querySelectorAll('th'));
+  const colIdx = ths.indexOf(th);
+  if (colIdx < 0) return;
+
+  // Toggle direction
+  const wasAsc = th.classList.contains('sort-asc');
+  ths.forEach(t => { t.classList.remove('sort-asc', 'sort-desc'); });
+  const asc = !wasAsc;
+  th.classList.add(asc ? 'sort-asc' : 'sort-desc');
+
+  // Sort rows
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a, b) => {
+    const aCell = a.children[colIdx];
+    const bCell = b.children[colIdx];
+    if (!aCell || !bCell) return 0;
+    const aVal = parseSortVal(aCell.innerHTML);
+    const bVal = parseSortVal(bCell.innerHTML);
+    if (typeof aVal === 'number' && typeof bVal === 'number') return asc ? aVal - bVal : bVal - aVal;
+    if (typeof aVal === 'string' && typeof bVal === 'string') return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+    return 0;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+
+  // Add sort arrows to all th if not present
+  ths.forEach(t => {
+    if (!t.querySelector('.sort-arrow')) {
+      t.innerHTML += ' <span class="sort-arrow">\u25B2</span>';
+    }
+    const arrow = t.querySelector('.sort-arrow');
+    if (t === th) arrow.textContent = asc ? '\u25B2' : '\u25BC';
+    else arrow.textContent = '\u25B2';
+  });
+});
+
+// ── Navigation ───────────────────────────────────────────────────────
+function navTo(name) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  $('page-'+name).classList.add('active');
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  if(name==='dashboard'&&!window._dashLoaded) loadDashboard();
+  if(name==='analytics'&&!window._analyticsLoaded) loadAnalytics();
+  if(name==='vendors'&&!window._vendorsLoaded){searchVendors();window._vendorsLoaded=true;}
+}
+
+function closeModal(id) { $(id).classList.remove('open'); }
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
+
+// ── Dashboard ───────────────────────────────────────────────────────
+async function loadDashboard() {
+  window._dashLoaded=true;
+  const [stats,topV,agencies,commodities]=await Promise.all([api('/api/stats/overview'),api('/api/stats/top-vendors?limit=15'),api('/api/stats/agencies'),api('/api/stats/commodities?limit=20')]);
+
+  $('overview-stats').innerHTML=`
+    <div class="stat-card"><div class="value">${fmt(stats.total_contracts)}</div><div class="label">Total Records</div></div>
+    <div class="stat-card"><div class="value">${fmt(stats.total_vendors)}</div><div class="label">Unique Vendors</div></div>
+    <div class="stat-card"><div class="value">${fmt(stats.total_agencies)}</div><div class="label">Agencies</div></div>
+    <div class="stat-card" title="${fmtDFull(stats.total_value)}"><div class="value">${fmtD(stats.total_value)}</div><div class="label">Total Value</div></div>
+    <div class="stat-card"><div class="value">${fmt(stats.active_contracts)}</div><div class="label">Active</div></div>
+    <div class="stat-card"><div class="value">${fmt(stats.tier_distribution?.PLATINUM||0)}</div><div class="label">Platinum Vendors</div></div>
+  `;
+
+  // Yearly chart
+  if(stats.yearly_trend?.length) {
+    makeChart('chart-yearly',{type:'bar',data:{labels:stats.yearly_trend.map(y=>y.year),datasets:[{label:'Total Spend',data:stats.yearly_trend.map(y=>y.total_value),backgroundColor:'rgba(59,130,246,0.6)',borderRadius:4},{label:'Record Count',data:stats.yearly_trend.map(y=>y.count),type:'line',borderColor:'var(--purple)',yAxisID:'y1',pointRadius:2}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(71,85,105,0.3)'}},y1:{position:'right',ticks:{callback:v=>(v/1e3).toFixed(0)+'K'},grid:{display:false}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#94a3b8'}}}}});
+  }
+
+  $('top-vendors-table').innerHTML=`<table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th></tr></thead><tbody>
+    ${topV.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc(v.vendor_name_display)}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.total_records)}</td></tr>`).join('')}</tbody></table>`;
+
+  $('agency-table').innerHTML=`<table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Total Value</th></tr></thead><tbody>
+    ${agencies.results.slice(0,15).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.total_records)}</td><td class="right">${fmtD(a.total_amount)}</td></tr>`).join('')}</tbody></table>`;
+
+  $('commodity-table').innerHTML=`<table><thead><tr><th>Commodity/Service</th><th class="right">Records</th><th class="right">Total Value</th><th class="right">Vendors</th><th class="right">Agencies</th></tr></thead><tbody>
+    ${commodities.results.map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_description)}')">${esc(c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td><td class="right">${c.num_agencies}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ── Analytics ────────────────────────────────────────────────────────
+async function loadAnalytics() {
+  window._analyticsLoaded=true;
+  const [agSpend,venSpend,newRet,comTrend,risk]=await Promise.all([
+    api('/api/analytics/spend-by-agency-year?top=10'),
+    api('/api/analytics/spend-by-vendor-year?top=10'),
+    api('/api/analytics/new-vs-returning'),
+    api('/api/analytics/commodity-trends'),
+    api('/api/analytics/risk-overview')
+  ]);
+
+  // Agency spend chart
+  if(agSpend.agencies?.length) {
+    const allYears=[...new Set(Object.values(agSpend.data).flatMap(d=>d.map(r=>r.year)))].sort();
+    makeChart('chart-agency-spend',{type:'line',data:{labels:allYears,datasets:agSpend.agencies.map((ag,i)=>({label:ag.replace('DEPARTMENT OF ','').substring(0,25),data:allYears.map(y=>{const r=(agSpend.data[ag]||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],backgroundColor:COLORS[i%COLORS.length]+'33',fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(71,85,105,0.3)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length){const idx=el[0].datasetIndex;openAgency(agSpend.agencies[idx]);}}}});
+  }
+
+  // Vendor spend chart
+  if(venSpend.vendors?.length) {
+    const allYears=[...new Set(Object.values(venSpend.data).flatMap(d=>d.data.map(r=>r.year)))].sort();
+    makeChart('chart-vendor-spend',{type:'line',data:{labels:allYears,datasets:venSpend.vendors.map((vn,i)=>({label:vn.substring(0,25),data:allYears.map(y=>{const r=(venSpend.data[vn]?.data||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(71,85,105,0.3)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length){const vn=venSpend.vendors[el[0].datasetIndex]; const norm=venSpend.data[vn]?.norm; if(norm)openVendor(norm);}}}});
+  }
+
+  // New vs returning
+  if(newRet.results?.length) {
+    makeChart('chart-new-returning',{type:'bar',data:{labels:newRet.results.map(r=>r.year),datasets:[{label:'New Vendors',data:newRet.results.map(r=>r.new_vendors),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'Returning Vendors',data:newRet.results.map(r=>r.returning_vendors),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(71,85,105,0.3)'}}},plugins:{legend:{labels:{color:'#94a3b8'}}}}});
+  }
+
+  // Commodity trends
+  if(comTrend.results?.length) {
+    const allYears=[...new Set(comTrend.results.flatMap(c=>c.years.map(y=>y.year)))].sort();
+    makeChart('chart-commodity-trend',{type:'line',data:{labels:allYears,datasets:comTrend.results.slice(0,8).map((c,i)=>({label:c.commodity.substring(0,20),data:allYears.map(y=>{const r=c.years.find(x=>x.year===y); return r?r.val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(71,85,105,0.3)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#94a3b8',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length)openCommodity(comTrend.results[el[0].datasetIndex].commodity);}}});
+  }
+
+  // Risk overview
+  let riskHTML='<div class="two-col">';
+  riskHTML+=`<div class="section"><h3>Cancellation Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Records</th></tr></thead><tbody>${risk.cancellation_by_agency.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:${r.cancel_rate>0.15?'var(--red)':r.cancel_rate>0.05?'var(--yellow)':'var(--green)'}">${(r.cancel_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.total)}</td></tr>`).join('')}</tbody></table></div>`;
+  riskHTML+=`<div class="section"><h3>Cost Overruns by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Avg Overrun</th><th class="right">Count</th></tr></thead><tbody>${risk.cost_overruns.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:var(--orange)">${r.avg_overrun?r.avg_overrun.toFixed(1)+'%':'-'}</td><td class="right">${fmt(r.overrun_count)}</td></tr>`).join('')}</tbody></table></div>`;
+  riskHTML+='</div><div class="two-col">';
+  riskHTML+=`<div class="section"><h3>Extension Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Extensions</th></tr></thead><tbody>${risk.extensions.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right">${(r.ext_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.extensions)}</td></tr>`).join('')}</tbody></table></div>`;
+  riskHTML+=`<div class="section"><h3>Procurement Methods</h3><table><thead><tr><th>Method</th><th class="right">Records</th><th class="right">Total Value</th></tr></thead><tbody>${risk.procurement_methods.slice(0,12).map(r=>`<tr><td>${esc(r.procurement_method)}</td><td class="right">${fmt(r.cnt)}</td><td class="right">${fmtD(r.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+  riskHTML+='</div>';
+  $('risk-overview-content').innerHTML=riskHTML;
+}
+
+// ── Vendor Search ───────────────────────────────────────────────────
+async function searchVendors() {
+  const q=$('vendor-search').value, tier=$('vendor-tier-filter').value, ms=$('vendor-score-filter').value;
+  $('vendor-results').innerHTML='<div class="loading">Searching...</div>';
+  const data=await api(`/api/search/vendors?q=${encodeURIComponent(q)}&tier=${tier}&min_score=${ms}&limit=100`);
+  if(!data.results.length){$('vendor-results').innerHTML='<div class="empty">No vendors found</div>';return;}
+  $('vendor-results').innerHTML=`<table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score <span style="color:var(--text2);cursor:help" title="Composite 0-100: Reliability(25)+Longevity(20)+Volume(20)+Breadth(15)+Completion(10)+Recency(10). Hover for details.">&#9432;</span></th><th class="right">Records</th><th class="right">Total Value</th><th class="right">Agencies</th><th class="right">Years</th><th>Risk</th></tr></thead><tbody>
+    ${data.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc(v.vendor_name_display)}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.total_records)}</td><td class="right">${fmtD(v.total_current_amount)}</td><td class="right">${v.num_agencies_served}</td><td class="right">${v.years_active}</td><td>${riskBadge(v.cancellation_rate)}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ── Contract Search ─────────────────────────────────────────────────
+async function searchContracts() {
+  const q=$('contract-search').value, st=$('contract-status-filter').value, tp=$('contract-type-filter').value;
+  $('contract-results').innerHTML='<div class="loading">Searching...</div>';
+  const data=await api(`/api/search/contracts?q=${encodeURIComponent(q)}&status=${st}&type=${tp}&limit=100`);
+  if(!data.results.length){$('contract-results').innerHTML='<div class="empty">No contracts found</div>';return;}
+  $('contract-results').innerHTML=`<table><thead><tr><th>Title</th><th>Vendor</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Type</th><th>Begin</th></tr></thead><tbody>
+    ${data.results.map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||c.short_title||'-').substring(0,55))}</td><td><a onclick="openVendor('${esc(c.vendor_name_normalized)}')">${esc((c.vendor_name||'').substring(0,30))}</a></td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,28))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.record_type_broad||''}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table>`;
+}
+
+// ── Procure Search ──────────────────────────────────────────────────
+async function searchProcure() {
+  const q=$('procure-search').value; if(!q)return;
+  $('procure-results').innerHTML='<div class="loading">Finding vendors...</div>';
+  const data=await api(`/api/search/procure?q=${encodeURIComponent(q)}&limit=30`);
+  if(!data.results.length){$('procure-results').innerHTML='<div class="empty">No matching vendors. Try different keywords.</div>';return;}
+  $('procure-results').innerHTML=`<div class="card" style="margin-bottom:12px;padding:12px 16px;"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;"><span style="font-size:13px;color:var(--text2);">${data.results.length} vendors — hover scores for breakdown</span><div class="score-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Reliability(25)</div><div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>Longevity(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Volume(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Breadth(15)</div><div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Completion(10)</div><div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Recency(10)</div></div></div></div><div class="procure-results">${data.results.map(v=>`<div class="procure-card" onclick="openVendor('${esc(v.vendor_name_normalized)}')"><div style="display:flex;justify-content:space-between;align-items:start;"><div class="vendor-name">${esc(v.vendor_name)}</div><div style="display:flex;align-items:center;gap:8px;">${tierBadge(v.vendor_tier)}${v.vendor_score?scoreTooltipHTML(v):''}</div></div><div class="commodity">${esc(v.commodity_description||'')}</div><div class="mini-stats"><span><strong>${v.match_count}</strong> matching</span><span><strong>${fmtD(v.total_value)}</strong> value</span>${v.years_active?`<span><strong>${v.years_active}</strong> yrs</span>`:''}<span>${riskBadge(v.cancellation_rate)}</span></div><div style="margin-top:8px;font-size:11px;color:var(--text2);">Agencies: ${esc((v.agencies||'').substring(0,100))}</div></div>`).join('')}</div>`;
+}
+
+// ── Vendor Detail Modal ─────────────────────────────────────────────
+async function openVendor(norm) {
+  $('vendor-modal').classList.add('open');
+  $('vd-name').textContent='Loading...'; $('vd-tier').innerHTML=''; $('vd-body').innerHTML='<div class="loading">Loading vendor profile...</div>';
+  const v=await api(`/api/vendor/${encodeURIComponent(norm)}`);
+  if(v.error){$('vd-body').innerHTML=`<div class="empty">${v.error}</div>`;return;}
+
+  $('vd-name').textContent=v.vendor_name_display;
+  $('vd-tier').innerHTML=`${tierBadge(v.vendor_tier)} ${scoreFill(v.vendor_score)} ${riskBadge(v.cancellation_rate)}`;
+
+  let html=`<div class="metric-grid">
+    <div class="metric"><div class="val">${fmt(v.total_records)}</div><div class="lbl">Total Records</div></div>
+    <div class="metric" title="${fmtDFull(v.total_current_amount)}"><div class="val">${fmtD(v.total_current_amount)}</div><div class="lbl">Total Value</div></div>
+    <div class="metric"><div class="val">${v.num_agencies_served}</div><div class="lbl">Agencies</div></div>
+    <div class="metric"><div class="val">${v.years_active}</div><div class="lbl">Years Active</div></div>
+    <div class="metric" title="${fmtDFull(v.avg_contract_amount)}"><div class="val">${fmtD(v.avg_contract_amount)}</div><div class="lbl">Avg Contract</div></div>
+    <div class="metric"><div class="val">${fmtPct(v.cancellation_rate)}</div><div class="lbl">Cancel Rate</div></div>
+    <div class="metric"><div class="val">${fmt(v.active_contracts)}</div><div class="lbl">Active</div></div>
+    <div class="metric"><div class="val">${fmt(v.completed_contracts)}</div><div class="lbl">Completed</div></div>
+  </div>`;
+
+  // Score breakdown
+  html+=`<div class="section"><h3>Score Breakdown — ${v.vendor_score?.toFixed(1)}/100</h3>${scoreBreakdownFull(v)}</div>`;
+
+  // Spend chart placeholder
+  html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-vendor-detail"></canvas></div></div>`;
+
+  // Risk metrics
+  const rm=v.risk_metrics||{};
+  html+=`<div class="section"><h3>Risk Assessment</h3><div class="metric-grid">
+    <div class="metric" title="Number of contracts where the final amount exceeded the original amount"><div class="val">${fmt(rm.cost_overrun_count||0)}</div><div class="lbl">Cost Overruns</div></div>
+    <div class="metric" title="Average % increase when final amount > original amount. E.g., 25% means on average contracts cost 25% more than originally budgeted."><div class="val">${rm.avg_overrun_pct?rm.avg_overrun_pct.toFixed(1)+'%':'-'}</div><div class="lbl">Avg Cost Overrun %</div></div>
+    <div class="metric" title="Contracts where the end date was extended beyond the original deadline"><div class="val">${fmt(rm.extension_count||0)}</div><div class="lbl">Extensions</div></div>
+    <div class="metric" title="Contracts awarded via sole source/single source/exempt procurement"><div class="val">${fmt(rm.sole_source_count||0)}</div><div class="lbl">Sole Source</div></div>
+  </div>
+  <div style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.5;padding:8px 12px;background:var(--surface);border-radius:6px;">
+    <strong>Avg Cost Overrun %</strong> = average percentage by which contracts exceeded their original budgeted amount (only counting contracts that did exceed budget). Calculated as: avg((final_amount - original_amount) / original_amount × 100) where final > original.
+  </div></div>`;
+
+  // Two-col: agencies + commodities
+  html+='<div class="two-col">';
+  html+=`<div class="section"><h3>Agency History</h3><table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(v.agency_history||[]).slice(0,10).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.total_records)}</td><td class="right">${fmtD(a.total_amount)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Commodity Expertise</h3><table><thead><tr><th>Commodity</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(v.commodity_expertise||[]).slice(0,10).map(ce=>`<tr><td><a onclick="openCommodity('${esc(ce.commodity_description)}')">${esc(ce.commodity_description)}</a></td><td class="right">${fmt(ce.total_records)}</td><td class="right">${fmtD(ce.total_amount)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+='</div>';
+
+  // Recent contracts
+  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Begin</th></tr></thead><tbody>${(v.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||'-').substring(0,45))}</td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,25))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
+
+  $('vd-body').innerHTML=html;
+
+  // Render spend chart
+  if(v.spend_over_time?.length) {
+    setTimeout(()=>{
+      makeChart('chart-vendor-detail',{type:'bar',data:{labels:v.spend_over_time.map(r=>r.year),datasets:[{label:'Contracts',data:v.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'POs',data:v.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(168,85,247,0.7)',borderRadius:3},{label:'Grants',data:v.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(71,85,105,0.3)'}}},plugins:{legend:{labels:{color:'#94a3b8'}}}}});
+    },100);
+  }
+}
+
+// ── Agency Detail Modal ─────────────────────────────────────────────
+async function openAgency(name) {
+  $('agency-modal').classList.add('open');
+  $('ad-name').textContent=name; $('ad-subtitle').textContent='Loading...'; $('ad-body').innerHTML='<div class="loading">Loading agency dashboard...</div>';
+  const a=await api(`/api/agency/${encodeURIComponent(name)}`);
+  if(a.error){$('ad-body').innerHTML=`<div class="empty">${a.error}</div>`;return;}
+
+  $('ad-name').textContent=name;
+  $('ad-subtitle').innerHTML=`${fmt(a.total_records)} records &middot; <span title="${fmtDFull(a.total_amount)}">${fmtD(a.total_amount)}</span> total &middot; ${fmt(a.num_vendors)} vendors &middot; ${hhiBadge(a.hhi_index)}`;
+
+  let html=`<div class="metric-grid">
+    <div class="metric"><div class="val">${fmt(a.total_records)}</div><div class="lbl">Total Records</div></div>
+    <div class="metric"><div class="val">${fmtD(a.total_amount)}</div><div class="lbl">Total Spend</div></div>
+    <div class="metric"><div class="val">${fmt(a.num_vendors)}</div><div class="lbl">Vendors</div></div>
+    <div class="metric"><div class="val">${fmt(a.num_commodities)}</div><div class="lbl">Commodities</div></div>
+    <div class="metric"><div class="val">${fmt(a.contract_count)}</div><div class="lbl">Contracts</div></div>
+    <div class="metric"><div class="val">${fmt(a.po_count)}</div><div class="lbl">POs</div></div>
+    <div class="metric"><div class="val">${fmt(a.grant_count)}</div><div class="lbl">Grants</div></div>
+    <div class="metric"><div class="val">${fmtPct(a.cancellation_rate)}</div><div class="lbl">Cancel Rate</div></div>
+  </div>`;
+
+  html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-agency-detail"></canvas></div></div>`;
+
+  html+='<div class="two-col">';
+  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(a.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Top Commodities</h3><table><thead><tr><th>Commodity</th><th class="right">Records</th><th class="right">Value</th><th class="right">Vendors</th></tr></thead><tbody>${(a.top_commodities||[]).map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_description)}')">${esc(c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+='</div>';
+
+  html+=`<div class="section"><h3>Procurement Methods</h3><table><thead><tr><th>Method</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(a.procurement_methods||[]).map(m=>`<tr><td>${esc(m.procurement_method)}</td><td class="right">${fmt(m.cnt)}</td><td class="right">${fmtD(m.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+
+  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Vendor</th><th class="right">Amount</th><th>Status</th><th>Begin</th></tr></thead><tbody>${(a.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||'-').substring(0,45))}</td><td><a onclick="openVendor('${esc(c.vendor_name_normalized)}')">${esc((c.vendor_name||'').substring(0,30))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
+
+  $('ad-body').innerHTML=html;
+
+  if(a.spend_over_time?.length) {
+    setTimeout(()=>{
+      makeChart('chart-agency-detail',{type:'bar',data:{labels:a.spend_over_time.map(r=>r.year),datasets:[{label:'Contracts',data:a.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'POs',data:a.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(168,85,247,0.7)',borderRadius:3},{label:'Grants',data:a.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(71,85,105,0.3)'}}},plugins:{legend:{labels:{color:'#94a3b8'}}}}});
+    },100);
+  }
+}
+
+// ── Commodity Detail Modal ──────────────────────────────────────────
+async function openCommodity(name) {
+  $('commodity-modal').classList.add('open');
+  $('cd-name').textContent=name; $('cd-subtitle').textContent='Loading...'; $('cd-body').innerHTML='<div class="loading">Loading commodity dashboard...</div>';
+  const d=await api(`/api/commodity/${encodeURIComponent(name)}`);
+  if(d.error){$('cd-body').innerHTML=`<div class="empty">${d.error}</div>`;return;}
+
+  $('cd-name').textContent=name;
+  $('cd-subtitle').innerHTML=`${fmt(d.total_records)} records &middot; ${fmtD(d.total_amount)} total &middot; ${fmt(d.num_vendors)} vendors &middot; ${fmt(d.num_agencies)} agencies`;
+
+  let html=`<div class="metric-grid">
+    <div class="metric"><div class="val">${fmt(d.total_records)}</div><div class="lbl">Records</div></div>
+    <div class="metric"><div class="val">${fmtD(d.total_amount)}</div><div class="lbl">Total Spend</div></div>
+    <div class="metric"><div class="val">${fmtD(d.avg_amount)}</div><div class="lbl">Avg Contract</div></div>
+    <div class="metric"><div class="val">${fmt(d.num_vendors)}</div><div class="lbl">Vendors</div></div>
+    <div class="metric"><div class="val">${fmt(d.num_agencies)}</div><div class="lbl">Agencies</div></div>
+    <div class="metric"><div class="val">${fmt(d.active_count)}</div><div class="lbl">Active</div></div>
+    <div class="metric"><div class="val">${fmtPct(d.cancellation_rate)}</div><div class="lbl">Cancel Rate</div></div>
+  </div>`;
+
+  html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-commodity-detail"></canvas></div></div>`;
+
+  html+='<div class="two-col">';
+  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(d.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Agencies Using This</h3><table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Value</th><th class="right">Vendors</th></tr></thead><tbody>${(d.agencies||[]).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.cnt)}</td><td class="right">${fmtD(a.total_val)}</td><td class="right">${fmt(a.num_vendors)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+='</div>';
+
+  if(d.price_benchmark?.length) {
+    html+=`<div class="section"><h3>Price Benchmarking by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Avg</th><th class="right">Min</th><th class="right">Max</th><th class="right">Count</th></tr></thead><tbody>${d.price_benchmark.map(p=>`<tr><td><a onclick="openAgency('${esc(p.agency_name)}')">${esc(p.agency_name)}</a></td><td class="right">${fmtD(p.avg_val)}</td><td class="right">${fmtD(p.min_val)}</td><td class="right">${fmtD(p.max_val)}</td><td class="right">${fmt(p.cnt)}</td></tr>`).join('')}</tbody></table></div>`;
+  }
+
+  $('cd-body').innerHTML=html;
+
+  if(d.spend_over_time?.length) {
+    setTimeout(()=>{
+      makeChart('chart-commodity-detail',{type:'bar',data:{labels:d.spend_over_time.map(r=>r.year),datasets:[{label:'Total Spend',data:d.spend_over_time.map(r=>r.total_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(71,85,105,0.3)'}}},plugins:{legend:{labels:{color:'#94a3b8'}}}}});
+    },100);
+  }
+}
+
+// ── Performance Page ─────────────────────────────────────────────────
+let _perfData = null;
+const SCORE_COLORS = {reliability:'#22c55e',cost_control:'#3b82f6',timeliness:'#eab308',delivery:'#a855f7',scale:'#f97316',competition:'#06b6d4',cancel:'#22c55e',overrun:'#3b82f6',extensions:'#eab308',completion:'#a855f7',experience:'#f97316'};
+const SCORE_ICONS = {reliability:'\u{1F6E1}',cost_control:'\u{1F4B0}',timeliness:'\u{23F1}',delivery:'\u{2705}',scale:'\u{1F4C8}',competition:'\u{1F3AF}',cancel:'\u{1F6E1}',overrun:'\u{1F4B0}',extensions:'\u{23F1}',completion:'\u{2705}',experience:'\u{1F4C8}'};
+const SCORE_DESCS = {
+  reliability:'Low cancellation rate = reliable partner',
+  cost_control:'Few contracts exceed budget by >10%',
+  timeliness:'Few contracts need deadline extensions',
+  delivery:'High % of contracts completed successfully',
+  scale:'Track record: records, agencies, years active',
+  competition:'Market competitiveness (low HHI = good)',
+  cancel:'Low cancellation rate = reliable partner',
+  overrun:'Few contracts exceed budget by >10%',
+  extensions:'Few contracts need deadline extensions',
+  completion:'High % of contracts completed',
+  experience:'Track record within this department'
+};
+
+function gradeHTML(g, size) {
+  const cls = size || '';
+  return `<div class="grade grade-${cls} grade-${g}">${g}</div>`;
+}
+
+function gradeColor(g) {
+  if (!g) return 'var(--text2)';
+  if (g.startsWith('A')) return '#22c55e';
+  if (g.startsWith('B')) return '#3b82f6';
+  if (g.startsWith('C')) return '#eab308';
+  if (g.startsWith('D')) return '#f97316';
+  return '#ef4444';
+}
+
+function scoreCardHTML(title, subScores, weights, total) {
+  const entries = Object.entries(subScores);
+  return `<div class="score-card">
+    <h4>${title} <span class="formula">Total: <strong style="color:${gradeColor(total>=90?'A':total>=80?'B':total>=70?'C':total>=60?'D':'F')}">${total}/100</strong></span></h4>
+    ${entries.map(([k, v]) => {
+      const w = weights[k] || 0;
+      const color = SCORE_COLORS[k] || 'var(--text2)';
+      const icon = SCORE_ICONS[k] || '';
+      const desc = SCORE_DESCS[k] || '';
+      return `<div class="score-row">
+        <div class="score-icon">${icon}</div>
+        <div class="score-label" title="${desc}">${k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase())}</div>
+        <div class="score-bar-track"><div class="score-bar-fill" style="width:${v}%;background:${color}"></div></div>
+        <div class="score-val" style="color:${color}">${v}</div>
+        <div class="score-weight">${(w*100).toFixed(0)}%</div>
+      </div>`;
+    }).join('')}
+    <div style="margin-top:8px;font-size:10px;color:var(--text2);display:flex;gap:12px;flex-wrap:wrap;">
+      ${entries.map(([k]) => `<span>${SCORE_ICONS[k]||''} ${k.replace(/_/g,' ')}: ${SCORE_DESCS[k]||''}</span>`).join('')}
+    </div>
+  </div>`;
+}
+
+function miniBarLabeled(label, val, color) {
+  return `<div class="mini-bar-labeled"><span class="mbl-label">${label}</span><div class="mbl-track"><div class="mbl-fill" style="width:${val}%;background:${color}"></div></div><span class="mbl-val" style="color:${color}">${val}</span></div>`;
+}
+
+function gradeDistHTML(dist) {
+  const letters = ['A','B','C','D','F'];
+  const colors = {'A':'#065f46','B':'#1e3a5f','C':'#713f12','D':'#7c2d12','F':'#7f1d1d'};
+  const textColors = {'A':'#34d399','B':'#60a5fa','C':'#fbbf24','D':'#fb923c','F':'#f87171'};
+  const total = Object.values(dist).reduce((s,v)=>s+v,0);
+  return `<div class="grade-dist">${letters.map(g => {
+    const cnt = dist[g]||0;
+    const pct = total>0?(cnt/total*100):0;
+    if(pct<1) return '';
+    return `<div class="gd-seg" style="width:${pct}%;background:${colors[g]};color:${textColors[g]}" title="${g}: ${cnt} vendors (${pct.toFixed(1)}%)">${g}:${cnt}</div>`;
+  }).join('')}</div>`;
+}
+
+function switchPerfView(view) {
+  $('tab-depts').classList.toggle('active', view==='depts');
+  $('tab-vendors').classList.toggle('active', view==='vendors');
+  $('perf-view-depts').style.display = view==='depts'?'block':'none';
+  $('perf-view-vendors').style.display = view==='vendors'?'block':'none';
+  if(view==='vendors' && !window._vendorPerfLoaded) loadVendorPerf();
+}
+
+async function loadPerformance() {
+  window._perfLoaded = true;
+  $('perf-state-banner').innerHTML = '<div class="loading">Loading state performance data...</div>';
+  $('perf-dept-list').innerHTML = '';
+
+  const [state, depts] = await Promise.all([
+    api('/api/performance/state'),
+    api('/api/performance/departments')
+  ]);
+
+  _perfData = depts.results;
+
+  const ss = state.sub_scores;
+  $('perf-state-banner').innerHTML = `
+    <div class="grade-box">
+      ${gradeHTML(state.grade, 'xl')}
+      <div class="grade-label">State Grade</div>
+    </div>
+    <div class="state-info">
+      <h2>State of Florida — Procurement Performance</h2>
+      <div class="subtitle">${fmt(state.total_records)} records &middot; <span title="${fmtDFull(state.total_spend)}">${fmtD(state.total_spend)}</span> total spend &middot; ${fmt(state.total_vendors)} vendors across ${fmt(state.total_agencies)} agencies</div>
+      <div class="subtitle" style="margin-top:4px;">${fmtPct(state.cancel_rate)} cancellation &middot; ${fmtPct(state.extension_rate)} extensions &middot; <span title="% of contracts where final amount exceeded original by >10%">${state.overrun_rate ? (state.overrun_rate * 100).toFixed(1) + '% overrun rate' : 'No overrun data'}</span>${state.avg_cost_overrun?' &middot; <span title=\"Average % by which over-budget contracts exceeded original amount\">avg +'+state.avg_cost_overrun.toFixed(1)+'% when over budget</span>':''}</div>
+    </div>
+    <div style="text-align:center;">
+      <div style="font-size:36px;font-weight:700;color:var(--accent2);">${state.efficiency_score}</div>
+      <div style="font-size:11px;color:var(--text2);">/ 100</div>
+    </div>
+  `;
+
+  // Dept score methodology card
+  $('perf-dept-score-card').innerHTML = scoreCardHTML(
+    'Department Grading Methodology',
+    {cancel: ss.cancel_score, overrun: ss.overrun_score, extensions: ss.ext_score, competition: ss.vendor_quality},
+    {cancel:0.30, overrun:0.25, extensions:0.20, competition:0.25},
+    state.efficiency_score
+  );
+
+  renderDeptCards();
+}
+
+function renderDeptCards() {
+  if (!_perfData) return;
+  const sort = $('perf-dept-sort').value;
+  let sorted = [..._perfData];
+
+  if (sort === 'grade') sorted.sort((a, b) => b.efficiency_score - a.efficiency_score);
+  else if (sort === 'grade-worst') sorted.sort((a, b) => a.efficiency_score - b.efficiency_score);
+  else if (sort === 'spend') sorted.sort((a, b) => b.total_spend - a.total_spend);
+  else if (sort === 'cancel') sorted.sort((a, b) => b.cancel_rate - a.cancel_rate);
+  else if (sort === 'vendors') sorted.sort((a, b) => b.num_vendors - a.num_vendors);
+
+  $('perf-dept-list').innerHTML = sorted.map(d => {
+    const ss = d.sub_scores;
+    return `<div class="dept-card" onclick="openDeptVendors('${esc(d.agency_name)}')">
+      ${gradeHTML(d.grade, '')}
+      <div class="dept-info">
+        <h3>${esc(d.agency_name)}</h3>
+        <div class="dept-meta">
+          <span>Score: <strong>${d.efficiency_score}</strong>/100</span>
+          <span>Cancel: <strong style="color:${d.cancel_rate > 0.05 ? 'var(--red)' : 'var(--green)'}">${(d.cancel_rate * 100).toFixed(1)}%</strong></span>
+          <span title="% of contracts exceeding budget by >10%${d.avg_cost_overrun ? '. Avg overrun: +' + d.avg_cost_overrun.toFixed(1) + '%' : ''}">Overruns: <strong style="color:${d.overrun_rate > 0.05 ? 'var(--orange)' : 'var(--green)'}">${(d.overrun_rate * 100).toFixed(1)}%</strong>${d.avg_cost_overrun ? ' <span style="font-size:10px;color:var(--text2)">(avg +' + d.avg_cost_overrun.toFixed(1) + '%)</span>' : ''}</span>
+          <span>Extensions: <strong>${(d.extension_rate * 100).toFixed(1)}%</strong></span>
+          <span>HHI: <strong style="color:${d.hhi < 1500 ? 'var(--green)' : d.hhi < 2500 ? 'var(--yellow)' : 'var(--red)'}">${d.hhi}</strong></span>
+          <span><strong>${fmt(d.num_vendors)}</strong> vendors</span>
+        </div>
+        <div style="display:flex;gap:4px;margin-top:6px;">
+          ${miniBarLabeled('\u{1F6E1} Reliability', ss.cancel, SCORE_COLORS.cancel)}
+          ${miniBarLabeled('\u{1F4B0} Cost', ss.overrun, SCORE_COLORS.cost_control)}
+          ${miniBarLabeled('\u{23F1} Time', ss.extensions, SCORE_COLORS.timeliness)}
+          ${miniBarLabeled('\u{1F3AF} Compete', ss.competition, SCORE_COLORS.competition)}
+        </div>
+      </div>
+      <div class="dept-right">
+        <div class="spend">${fmtD(d.total_spend)}</div>
+        <div class="count">${fmt(d.total_records)} records</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Vendor Performance View ─────────────────────────────────────────
+async function loadVendorPerf() {
+  window._vendorPerfLoaded = true;
+  const sort = $('perf-vendor-sort')?.value || 'grade';
+  const grade = $('perf-vendor-grade-filter')?.value || '';
+  const tier = $('perf-vendor-tier-filter')?.value || '';
+  const minRec = $('perf-vendor-min-records')?.value || '3';
+
+  $('perf-vendor-list').innerHTML = '<div class="loading">Loading vendor grades...</div>';
+
+  const data = await api(`/api/performance/vendors?sort=${sort}&grade=${grade}&tier=${tier}&min_records=${minRec}&limit=100`);
+
+  // Score methodology
+  $('perf-vendor-score-card').innerHTML = scoreCardHTML(
+    'Vendor Grading Methodology',
+    {reliability:85, cost_control:75, timeliness:80, delivery:70, scale:60},
+    {reliability:0.30, cost_control:0.25, timeliness:0.15, delivery:0.15, scale:0.15},
+    75
+  ).replace(/>85</g,'>Example<').replace(/>75</g,'>Example<').replace(/>80</g,'>Example<').replace(/>70</g,'>Example<').replace(/>60</g,'>Example<')
+   // Actually just show methodology without example values
+   .replace(/Example/g,'—');
+
+  // Simpler: just render a real score card
+  $('perf-vendor-score-card').innerHTML = `<div class="score-card">
+    <h4>Vendor Grading Formula <span class="formula">5 weighted dimensions \u2192 0-100 score \u2192 A+ to F grade</span></h4>
+    <div class="score-row"><div class="score-icon">\u{1F6E1}</div><div class="score-label">Reliability</div><div class="score-bar-track"><div class="score-bar-fill" style="width:100%;background:${SCORE_COLORS.reliability}"></div></div><div class="score-val" style="color:${SCORE_COLORS.reliability}">30%</div><div class="score-weight">wt</div></div>
+    <div class="score-row"><div class="score-icon">\u{1F4B0}</div><div class="score-label">Cost Control</div><div class="score-bar-track"><div class="score-bar-fill" style="width:83%;background:${SCORE_COLORS.cost_control}"></div></div><div class="score-val" style="color:${SCORE_COLORS.cost_control}">25%</div><div class="score-weight">wt</div></div>
+    <div class="score-row"><div class="score-icon">\u{23F1}</div><div class="score-label">Timeliness</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.timeliness}"></div></div><div class="score-val" style="color:${SCORE_COLORS.timeliness}">15%</div><div class="score-weight">wt</div></div>
+    <div class="score-row"><div class="score-icon">\u{2705}</div><div class="score-label">Delivery</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.delivery}"></div></div><div class="score-val" style="color:${SCORE_COLORS.delivery}">15%</div><div class="score-weight">wt</div></div>
+    <div class="score-row"><div class="score-icon">\u{1F4C8}</div><div class="score-label">Scale &amp; Reach</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.scale}"></div></div><div class="score-val" style="color:${SCORE_COLORS.scale}">15%</div><div class="score-weight">wt</div></div>
+    <div style="margin-top:8px;font-size:10px;color:var(--text2);line-height:1.6;">
+      \u{1F6E1} <strong>Reliability</strong>: Low cancellation rate &nbsp;|&nbsp;
+      \u{1F4B0} <strong>Cost Control</strong>: Few contracts over budget by >10% &nbsp;|&nbsp;
+      \u{23F1} <strong>Timeliness</strong>: Few deadline extensions &nbsp;|&nbsp;
+      \u{2705} <strong>Delivery</strong>: High completion rate &nbsp;|&nbsp;
+      \u{1F4C8} <strong>Scale</strong>: Records + agencies served + years active
+    </div>
+  </div>`;
+
+  // Grade distribution
+  if (data.grade_distribution) {
+    $('perf-vendor-dist').innerHTML = gradeDistHTML(data.grade_distribution);
+  }
+
+  // Render vendor cards
+  if (!data.results?.length) {
+    $('perf-vendor-list').innerHTML = '<div class="empty">No vendors match these filters</div>';
+    return;
+  }
+
+  $('perf-vendor-list').innerHTML = data.results.map(v => {
+    const ss = v.sub_scores;
+    return `<div class="vg-card" onclick="openVendor('${esc(v.vendor_name_normalized)}')">
+      ${gradeHTML(v.grade, '')}
+      <div class="vg-info">
+        <h3><a onclick="event.stopPropagation();openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name||'').substring(0,45))}</a></h3>
+        <div class="vg-badges">
+          ${tierBadge(v.vendor_tier)}
+          <span style="font-size:11px;color:var(--text2);">${v.years_active||0}yr &middot; ${v.agencies_served} agencies &middot; ${v.num_commodities} commodities</span>
+        </div>
+        <div class="vg-stats">
+          <span>Cancel: <strong style="color:${v.cancel_rate>0.05?'var(--red)':'var(--green)'}">${(v.cancel_rate*100).toFixed(1)}%</strong></span>
+          <span title="% of contracts exceeding budget by >10%">Overrun: <strong style="color:${v.overrun_rate>0.1?'var(--orange)':'var(--green)'}">${(v.overrun_rate*100).toFixed(1)}%</strong></span>
+          <span title="Average % by which over-budget contracts exceeded their original amount">${v.avg_cost_overrun_pct?'Avg +'+v.avg_cost_overrun_pct.toFixed(1)+'%':''}</span>
+          <span>Completed: <strong>${(v.completion_rate*100).toFixed(0)}%</strong></span>
+          <span>Active: <strong>${v.active}</strong></span>
+        </div>
+      </div>
+      <div class="vg-bars">
+        ${miniBarLabeled('\u{1F6E1} Reliable', ss.reliability, SCORE_COLORS.reliability)}
+        ${miniBarLabeled('\u{1F4B0} Cost', ss.cost_control, SCORE_COLORS.cost_control)}
+        ${miniBarLabeled('\u{23F1} Time', ss.timeliness, SCORE_COLORS.timeliness)}
+        ${miniBarLabeled('\u{2705} Deliver', ss.delivery, SCORE_COLORS.delivery)}
+        ${miniBarLabeled('\u{1F4C8} Scale', ss.scale, SCORE_COLORS.scale)}
+      </div>
+      <div class="vg-right">
+        <div class="spend">${fmtD(v.total_spend)}</div>
+        <div class="count">${fmt(v.total_records)} records</div>
+        <div style="font-size:12px;font-weight:600;color:${gradeColor(v.grade)};margin-top:4px;">${v.efficiency_score}/100</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Dept Vendor Drill-down ──────────────────────────────────────────
+async function openDeptVendors(agencyName) {
+  $('dept-vendor-modal').classList.add('open');
+  $('dv-name').textContent = agencyName;
+  $('dv-subtitle').textContent = 'Loading vendor grades...';
+  $('dv-body').innerHTML = '<div class="loading">Loading...</div>';
+
+  const dept = (_perfData || []).find(d => d.agency_name === agencyName);
+  const data = await api(`/api/performance/dept-vendors/${encodeURIComponent(agencyName)}`);
+
+  if (!data.results) { $('dv-body').innerHTML = '<div class="empty">No data</div>'; return; }
+
+  const deptGrade = dept ? dept.grade : '?';
+  const deptScore = dept ? dept.efficiency_score : 0;
+  $('dv-subtitle').innerHTML = `Department Grade: ${gradeHTML(deptGrade, 'sm')} <strong>${deptScore}/100</strong> &middot; ${data.results.length} vendors`;
+
+  let vendors = data.results;
+
+  // Dept score card
+  let html = '';
+  if (dept) {
+    const ss = dept.sub_scores;
+    html += scoreCardHTML(
+      `${agencyName} — Score Breakdown`,
+      {cancel:ss.cancel, overrun:ss.overrun, extensions:ss.extensions, competition:ss.competition},
+      {cancel:0.30, overrun:0.25, extensions:0.20, competition:0.25},
+      deptScore
+    );
+  }
+
+  html += `<div class="perf-sort-bar" style="margin-top:12px;">
+    <span>Sort vendors:</span>
+    <select onchange="sortDeptVendors(this.value)">
+      <option value="grade">Grade (best)</option>
+      <option value="grade-worst">Grade (worst)</option>
+      <option value="spend">Total Spend</option>
+      <option value="records">Records</option>
+    </select>
+    <span style="margin-left:auto;font-size:10px;color:var(--text2);">\u{1F6E1} Reliability(30%) + \u{1F4B0} Cost(25%) + \u{23F1} Time(15%) + \u{2705} Completion(15%) + \u{1F4C8} Experience(15%)</span>
+  </div>`;
+
+  html += `<div id="dv-vendor-rows">${renderVendorPerfRows(vendors)}</div>`;
+  window._deptVendors = vendors;
+  $('dv-body').innerHTML = html;
+}
+
+function renderVendorPerfRows(vendors) {
+  return vendors.map(v => {
+    const ss = v.sub_scores;
+    return `<div class="vg-card" style="grid-template-columns:36px 1fr 160px auto;" onclick="openVendor('${esc(v.vendor_name_normalized)}')">
+      ${gradeHTML(v.dept_grade, 'sm')}
+      <div class="vg-info">
+        <h3><a onclick="event.stopPropagation();openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name || '').substring(0, 40))}</a></h3>
+        <div class="vg-badges">${tierBadge(v.vendor_tier)} <span style="font-size:11px;color:var(--text2);">${v.years_active?v.years_active+'yr':''} ${v.num_agencies_served?v.num_agencies_served+' agencies':''}</span></div>
+        <div class="vg-stats">
+          <span>Cancel: <strong style="color:${v.cancel_rate > 0.05 ? 'var(--red)' : 'var(--green)'}">${(v.cancel_rate * 100).toFixed(1)}%</strong></span>
+          <span>Completed: <strong>${v.completed}</strong></span>
+          <span>Active: <strong>${v.active}</strong></span>
+        </div>
+      </div>
+      <div class="vg-bars">
+        ${miniBarLabeled('\u{1F6E1} Reliable', ss.cancel, SCORE_COLORS.cancel)}
+        ${miniBarLabeled('\u{1F4B0} Cost', ss.overrun, SCORE_COLORS.cost_control)}
+        ${miniBarLabeled('\u{23F1} Time', ss.extensions, SCORE_COLORS.timeliness)}
+        ${miniBarLabeled('\u{2705} Complete', ss.completion, SCORE_COLORS.delivery)}
+        ${miniBarLabeled('\u{1F4C8} Exp', ss.experience, SCORE_COLORS.scale)}
+      </div>
+      <div class="vg-right">
+        <div class="spend">${fmtD(v.total_val)}</div>
+        <div class="count">${fmt(v.record_count)} records</div>
+        <div style="font-size:12px;font-weight:600;color:${gradeColor(v.dept_grade)};margin-top:4px;">${v.dept_efficiency.toFixed(0)}/100</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function sortDeptVendors(by) {
+  if (!window._deptVendors) return;
+  let v = [...window._deptVendors];
+  if (by === 'grade') v.sort((a, b) => b.dept_efficiency - a.dept_efficiency);
+  else if (by === 'grade-worst') v.sort((a, b) => a.dept_efficiency - b.dept_efficiency);
+  else if (by === 'spend') v.sort((a, b) => b.total_val - a.total_val);
+  else if (by === 'records') v.sort((a, b) => b.record_count - a.record_count);
+  $('dv-vendor-rows').innerHTML = renderVendorPerfRows(v);
+}
+
+// ── Updated Nav ─────────────────────────────────────────────────────
+const _origNavTo = navTo;
+navTo = function(name) {
+  _origNavTo(name);
+  if (name === 'performance' && !window._perfLoaded) loadPerformance();
+};
+
+// Boot
+loadDashboard();
+</script>
+</body>
+</html>

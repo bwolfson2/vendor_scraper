@@ -1,0 +1,29 @@
+state: Oregon
+abbreviation: OR
+adapter: socrata
+portal:
+  url: https://www.oregon.gov/transparency
+socrata:
+  domain: data.oregon.gov
+  dataset_id: y9g9-xsxs  # Agency Expenditures Multi-Year Report
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: agency_1
+  vendor_name: vendor
+  contract_id: ""
+  description: expend_class_1
+  start_date: ""
+  end_date: ""
+  amount: expense
+  procurement_method: ""
+  contract_type: budget_class_1
+  commodity_category: ""
+notes: |
+  668,906 records. Agency expenditures with vendor names.
+  Also available: h3a5-bh3f (Contracts, 32 records),
+  rkhh-35im (Lottery Contracts), 4iz8-xm93 (Treasury Contracts)

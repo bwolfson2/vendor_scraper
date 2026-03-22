@@ -1,0 +1,26 @@
+state: Washington
+abbreviation: WA
+adapter: socrata
+portal:
+  url: https://fiscal.wa.gov/
+socrata:
+  domain: data.wa.gov
+  dataset_id: s8d5-pj78  # Agency Contracts Fiscal Year 2024
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: agency_number_agency_name
+  vendor_name: contractor_name_search_for
+  contract_id: agency_contract_no
+  description: purpose_of_the_contract
+  start_date: contract_effective_start
+  end_date: period_of_performance_end_date
+  amount: state_amount
+notes: |
+  79,329 records in FY2024 dataset. Columns: agency_number_agency_name, agency_contract_no,
+  agency_contract_amendment, contractor_name_search_for, purpose_of_the_contract,
+  contract_effective_start, period_of_performance_start, federal_amount, state_amount, other_amount

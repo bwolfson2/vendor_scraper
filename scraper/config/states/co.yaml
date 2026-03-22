@@ -1,0 +1,21 @@
+state: Colorado
+abbreviation: CO
+adapter: socrata
+portal:
+  url: https://data.colorado.gov/stories/s/Transparency-Online-Project-TOPS-State-Government-/rifs-n6ib/
+socrata:
+  domain: data.colorado.gov
+  dataset_id: rkmy-yymq  # CDOT Payroll Expenditures - start here, expand to full TOPS dataset
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: "Area Description"
+  vendor_name: "Employee"
+  amount: "Amount"
+  description: "Job Description"
+  start_date: "Fiscal Year"
+notes: "44.7M+ rows across full TOPS. rkmy-yymq is CDOT payroll subset. Need to discover full expenditure dataset ID via portal."

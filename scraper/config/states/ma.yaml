@@ -1,0 +1,23 @@
+state: Massachusetts
+abbreviation: MA
+adapter: socrata
+portal:
+  url: https://cthruspending.mass.gov/
+socrata:
+  domain: cthru.data.socrata.com
+  dataset_id: pegc-naaa  # Comptroller of the Commonwealth Spending
+  app_token: ""
+pagination:
+  page_size: 50000
+rate_limit:
+  requests_per_second: 5
+  delay_between_pages: 0.2
+field_map:
+  agency_name: department
+  vendor_name: vendor
+  contract_id: appropriation_name
+  amount: amount
+  description: object_class
+  start_date: date
+  commodity_category: cabinet_secretariat
+notes: "47.6M records. Columns: base_id, budget_fiscal_year, fiscal_period, date, cabinet_secretariat, department, appropriation_type, appropriation_name, object_class, object_code, vendor, vendor_invoice_id, amount, program_code, program_description, fund, check_number"

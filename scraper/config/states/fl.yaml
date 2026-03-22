@@ -1,0 +1,28 @@
+state: Florida
+abbreviation: FL
+adapter: aspnet
+portal:
+  url: https://facts.fldfs.com/Search/ContractSearch.aspx
+pagination:
+  method: postback
+  page_size: 10
+  max_pages: 0  # 0 = all
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+aspnet:
+  form_id: form1
+  search_button_id: PC_btnSearch
+  results_table_id: PC_lvContracts
+  next_page_target: PC$lvContracts$DataPager
+  export_link_id: PC_hlkExport
+  form_fields:
+    ctl00$PC$ddlAgency: ""  # empty = all agencies
+field_map:
+  agency_name: "Agency Name"
+  vendor_name: "Vendor/Grantor Name"
+  contract_type: "Type"
+  contract_id: "Agency Assigned Contract ID"
+  amount: "Total Amount"
+  commodity_category: "Commodity/Service Type"
+notes: "21,225 active contracts. Existing playwright scraper in scraper.py handles this more robustly."

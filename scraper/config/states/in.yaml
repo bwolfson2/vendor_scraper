@@ -1,0 +1,34 @@
+state: Indiana
+abbreviation: IN
+adapter: bulk_download
+portal:
+  url: https://hub.mph.in.gov/dataset/ae7baff7-69ec-410e-8554-7b5dbb712aa7
+download:
+  format: csv
+  encoding: utf-8
+  urls:
+    - https://hub.mph.in.gov/dataset/ae7baff7-69ec-410e-8554-7b5dbb712aa7/resource/378053de-6dfb-4ffa-871f-c5b602d73604/download/vendor_2015q1.csv
+    - https://hub.mph.in.gov/dataset/ae7baff7-69ec-410e-8554-7b5dbb712aa7/resource/6c100ff0-1b61-47b4-a98b-41b761ec8b0f/download/vendor_2015q2.csv
+    - https://hub.mph.in.gov/dataset/ae7baff7-69ec-410e-8554-7b5dbb712aa7/resource/78b3aa27-9240-44a4-887f-ffecad636de3/download/vendor_2015q3.csv
+    - https://hub.mph.in.gov/dataset/ae7baff7-69ec-410e-8554-7b5dbb712aa7/resource/0d11e2dc-a368-4448-b947-0402c94c7789/download/vendor_2015q4.csv
+rate_limit:
+  requests_per_second: 0.5
+  delay_between_pages: 5
+field_map:
+  agency_name: Agency Name
+  vendor_name: Vendor Name
+  contract_id: Voucher ID
+  description: Expenditure Category
+  amount: Amount
+  start_date: Journal Date
+  end_date: ""
+  contract_type: ""
+  procurement_method: ""
+  commodity_category: Function of Government
+notes: |
+  Indiana vendor quarterly CSVs from CKAN hub.
+  47 quarterly files from 2015-Q1 to 2026-Q2, ~100MB each.
+  Fields: Account Name, Account ID, Agency Name, Agency ID, Amount,
+  Expenditure Category, Fiscal Year, Function of Government, Fund Name,
+  Fund ID, Funding Source, Journal Date, Journal ID, Last Updated,
+  Legal Fund Name, Legal Fund ID, Source, Vendor Name, Vendor ID, Voucher ID

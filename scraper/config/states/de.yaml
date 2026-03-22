@@ -1,0 +1,28 @@
+state: Delaware
+abbreviation: DE
+adapter: socrata
+portal:
+  url: https://checkbook.delaware.gov
+socrata:
+  domain: data.delaware.gov
+  dataset_id: 5s6n-7hpx
+  app_token: ""
+pagination:
+  page_size: 50000
+rate_limit:
+  requests_per_second: 5
+  delay_between_pages: 0.2
+field_map:
+  agency_name: department
+  vendor_name: ""
+  contract_id: check_number
+  description: category
+  start_date: check_date
+  end_date: ""
+  amount: amount
+  procurement_method: ""
+  contract_type: fund_type
+  commodity_category: division
+notes: |
+  12,759,160 records. No vendor name field - just department/category/amount.
+  Still useful for total state spending data.

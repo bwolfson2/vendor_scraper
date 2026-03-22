@@ -1,0 +1,32 @@
+state: Maine
+abbreviation: ME
+adapter: bulk_download
+portal:
+  url: https://opencheckbook.maine.gov/transparency/index.html
+download:
+  format: xlsx
+  encoding: utf-8
+  urls:
+    - https://www.maine.gov/osc/sites/maine.gov.osc/files/inline-files/fy2024_Vendor_data.xlsx
+    - https://www.maine.gov/osc/sites/maine.gov.osc/files/inline-files/fy2023_Vendor_data.xlsx
+    - https://www.maine.gov/osc/sites/maine.gov.osc/files/inline-files/fy2022_Vendor_data.xlsx
+    - https://www.maine.gov/osc/sites/maine.gov.osc/files/inline-files/fy2021_Vendor_data.xlsx
+    - https://www.maine.gov/osc/sites/maine.gov.osc/files/inline-files/fy2020_Vendor_data.xlsx
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map:
+  agency_name: DEPT NAME
+  vendor_name: NAME
+  contract_id: ""
+  description: OBJECT NAME
+  amount: AMOUNT
+  start_date: ""
+  end_date: ""
+  contract_type: ""
+  procurement_method: ""
+  commodity_category: FUND
+notes: |
+  Vendor data Excel downloads from Maine OSC Data Share page.
+  FY2020-2024 available. ~4.5MB per file.
+  Headers: DEPT CODE, FY, FUND, DEPT NAME, NAME, ALIAS, ADDRESS1-2, CITY, ST, ZIP, OBJ, OBJECT NAME, AMOUNT

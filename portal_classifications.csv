@@ -1,0 +1,52 @@
+State,Primary URL,Category,Tech Stack,Scraping Strategy,Has Bulk Export,Has API,Notes
+Alabama,https://open.alabama.gov/,CAT-C,ASP.NET server-rendered,Scrape .aspx pages with postback simulation,No,No,Hub page linking to spending.aspx and contracts.aspx
+Alaska,https://doa.alaska.gov/dof/reports/transparency.html,CAT-A/F,Static HTML + links to Socrata (checkbook.alaska.gov),Socrata SODA API via checkbook.alaska.gov,No,Yes (Socrata),Landing page links to Checkbook Alaska on Socrata
+Arizona,https://openbooks.az.gov/,CAT-C,ASP.NET (403 on WebFetch but works in Chrome),Chrome/Playwright scrape or inspect for API,Unknown,Unknown,Blocked automated requests - needs browser-based approach
+Arkansas,https://transparency.arkansas.gov/,CAT-D,Custom backend with CSRF tokens and search form,HTTP POST with CSRF token handling,No,No,Custom-built portal with tabbed search interface
+California,https://open.fiscal.ca.gov/,CAT-D/F,Custom (explore + download expenditures),Check download feature for bulk CSV,Yes (likely),Unknown,Has dedicated Download Expenditures page
+Colorado,https://data.colorado.gov/stories/s/Transparency-Online-Project-TOPS-State-Government-/rifs-n6ib/,CAT-A,Socrata/Tyler Data & Insights + React + Mapbox,SODA API with $limit/$offset pagination,Yes (CSV/TSV/JSON),Yes (SODA),44.7M+ rows; full Socrata platform with extensive API
+Connecticut,https://openbudget.ct.gov/,CAT-A/D,AngularJS + D3 + Leaflet + SODA references,SODA API or scrape Angular endpoints,Yes (CSV),Yes (SODA),Sophisticated AngularJS SPA with SODA backend
+Delaware,https://finance.delaware.gov/delaware-transparency/,CAT-F,WordPress hub linking to checkbook.delaware.gov,Follow links to checkbook.delaware.gov and contracts.delaware.gov,Unknown,Unknown,Hub page - actual data on separate portals
+Florida,https://facts.fldfs.com/Search/ContractSearch.aspx,CAT-C,ASP.NET WebForms with __doPostBack + AJAX,Simulate ViewState postbacks and paginate,No,No,"21,225 contracts; classic ASP.NET with UpdatePanel"
+Georgia,https://open.ga.gov/,CAT-F,Static HTML with Excel/PDF downloads,Download Excel/PDF reports directly,Yes (Excel/PDF),No,Limited to downloadable reports
+Hawaii,https://hawaii.opengov.com/,CAT-B,OpenGov platform (Ruby on Rails + React),OpenGov API extraction or Playwright scrape,Unknown,No (proprietary),OpenGov Reporting platform with React frontend
+Idaho,https://transparent.idaho.gov/,CAT-D,Custom (minimal HTML visible; GA + Qualtrics),Needs Chrome inspection for underlying API,Unknown,Unknown,Tech stack not fully visible from landing page
+Illinois,https://itap.illinois.gov/,CAT-F,Adobe Experience Manager (AEM) hub,Follow links to Illinois Comptroller data systems,No,No,CMS hub linking to external databases
+Indiana,https://www.in.gov/itp/,CAT-F,Static HTML + Google Translate,Follow links to contracts/finances sub-pages,No,No,Lightweight hub linking to separate data sections
+Iowa,https://checkbook.iowa.gov/,CAT-A,Socrata + AngularJS + D3,SODA API with $limit/$offset pagination,Yes (CSV),Yes (SODA),Full Socrata platform with Angular frontend
+Kansas,https://kanview.ks.gov/,CAT-C,ASP.NET with Sys.WebForms.Menu,Simulate ASP.NET postbacks,No,No,Classic ASP.NET server-rendered pages
+Kentucky,https://transparency.ky.gov/Pages/index.aspx,CAT-C/E,ASP.NET + Highcharts,Scrape .aspx pages; charts use Highcharts,No,No,ASP.NET with embedded Highcharts visualizations
+Louisiana,https://checkbook.la.gov/,CAT-D,ColdFusion (.cfm) + jQuery + OpenGov (debt),Scrape ColdFusion pages; check expendituredashboard.doa.la.gov,No,No,Legacy ColdFusion backend with OpenGov for debt data
+Maine,https://opencheckbook.maine.gov/transparency/index.html,CAT-D,Custom vanilla JS with server-side rendering,Reverse-engineer JS function calls for data loading,No,No,Legacy custom app with dynamic JS data loading
+Maryland,https://mtp.maryland.gov/,CAT-A,Socrata + AngularJS,SODA API via maryland-dbm.budget.socrata.com,Yes (CSV),Yes (SODA),Full Socrata platform; vendor payments and budget data
+Massachusetts,https://cthruspending.mass.gov/,CAT-A,Socrata + AngularJS + D3,SODA API with $limit/$offset pagination,Yes (CSV),Yes (SODA),Full Socrata platform with extensive spending data
+Michigan,https://sigmai.michigan.gov/EI360TransparencyApp/jsp/home,CAT-E,Power BI + Bootstrap,Extract from Power BI embeds or use Power BI API,No,No (Power BI embeds),Power BI dashboards embedded in Bootstrap page
+Minnesota,https://mn.gov/mmb/transparency-mn/,CAT-F,JSP server-rendered + jQuery,Follow links to sub-pages with data,No,No,Java/JSP CMS hub linking to various reports
+Mississippi,https://www.dfa.ms.gov/transparency,CAT-D,Custom (cert issues on WebFetch),Inspect Transparency Mississippi site for data access,Unknown,Unknown,Links to separate Transparency Mississippi system
+Missouri,https://oa.mo.gov/transparency,CAT-F,Drupal 7 + jQuery,Follow links to MAP (mapyourtaxes.mo.gov),No,No,Drupal hub linking to Missouri Accountability Portal
+Montana,https://transparency.mt.gov/,CAT-E,Tableau embedded dashboards,Extract via Tableau export/API or tabpy library,Yes (via Tableau),No (Tableau embeds),Multiple Tableau dashboards on dataportal.mt.gov
+Nebraska,https://statespending.nebraska.gov/,CAT-C,ASP.NET with server-side chart generation (.axd),Simulate form posts and paginate,No,No,Custom ASP.NET with server-rendered charts
+Nevada,https://checkbook.nv.gov/,CAT-A,Socrata + AngularJS + Highcharts,SODA API with /api/open_data/search.json,Yes (CSV/Excel),Yes (SODA),Full Socrata platform with Highcharts
+New Hampshire,https://www.nh.gov/transparentnh/,CAT-F,Static HTML + basic JS,Follow links to expenditure reports; check business.nh.gov/ExpenditureTransparency,No,No,Static hub; actual data may be at ExpenditureTransparency app
+New Jersey,https://www.nj.gov/transparency/,CAT-D,jQuery + server-rendered HTML,Inspect sub-pages (financial-management etc) for data access,Unknown,Unknown,Landing page is lightweight; data on linked pages
+New Mexico,https://ssp.nm.gov/,CAT-F,WordPress + Divi theme,Follow links to actual data portals,No,No,WordPress CMS hub; actual data likely elsewhere
+New York,https://www.osc.ny.gov/open-book-new-york,CAT-A/D,Drupal + Socrata backend (wwe2.osc.state.ny.us),SODA API via OSC transparency endpoints,Yes (likely),Yes (Socrata),Drupal frontend; Socrata-powered data backend
+North Carolina,https://www.nc.gov/government/open-budget,CAT-E/F,SAS Visual Analytics + Power BI + CSV downloads,Download CSVs for historical data; scrape Power BI for contracts,Yes (CSV FY2013-2024),No,SAS VA for budget; Power BI for contracts; CSV bulk downloads
+North Dakota,https://www.omb.nd.gov/financial-transparency,CAT-F,Drupal CMS hub,Follow links to dashboard sub-pages (unknown platform),No,No,Drupal hub; dashboard tech unknown without deeper inspection
+Ohio,https://checkbook.ohio.gov/,CAT-D,Unknown (blocks automated access with WAF),Needs Chrome/Playwright scraping,Unknown,Unknown,Web Application Firewall blocks direct requests
+Oklahoma,https://oklahoma.gov/top.html,CAT-F,Adobe AEM CMS,Follow links to GovDashboard external systems,No,No,AEM-powered hub linking to external dashboards
+Oregon,https://www.oregon.gov/transparency/pages/index.aspx,CAT-C,SharePoint 2016,Scrape SharePoint pages or find underlying lists/API,No,No,SharePoint Publishing with jQuery/Bootstrap
+Pennsylvania,https://www.patreasury.gov/openbookpa/,CAT-D,PHP + Highcharts + jQuery,Scrape PHP endpoints; extract Highcharts data,Yes (CSV/XLSX/PDF),No,PHP backend with extensive Highcharts; built-in export
+Rhode Island,https://transparency.ri.gov/,CAT-F,jQuery + custom CSS (static),Follow links to ri.gov/opengovernment for actual data,No,No,Static hub; expenditure data at opengovernment portal
+South Carolina,https://cg.sc.gov/fiscal-transparency,CAT-F,Drupal CMS,Follow links to applications.sc.gov/SpendingTransparency,No,No,Drupal hub; actual spending app at applications.sc.gov
+South Dakota,https://open.sd.gov/,CAT-A,jQuery + Socrata (southdakota.spending.socrata.com),SODA API via southdakota.spending.socrata.com,Yes (CSV),Yes (SODA),Socrata-hosted checkbook and budget data
+Tennessee,https://www.tn.gov/transparenttn.html,CAT-F,Static CMS (TN.gov platform),Follow links to financial overview and salary search sub-pages,No,No,Static hub; salary search at sub-page
+Texas,https://comptroller.texas.gov/transparency/,CAT-F,Static HTML + Matomo analytics,Download PDFs/Excel files; check sub-pages for data tools,Yes (PDF/Excel),No,Document-heavy; emphasizes downloadable reports
+Utah,https://spending.utah.gov/,CAT-D,Unknown (cert error on WebFetch),Needs Chrome inspection,Unknown,Unknown,Cert issues block automated fetch; works in browser
+Vermont,https://spotlight.vermont.gov/,CAT-D,Unknown (403 on WebFetch),Needs Chrome inspection,Unknown,Unknown,Blocks automated requests; works in browser
+Virginia,https://www.datapoint.apa.virginia.gov/,CAT-D,PHP with template variables ({{fiscalYear}}),Scrape PHP endpoints (dashboard.php?Page=Expenditures),No,No,Lightweight PHP app with template rendering
+Washington,https://fiscal.wa.gov/,CAT-A/F,Webflow + links to data.wa.gov (Socrata),SODA API via data.wa.gov for actual data,Yes (via Socrata),Yes (Socrata),Webflow landing page; data hosted on Socrata
+West Virginia,https://www.wvcheckbook.gov/,CAT-B,OpenGov (stories.opengov.com redirect),OpenGov API extraction or Playwright scrape,Unknown,No (proprietary),Redirects to OpenGov Stories platform
+Wisconsin,https://openbook.wi.gov/,CAT-C,ASP.NET with __VIEWSTATE + Telerik RadTabStrip,Simulate ViewState postbacks with Telerik controls,Yes (ExportWebService),No,Legacy ASP.NET with Telerik UI (2013 vintage); has export
+Wyoming,https://www.wyopen.gov/,CAT-D,jQuery + Bootstrap + WOLFS backend,Scrape search results pages,No,No,Simple jQuery frontend; WOLFS financial system backend
+District of Columbia,https://contracts.ocp.dc.gov/,CAT-D,Bootstrap + Cloudflare + unknown SPA,Needs Chrome inspection past Cloudflare challenge,Unknown,Unknown,Cloudflare-protected; requires JS execution

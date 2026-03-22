@@ -1,0 +1,27 @@
+state: New Jersey
+abbreviation: NJ
+adapter: socrata
+portal:
+  url: https://yourmoney.nj.gov
+socrata:
+  domain: data.nj.gov
+  dataset_id: apet-rp2i
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: ibno_agency
+  vendor_name: payee_name
+  contract_id: ""
+  description: expenditure_desc
+  start_date: fy_through_date
+  end_date: ""
+  amount: expended_amt
+  procurement_method: ""
+  contract_type: expenditure_category
+  commodity_category: statewide_program
+notes: |
+  4,538,876 records. YourMoney Agency Expenditures with payee names.

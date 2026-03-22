@@ -1,0 +1,13 @@
+state: Arkansas
+abbreviation: AR
+adapter: playwright
+portal:
+  url: https://transparency.arkansas.gov/
+playwright:
+  mode: network
+  wait_time: 5
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map: {}
+notes: "Custom backend with CSRF tokens and search form."

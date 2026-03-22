@@ -1,0 +1,31 @@
+state: North Carolina
+abbreviation: NC
+adapter: bulk_download
+portal:
+  url: https://www.nc.gov/government/open-budget
+download:
+  format: csv
+  encoding: utf-8
+  urls:
+    - https://www.nc.gov/nc-vendor-payment-data-fy-2024-q1/download?attachment
+    - https://www.nc.gov/nc-vendor-payment-data-fy-2023/download?attachment
+    - https://www.nc.gov/nc-vendor-payment-data-fy-2022/download?attachment
+    - https://www.nc.gov/nc-vendor-payment-data-fy-2021/download?attachment
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map:
+  agency_name: agency
+  vendor_name: vendor
+  contract_id: ""
+  description: account_description
+  amount: payment_amount
+  start_date: ""
+  end_date: ""
+  contract_type: Major_Category_of_spending
+  procurement_method: ""
+  commodity_category: Budget_code_description
+notes: |
+  Vendor payment CSV downloads from NC Open Budget page.
+  ~47K records per quarter, ~188K per fiscal year.
+  FY2021-2024 available. Budget CSVs also available separately.

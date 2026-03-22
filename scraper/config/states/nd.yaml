@@ -1,0 +1,32 @@
+state: North Dakota
+abbreviation: ND
+adapter: bulk_download
+portal:
+  url: https://www.omb.nd.gov/financial-transparency
+download:
+  format: xlsx
+  encoding: utf-8
+  urls:
+    - https://www.omb.nd.gov/sites/www/files/documents/financial-transparency/transparency/mass_download_checkbook.xlsx
+    - https://www.omb.nd.gov/sites/www/files/documents/financial-transparency/transparency/mass_download_fy25.xlsx
+    - https://www.omb.nd.gov/sites/www/files/documents/financial-transparency/transparency/mass_download_fy24.xlsx
+    - https://www.omb.nd.gov/sites/www/files/documents/financial-transparency/transparency/mass_download_fy23.xlsx
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map:
+  agency_name: Agency
+  vendor_name: Vendor
+  contract_id: ""
+  description: Expenditure Category
+  amount: Amount
+  start_date: Date
+  end_date: ""
+  contract_type: ""
+  procurement_method: ""
+  commodity_category: Detailed Expenditure Category
+notes: |
+  Mass download Excel files from ND OMB Financial Transparency.
+  FY2023-2026 checkbook data, 13-22MB per file.
+  Headers: Biennium, Fiscal Year, Date, Agency, Vendor, CITY, STATE,
+  Expenditure Category, Detailed Expenditure Category, Fund Description, Amount

@@ -1,0 +1,28 @@
+state: Texas
+abbreviation: TX
+adapter: socrata
+portal:
+  url: https://comptroller.texas.gov/transparency/
+socrata:
+  domain: data.texas.gov
+  dataset_id: a743-wj72  # VSR Data for Cooperative & Tele Contracts FY2026
+  app_token: ""
+pagination:
+  page_size: 50000
+rate_limit:
+  requests_per_second: 5
+  delay_between_pages: 0.2
+field_map:
+  agency_name: customer_name
+  vendor_name: vendor_name
+  contract_id: contract_number
+  description: rfo_description
+  amount: purchase_amount
+  start_date: start_date
+  end_date: end_date
+  contract_type: contract_category
+  commodity_category: product_type
+notes: |
+  1.4M records of vendor sales reporting data for cooperative & telecom contracts.
+  Source: TX Dept of Information Resources via data.texas.gov.
+  Fields include fiscal_year, vendor_name, purchase_amount, contract details.

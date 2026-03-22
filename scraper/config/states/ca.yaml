@@ -1,0 +1,13 @@
+state: California
+abbreviation: CA
+adapter: playwright
+portal:
+  url: https://open.fiscal.ca.gov/
+playwright:
+  mode: export
+  wait_time: 5
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map: {}
+notes: "Custom portal. Has Download Expenditures page. 151 departments."

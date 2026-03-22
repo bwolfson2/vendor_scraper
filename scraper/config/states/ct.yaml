@@ -1,0 +1,28 @@
+state: Connecticut
+abbreviation: CT
+adapter: socrata
+portal:
+  url: https://data.ct.gov
+socrata:
+  domain: data.ct.gov
+  dataset_id: jz5u-r6jf  # Open Expenditures - Ledger
+  app_token: ""
+pagination:
+  page_size: 10000
+rate_limit:
+  requests_per_second: 2
+  delay_between_pages: 0.5
+field_map:
+  agency_name: department
+  vendor_name: vendor
+  contract_id: payment_id
+  description: expense_category
+  start_date: payment_date
+  end_date: ""
+  amount: amount
+  procurement_method: payment_method
+  contract_type: service
+  commodity_category: program
+notes: |
+  12,973,905 records. Full state expenditure ledger with vendor, department, amount.
+  Fields include vendor_id, fund, invoice_id, payment_status.

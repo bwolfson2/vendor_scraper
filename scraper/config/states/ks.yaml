@@ -1,0 +1,26 @@
+state: Kansas
+abbreviation: KS
+adapter: ks_download
+portal:
+  url: https://kanview.ks.gov/DataDownload.aspx
+ks_download:
+  fiscal_years: [2025, 2024, 2023, 2022, 2021, 2020]
+  quarters: [1, 2, 3, 4]
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 2
+field_map:
+  agency_name: "Business_Unit_Descr"
+  vendor_name: "Vendor_Name"
+  contract_id: "Document_Number"
+  description: "Account_Descr"
+  amount: "Amount"
+  start_date: "Payment_Date"
+  end_date: ""
+  contract_type: ""
+  procurement_method: ""
+  commodity_category: "Fund_Code_Descr"
+notes: |
+  Downloads vendor payment CSVs from KanView Data Download Center.
+  ~228K records per quarter. FY2011-2025 available (4 quarters each).
+  Using last 6 fiscal years = ~5.5M records estimated.

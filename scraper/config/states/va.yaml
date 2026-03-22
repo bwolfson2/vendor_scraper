@@ -1,0 +1,31 @@
+state: Virginia
+abbreviation: VA
+adapter: bulk_download
+portal:
+  url: https://www.datapoint.apa.virginia.gov/
+download:
+  format: zip
+  encoding: utf-8
+  urls:
+    - https://www.datapoint.apa.virginia.gov/data/extracts/2024/All%20Expenditures%20for%20Fiscal%20Year%202024.zip
+    - https://www.datapoint.apa.virginia.gov/data/extracts/2023/All%20Expenditures%20for%20Fiscal%20Year%202023.zip
+    - https://www.datapoint.apa.virginia.gov/data/extracts/2022/All%20Expenditures%20for%20Fiscal%20Year%202022.zip
+    - https://www.datapoint.apa.virginia.gov/data/extracts/2021/All%20Expenditures%20for%20Fiscal%20Year%202021.zip
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map:
+  agency_name: ""
+  vendor_name: NAME
+  contract_id: VOUCHER_NUMBER
+  description: ""
+  amount: Amount
+  start_date: TRANSACTION_DATE
+  end_date: ""
+  contract_type: ""
+  procurement_method: ""
+  commodity_category: ""
+notes: |
+  ZIP file exports from VA Data Point portal.
+  Each ZIP contains CSV with expenditure data by fiscal year.
+  Fields: NAME, VOUCHER_NUMBER, TRANSACTION_DATE, Amount.

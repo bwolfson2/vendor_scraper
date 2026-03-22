@@ -1,0 +1,22 @@
+state: Alabama
+abbreviation: AL
+adapter: playwright
+portal:
+  url: https://open.alabama.gov/spending_checkbook.aspx
+playwright:
+  mode: table
+  wait_time: 5
+  search_actions:
+    - type: click
+      selector: "a[href*='spending_checkbook']"
+  table_selector: "table.gridview, table[id*=Grid]"
+  next_button: "a:has-text('Next')"
+rate_limit:
+  requests_per_second: 1
+  delay_between_pages: 3
+field_map:
+  agency_name: Agency
+  vendor_name: Payee
+  amount: Amount
+  description: Category
+notes: "ASP.NET with Excel export. Search by Category/Payee/Agency."
