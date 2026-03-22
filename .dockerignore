@@ -1,0 +1,10 @@
+output/
+downloads/
+scraper/output/
+scraper/logs/
+__pycache__/
+*.pyc
+.git/
+.claude/
+.claude-flow/
+.DS_Store
