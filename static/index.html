@@ -3,311 +3,360 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FACTS Vendor Intelligence - Florida Procurement</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Vendor Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <style>
 :root {
-  --bg: #f1f5f9; --surface: #ffffff; --surface2: #e2e8f0; --border: #cbd5e1;
-  --text: #0f172a; --text2: #475569; --accent: #2563eb; --accent2: #1d4ed8;
-  --green: #059669; --yellow: #ca8a04; --red: #dc2626; --orange: #ea580c;
-  --purple: #7c3aed; --cyan: #0891b2; --pink: #db2777; --lime: #65a30d;
-  --bg-deep: #e2e8f0;
-  --surface-glass: rgba(255,255,255,0.8);
-  --border-subtle: #e2e8f0;
-  --border-glow: rgba(37, 99, 235, 0.3);
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
-  --shadow-glow: 0 0 20px rgba(37,99,235,0.1);
-  --header-bg: #0f172a; --header-text: #f1f5f9; --header-text2: #94a3b8;
-  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 20px;
-  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-med: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --bg: #f5f5f5;
+  --surface: #ffffff;
+  --surface2: #f5f2ef;
+  --warm-stone: rgba(245,242,239,0.8);
+  --border: #e8e5e1;
+  --border-subtle: rgba(0,0,0,0.05);
+  --text: #1a1a1a;
+  --text2: #777169;
+  --text3: #a8a29e;
+  --accent: #1a1a1a;
+  --green: #5a8a72;
+  --yellow: #a89258;
+  --red: #a85a5a;
+  --orange: #b07a4a;
+  --purple: #7a6a8a;
+  --blue: #5a7a9a;
+  --shadow-xs: rgba(0,0,0,0.075) 0px 0px 0px 0.5px inset;
+  --shadow-sm: rgba(0,0,0,0.06) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 1px 2px, rgba(0,0,0,0.04) 0px 2px 4px;
+  --shadow-md: rgba(0,0,0,0.06) 0px 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 8px, rgba(0,0,0,0.03) 0px 8px 16px;
+  --shadow-lg: rgba(0,0,0,0.08) 0px 0px 0px 1px, rgba(0,0,0,0.06) 0px 8px 24px, rgba(0,0,0,0.04) 0px 16px 32px;
+  --shadow-warm: rgba(78,50,23,0.04) 0px 6px 16px;
+  --shadow-btn: rgba(0,0,0,0.4) 0px 0px 1px, rgba(0,0,0,0.04) 0px 4px 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 html { scroll-behavior: smooth; }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-a { color: var(--accent); text-decoration: none; cursor: pointer; transition: color var(--transition-fast); }
-a:hover { text-decoration: underline; color: var(--accent2); }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; letter-spacing: 0.16px; -webkit-font-smoothing: antialiased; }
+a { color: var(--text); text-decoration: none; cursor: pointer; transition: color var(--transition); }
+a:hover { color: var(--text2); }
 
-.header { background: var(--header-bg); border-bottom: none; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; height: 56px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
-.header::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent) 0%, var(--green) 50%, var(--accent) 100%); }
-.header h1 { font-size: 17px; font-weight: 700; letter-spacing: -0.3px; display: flex; align-items: center; gap: 10px; color: var(--header-text); }
-.header h1::before { content: '\1F6E1'; font-size: 20px; }
-.header h1 span { color: #60a5fa; font-weight: 800; letter-spacing: 1.5px; font-size: 16px; }
-.header .nav { display: flex; gap: 4px; flex-wrap: wrap; }
-.header .nav button { background: transparent; border: 1px solid transparent; color: var(--header-text2); padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; font-weight: 500; letter-spacing: 0.2px; transition: all var(--transition-fast); position: relative; font-family: inherit; }
-.header .nav button:hover { color: var(--header-text); background: rgba(255,255,255,0.08); }
-.header .nav button.active { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.2); color: #ffffff; font-weight: 600; }
-.header .nav button.active::after { content: ''; position: absolute; bottom: -1px; left: 20%; right: 20%; height: 2px; background: #60a5fa; border-radius: 1px; }
+/* Header */
+.header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 8px 24px; display: flex; align-items: center; gap: 12px; position: sticky; top: 0; z-index: 100; min-height: 60px; box-shadow: var(--shadow-xs); flex-wrap: wrap; }
+.header h1 { font-size: 15px; font-weight: 600; letter-spacing: 0.15px; color: var(--text); white-space: nowrap; }
+.header h1 span { font-weight: 700; letter-spacing: 1px; font-size: 14px; }
+.header h1 .sub { font-size: 12px; font-weight: 400; color: var(--text2); margin-left: 10px; }
+.header .spacer { flex: 1; }
 
-.container { max-width: 1440px; margin: 0 auto; padding: 20px; }
+/* Hamburger */
+.hamburger-btn { background: none; border: 1px solid var(--border); width: 40px; height: 40px; border-radius: var(--radius-sm); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; cursor: pointer; transition: all var(--transition); flex-shrink: 0; }
+.hamburger-btn:hover { background: var(--surface2); border-color: var(--text3); }
+.hamburger-btn span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 1px; transition: all var(--transition); }
+
+/* Sidebar */
+.sidebar-overlay { position: fixed; inset: 0; background: rgba(28,25,23,0.2); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); z-index: 150; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+.sidebar-overlay.open { opacity: 1; pointer-events: auto; }
+.sidebar { position: fixed; top: 0; left: 0; width: 260px; height: 100vh; background: var(--surface); z-index: 151; transform: translateX(-100%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: var(--shadow-lg); display: flex; flex-direction: column; }
+.sidebar.open { transform: translateX(0); }
+.sidebar-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+.sidebar-header h2 { font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.15px; }
+.sidebar-header .close-sidebar { background: none; border: none; color: var(--text2); font-size: 20px; cursor: pointer; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); transition: all var(--transition); }
+.sidebar-header .close-sidebar:hover { background: var(--surface2); color: var(--text); }
+.sidebar-nav { padding: 12px; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.sidebar-nav button { background: transparent; border: none; color: var(--text2); padding: 12px 16px; border-radius: var(--radius-sm); cursor: pointer; font-size: 14px; font-weight: 500; letter-spacing: 0.15px; transition: all var(--transition); font-family: inherit; text-align: left; display: flex; align-items: center; gap: 10px; }
+.sidebar-nav button:hover { color: var(--text); background: var(--surface2); }
+.sidebar-nav button.active { background: var(--text); color: var(--surface); font-weight: 600; }
+.sidebar-nav button .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+/* Global Filters */
+.global-filters { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.global-filters select, .global-filters input[type="date"] { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px; font-family: inherit; letter-spacing: 0.14px; cursor: pointer; transition: all var(--transition); box-shadow: var(--shadow-xs); appearance: auto; }
+.global-filters select:disabled { opacity: 0.5; cursor: not-allowed; }
+.global-filters select:hover, .global-filters input[type="date"]:hover { border-color: var(--text3); }
+.global-filters select:focus, .global-filters input[type="date"]:focus { outline: none; border-color: var(--text2); box-shadow: 0 0 0 3px rgba(0,0,0,0.05); }
+.global-filters .filter-label { font-size: 11px; color: var(--text3); font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; }
+.global-filters .filter-sep { width: 1px; height: 24px; background: var(--border); }
+
+.container { max-width: 1400px; margin: 0 auto; padding: 28px 32px; }
 .page { display: none; opacity: 0; }
-.page.active { display: block; animation: fadeIn 0.25s ease forwards; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.page.active { display: block; animation: fadeIn 0.3s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
-.card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 22px; margin-bottom: 16px; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-med); }
+/* Cards */
+.card { background: var(--surface); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition); }
 .card:hover { box-shadow: var(--shadow-md); }
-.card h2 { font-size: 13px; margin-bottom: 14px; color: var(--text2); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding-bottom: 10px; border-bottom: 1px solid var(--border-subtle); }
-.card h3 { font-size: 14px; margin-bottom: 8px; color: var(--text2); }
+.card h2 { font-size: 13px; margin-bottom: 16px; color: var(--text2); font-weight: 500; letter-spacing: 0.14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle); }
+.card h3 { font-size: 14px; margin-bottom: 8px; color: var(--text2); font-weight: 500; }
 
-.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 24px; }
-.stat-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 18px 14px 14px; text-align: center; position: relative; overflow: hidden; transition: all var(--transition-med); box-shadow: var(--shadow-sm); }
-.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--green)); opacity: 0; transition: opacity var(--transition-med); }
-.stat-card:hover { transform: translateY(-2px); border-color: var(--border-glow); box-shadow: var(--shadow-md), var(--shadow-glow); }
-.stat-card:hover::before { opacity: 1; }
-.stat-card .value { font-size: 26px; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; line-height: 1.2; }
-.stat-card .label { font-size: 11px; color: var(--text2); margin-top: 6px; font-weight: 500; letter-spacing: 0.3px; text-transform: uppercase; }
-.metric .val { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-variant-numeric: tabular-nums; }
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+.stat-card { background: var(--surface); border-radius: var(--radius-md); padding: 20px 16px 16px; text-align: center; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition); }
+.stat-card:hover { box-shadow: var(--shadow-md); }
+.stat-card .value { font-size: 28px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; line-height: 1.2; }
+.stat-card .label { font-size: 11px; color: var(--text2); margin-top: 6px; font-weight: 500; letter-spacing: 0.14px; }
 
-.search-box { display: flex; gap: 8px; margin-bottom: 16px; }
-.search-box input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 12px 18px; border-radius: var(--radius-md); font-size: 14px; outline: none; transition: all var(--transition-fast); font-family: inherit; }
-.search-box input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(59,130,246,0.15); }
-.search-box input::placeholder { color: var(--text2); opacity: 0.6; }
-.search-box button { background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%); border: none; color: white; padding: 12px 24px; border-radius: var(--radius-md); cursor: pointer; font-size: 14px; font-weight: 600; white-space: nowrap; transition: all var(--transition-fast); font-family: inherit; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
-.search-box button:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59,130,246,0.4); }
-.search-box button:active { transform: translateY(0); }
+/* Search */
+.search-box { display: flex; gap: 10px; margin-bottom: 16px; }
+.search-box input { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 12px 20px; border-radius: var(--radius-pill); font-size: 14px; outline: none; transition: all var(--transition); font-family: inherit; letter-spacing: 0.16px; box-shadow: var(--shadow-xs); }
+.search-box input:focus { border-color: var(--text2); box-shadow: 0 0 0 3px rgba(0,0,0,0.04); }
+.search-box input::placeholder { color: var(--text3); }
+.search-box button { background: var(--text); border: none; color: var(--surface); padding: 12px 28px; border-radius: var(--radius-pill); cursor: pointer; font-size: 14px; font-weight: 500; white-space: nowrap; transition: all var(--transition); font-family: inherit; box-shadow: var(--shadow-btn); letter-spacing: 0.15px; }
+.search-box button:hover { opacity: 0.85; }
 
+/* Filters */
 .filters { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
-.filters select { background: var(--surface2); border: 1px solid var(--border-subtle); color: var(--text); padding: 8px 12px; border-radius: var(--radius-sm); font-size: 12px; font-family: inherit; cursor: pointer; transition: border-color var(--transition-fast); }
-.filters select:hover { border-color: var(--accent); }
-.filters select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(59,130,246,0.1); }
+.filters select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 8px 14px; border-radius: var(--radius-pill); font-size: 12px; font-family: inherit; cursor: pointer; transition: all var(--transition); letter-spacing: 0.14px; box-shadow: var(--shadow-xs); }
+.filters select:hover { border-color: var(--text3); }
+.filters select:focus { outline: none; border-color: var(--text2); }
 
-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-th { text-align: left; padding: 10px 12px; color: var(--text2); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; border-bottom: 2px solid var(--border); position: sticky; top: 0; background: var(--surface); backdrop-filter: blur(8px); cursor: pointer; user-select: none; white-space: nowrap; transition: color var(--transition-fast); }
-th:hover { color: var(--accent2); }
-th .sort-arrow { font-size: 10px; margin-left: 3px; opacity: 0.3; transition: opacity var(--transition-fast); }
-th.sort-asc .sort-arrow, th.sort-desc .sort-arrow { opacity: 1; color: var(--accent2); }
-td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); max-width: 220px; overflow: hidden; text-overflow: ellipsis; transition: background var(--transition-fast); }
-tbody tr:nth-child(even) td { background: #f8fafc; }
-tr:hover td { background: rgba(37,99,235,0.04); }
+/* Tables */
+table { width: 100%; border-collapse: collapse; font-size: 13px; letter-spacing: 0.14px; }
+th { text-align: left; padding: 10px 12px; color: var(--text2); font-weight: 500; font-size: 11px; letter-spacing: 0.14px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); cursor: pointer; user-select: none; white-space: nowrap; transition: color var(--transition); }
+th:hover { color: var(--text); }
+th .sort-arrow { font-size: 10px; margin-left: 3px; opacity: 0.3; }
+th.sort-asc .sort-arrow, th.sort-desc .sort-arrow { opacity: 1; color: var(--text); }
+td { padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); max-width: 220px; overflow: hidden; text-overflow: ellipsis; transition: background var(--transition); }
+tbody tr:nth-child(even) td { background: #fafaf9; }
+tr:hover td { background: rgba(120,113,108,0.04); }
 .right { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 
-.tier { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-.tier-PLATINUM { background: #f3e8ff; color: #6d28d9; }
-.tier-GOLD { background: #fef3c7; color: #a16207; }
-.tier-SILVER { background: #f1f5f9; color: #64748b; }
-.tier-BRONZE { background: #fff7ed; color: #c2410c; }
-.tier-UNRATED { background: #f1f5f9; color: #94a3b8; }
+/* Badges */
+.tier { display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.tier-PLATINUM { background: #f0ede8; color: #5a534e; }
+.tier-GOLD { background: #f5f0e4; color: #8a7a5a; }
+.tier-SILVER { background: #f0f0ee; color: #78716c; }
+.tier-BRONZE { background: #f5ede6; color: #9a7a5a; }
+.tier-UNRATED { background: #f0efee; color: #a8a29e; }
 
-.risk { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; }
-.risk-low { background: #ecfdf5; color: #047857; }
-.risk-moderate { background: #fefce8; color: #a16207; }
-.risk-high { background: #fef2f2; color: #b91c1c; }
+.risk { display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.risk-low { background: #eef3ee; color: #5a8a72; }
+.risk-moderate { background: #f5f0e4; color: #a89258; }
+.risk-high { background: #f5eaea; color: #a85a5a; }
 
-.status { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
-.status-ACTIVE { background: #ecfdf5; color: #047857; }
-.status-COMPLETED { background: #eff6ff; color: #1d4ed8; }
-.status-CANCELLED { background: #fef2f2; color: #b91c1c; }
-.status-IN_PROGRESS { background: #fefce8; color: #a16207; }
+.status { display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
+.status-ACTIVE { background: #eef3ee; color: #5a8a72; }
+.status-COMPLETED { background: #eef0f5; color: #5a7a9a; }
+.status-CANCELLED { background: #f5eaea; color: #a85a5a; }
+.status-IN_PROGRESS { background: #f5f0e4; color: #a89258; }
 
 .score-bar { display: inline-flex; align-items: center; gap: 6px; }
-.score-bar .bar { width: 60px; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+.score-bar .bar { width: 60px; height: 5px; background: #e8e5e1; border-radius: 3px; overflow: hidden; }
 .score-bar .bar .fill { height: 100%; border-radius: 3px; }
 
 /* Modals */
-.modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 200; display: none; overflow-y: auto; }
+.modal-overlay { position: fixed; inset: 0; background: rgba(28,25,23,0.25); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); z-index: 200; display: none; overflow-y: auto; }
 .modal-overlay.open { display: block; }
-.modal-panel { max-width: 1000px; margin: 40px auto; background: var(--bg); border-radius: var(--radius-xl); border: 1px solid var(--border-subtle); box-shadow: var(--shadow-lg); overflow: hidden; animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-@keyframes modalSlideIn { from { opacity: 0.8; transform: translateY(16px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes modalSlideOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(12px) scale(0.98); } }
-.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: start; background: linear-gradient(180deg, #f8fafc 0%, transparent 100%); }
-.modal-header h2 { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; }
-.modal-header .close-btn { background: var(--surface2); border: 1px solid var(--border-subtle); color: var(--text); width: 32px; height: 32px; border-radius: var(--radius-sm); cursor: pointer; font-size: 18px; transition: all var(--transition-fast); }
-.modal-header .close-btn:hover { background: var(--red); border-color: var(--red); }
+.modal-panel { max-width: 1000px; margin: 40px auto; background: var(--surface); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; animation: modalSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+@keyframes modalSlideIn { from { opacity: 0.8; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes modalSlideOut { from { opacity: 1; } to { opacity: 0; transform: translateY(8px) scale(0.98); } }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: start; }
+.modal-header h2 { font-size: 18px; font-weight: 600; letter-spacing: -0.2px; }
+.modal-header .close-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text2); width: 32px; height: 32px; border-radius: var(--radius-sm); cursor: pointer; font-size: 18px; transition: all var(--transition); }
+.modal-header .close-btn:hover { background: #f5eaea; color: var(--red); }
 .modal-body { padding: 24px; }
-.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
-.metric { background: var(--surface); border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border-subtle); transition: border-color var(--transition-fast); }
-.metric:hover { border-color: var(--border-glow); }
-.metric .val { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.metric .lbl { font-size: 11px; color: var(--text2); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
+.metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.metric { background: #fafaf9; border-radius: var(--radius-sm); padding: 14px; border: 1px solid var(--border-subtle); }
+.metric .val { font-size: 18px; font-weight: 600; font-variant-numeric: tabular-nums; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.metric .lbl { font-size: 11px; color: var(--text2); margin-top: 2px; letter-spacing: 0.14px; }
 .section { margin-bottom: 24px; }
-.section h3 { font-size: 12px; color: var(--text2); margin-bottom: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; }
+.section h3 { font-size: 12px; color: var(--text2); margin-bottom: 12px; font-weight: 500; letter-spacing: 0.14px; padding-bottom: 8px; border-bottom: 1px solid var(--border-subtle); }
 
-.chart-container { position: relative; height: 280px; margin-bottom: 16px; padding: 8px; background: #f8fafc; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle); }
+.chart-container { position: relative; height: 280px; margin-bottom: 16px; padding: 8px; background: #fafaf9; border-radius: var(--radius-sm); }
 
 /* Procure */
-.procure-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 14px; }
-.procure-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 18px; cursor: pointer; transition: all var(--transition-med); box-shadow: var(--shadow-sm); position: relative; overflow: hidden; }
-.procure-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); opacity: 0; transition: opacity var(--transition-fast); }
-.procure-card:hover { border-color: var(--border-glow); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-.procure-card:hover::before { opacity: 1; }
+.procure-results { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; }
+.procure-card { background: var(--surface); border-radius: var(--radius-lg); padding: 20px; cursor: pointer; transition: all var(--transition); box-shadow: var(--shadow-sm); }
+.procure-card:hover { box-shadow: var(--shadow-md); }
 .procure-card .vendor-name { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
-.procure-card .commodity { font-size: 12px; color: var(--accent2); margin-bottom: 8px; }
+.procure-card .commodity { font-size: 12px; color: var(--text2); margin-bottom: 8px; }
 .procure-card .mini-stats { display: flex; gap: 16px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
 .procure-card .mini-stats strong { color: var(--text); }
 
 /* Score tooltip */
 .score-tip { position: relative; cursor: help; }
-.score-tip .tip-content { display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; width: 290px; z-index: 300; box-shadow: var(--shadow-lg); pointer-events: none; opacity: 0; transition: opacity 0.15s ease; }
+.score-tip .tip-content { display: none; position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px 18px; width: 290px; z-index: 300; box-shadow: var(--shadow-lg); pointer-events: none; opacity: 0; transition: opacity 0.15s ease; }
 .score-tip:hover .tip-content { display: block; opacity: 1; pointer-events: auto; }
 .tip-content h4 { font-size: 13px; font-weight: 600; margin-bottom: 8px; }
 .tip-content .tip-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; font-size: 12px; }
 .tip-content .tip-row .tip-label { color: var(--text2); }
 .tip-content .tip-row .tip-val { font-weight: 600; min-width: 40px; text-align: right; }
-.tip-content .tip-bar-bg { flex: 1; height: 5px; background: var(--surface2); border-radius: 3px; margin: 0 8px; overflow: hidden; }
+.tip-content .tip-bar-bg { flex: 1; height: 5px; background: #e8e5e1; border-radius: 3px; margin: 0 8px; overflow: hidden; }
 .tip-content .tip-bar-fill { height: 100%; border-radius: 3px; }
-.tip-content .tip-total { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
-.tip-content .tip-desc { font-size: 11px; color: var(--text2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.4; }
+.tip-content .tip-total { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; }
+.tip-content .tip-desc { font-size: 11px; color: var(--text2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-subtle); line-height: 1.4; }
 
 .score-legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--text2); }
 .score-legend .legend-item { display: flex; align-items: center; gap: 4px; }
 .score-legend .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
 
-/* Breadcrumb */
 .breadcrumb { font-size: 13px; color: var(--text2); margin-bottom: 12px; }
-.breadcrumb a { color: var(--accent2); }
-
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
 @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
 
-/* loading/empty moved to end of stylesheet */
-
 /* HHI badge */
-.hhi-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.3px; }
+.hhi-badge { display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill); font-size: 10px; font-weight: 600; letter-spacing: 0.3px; }
 
 /* Letter grades */
-.grade { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 8px; font-size: 16px; font-weight: 800; letter-spacing: -0.5px; transition: all var(--transition-med); box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-.grade:hover, .dept-card:hover .grade, .vg-card:hover .grade { transform: scale(1.08); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.grade { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; letter-spacing: -0.5px; transition: all var(--transition); }
 .grade-sm { width: 32px; height: 32px; font-size: 13px; border-radius: 6px; }
-.grade-lg { width: 64px; height: 64px; font-size: 26px; border-radius: 12px; }
-.grade-xl { width: 90px; height: 90px; font-size: 36px; border-radius: 16px; }
-.grade-A\+ { background: #059669; color: #ffffff; border: 2px solid #059669; }
-.grade-A { background: #10b981; color: #ffffff; border: 2px solid #10b981; }
-.grade-A- { background: #34d399; color: #064e3b; border: 2px solid #34d399; }
-.grade-B\+ { background: #2563eb; color: #ffffff; border: 2px solid #2563eb; }
-.grade-B { background: #3b82f6; color: #ffffff; border: 2px solid #3b82f6; }
-.grade-B- { background: #60a5fa; color: #1e3a5f; border: 2px solid #60a5fa; }
-.grade-C\+ { background: #ca8a04; color: #ffffff; border: 2px solid #ca8a04; }
-.grade-C { background: #eab308; color: #422006; border: 2px solid #eab308; }
-.grade-C- { background: #fbbf24; color: #422006; border: 2px solid #fbbf24; }
-.grade-D\+ { background: #ea580c; color: #ffffff; border: 2px solid #ea580c; }
-.grade-D { background: #f97316; color: #ffffff; border: 2px solid #f97316; }
-.grade-D- { background: #fb923c; color: #431407; border: 2px solid #fb923c; }
-.grade-F { background: #dc2626; color: #ffffff; border: 2px solid #dc2626; }
+.grade-lg { width: 64px; height: 64px; font-size: 26px; border-radius: var(--radius-md); }
+.grade-xl { width: 80px; height: 80px; font-size: 32px; border-radius: var(--radius-lg); }
+.grade-A\+ { background: #e8f0e8; color: #4a7a5a; }
+.grade-A { background: #eaf2ea; color: #5a8a6a; }
+.grade-A- { background: #ecf4ec; color: #6a9a7a; }
+.grade-B\+ { background: #e8eef5; color: #4a6a8a; }
+.grade-B { background: #eaf0f5; color: #5a7a9a; }
+.grade-B- { background: #ecf2f5; color: #6a8aaa; }
+.grade-C\+ { background: #f5f0e4; color: #8a7a4a; }
+.grade-C { background: #f5f2e8; color: #9a8a5a; }
+.grade-C- { background: #f5f4ec; color: #aa9a6a; }
+.grade-D\+ { background: #f5ece4; color: #9a6a4a; }
+.grade-D { background: #f5eee8; color: #aa7a5a; }
+.grade-D- { background: #f5f0ec; color: #ba8a6a; }
+.grade-F { background: #f5eaea; color: #a85a5a; }
 
 /* Performance page */
-.perf-state-banner { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 50%, #0f172a 100%); color: #f1f5f9 !important; border: none; border-radius: var(--radius-xl); padding: 32px; margin-bottom: 24px; display: flex; gap: 28px; align-items: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
-.perf-state-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--accent), var(--purple)); }
-.perf-state-banner * { color: #e2e8f0; }
-.perf-state-banner h2 { color: #ffffff !important; }
+.perf-state-banner { background: var(--surface); border-radius: var(--radius-xl); padding: 32px; margin-bottom: 24px; display: flex; gap: 28px; align-items: center; box-shadow: var(--shadow-md); position: relative; overflow: hidden; }
+.perf-state-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--green), var(--blue), var(--purple)); opacity: 0.6; }
 .perf-state-banner .grade-box { text-align: center; }
-.perf-state-banner .grade-box .grade-label { font-size: 11px; color: #94a3b8 !important; margin-top: 6px; }
+.perf-state-banner .grade-box .grade-label { font-size: 11px; color: var(--text3); margin-top: 6px; }
 .perf-state-banner .state-info { flex: 1; }
-.perf-state-banner .state-info h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
-.perf-state-banner .state-info .subtitle { color: #94a3b8 !important; font-size: 13px; }
+.perf-state-banner .state-info h2 { font-size: 20px; font-weight: 600; margin-bottom: 4px; letter-spacing: -0.2px; }
+.perf-state-banner .state-info .subtitle { color: var(--text2); font-size: 13px; letter-spacing: 0.14px; }
 .perf-sub-scores { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
 .perf-sub-scores .sub-item { flex: 1; min-width: 120px; }
-.perf-sub-scores .sub-label { font-size: 11px; color: #94a3b8 !important; margin-bottom: 4px; }
-.perf-sub-scores .sub-bar { height: 8px; background: rgba(255,255,255,0.15); border-radius: 4px; overflow: hidden; }
-.perf-sub-scores .sub-fill { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
-.perf-sub-scores .sub-val { font-size: 12px; font-weight: 600; margin-top: 2px; color: #e2e8f0 !important; }
+.perf-sub-scores .sub-label { font-size: 11px; color: var(--text2); margin-bottom: 4px; }
+.perf-sub-scores .sub-bar { height: 6px; background: #e8e5e1; border-radius: 3px; overflow: hidden; }
+.perf-sub-scores .sub-fill { height: 100%; border-radius: 3px; transition: width 0.6s ease; }
+.perf-sub-scores .sub-val { font-size: 12px; font-weight: 600; margin-top: 2px; }
 
-.dept-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; margin-bottom: 10px; cursor: pointer; transition: all var(--transition-med); display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; box-shadow: var(--shadow-sm); }
-.dept-card:hover { border-color: var(--accent); background: #f8fafc; box-shadow: var(--shadow-md); transform: translateX(4px); }
+.dept-card { background: var(--surface); border-radius: var(--radius-md); padding: 16px; margin-bottom: 10px; cursor: pointer; transition: all var(--transition); display: grid; grid-template-columns: 52px 1fr auto; gap: 16px; align-items: center; box-shadow: var(--shadow-sm); }
+.dept-card:hover { box-shadow: var(--shadow-md); }
 .dept-card .dept-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-.dept-card .dept-meta { display: flex; gap: 16px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
+.dept-card .dept-meta { display: flex; gap: 16px; font-size: 12px; color: var(--text2); flex-wrap: wrap; letter-spacing: 0.14px; }
 .dept-card .dept-meta strong { color: var(--text); }
 .dept-card .dept-right { text-align: right; min-width: 100px; }
-.dept-card .dept-right .spend { font-size: 16px; font-weight: 600; color: var(--accent); }
+.dept-card .dept-right .spend { font-size: 16px; font-weight: 600; }
 .dept-card .dept-right .count { font-size: 11px; color: var(--text2); }
 
 .vendor-perf-row { display: grid; grid-template-columns: 36px 1fr auto auto auto auto; gap: 12px; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--border-subtle); font-size: 13px; }
-.vendor-perf-row:hover { background: rgba(37,99,235,0.03); }
-.vendor-perf-row .vp-name { font-weight: 500; }
-.vendor-perf-row .vp-meta { font-size: 11px; color: var(--text2); }
-.vendor-perf-header { font-weight: 500; color: var(--text2); border-bottom: 1px solid var(--border); }
+.vendor-perf-row:hover { background: rgba(120,113,108,0.03); }
 
-.perf-sort-bar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; font-size: 13px; color: var(--text2); flex-wrap: wrap; }
-.perf-sort-bar select { background: var(--surface2); border: 1px solid var(--border-subtle); color: var(--text); padding: 6px 10px; border-radius: var(--radius-sm); font-size: 12px; font-family: inherit; cursor: pointer; transition: border-color var(--transition-fast); }
-.perf-sort-bar select:hover { border-color: var(--accent); }
+.perf-sort-bar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; font-size: 13px; color: var(--text2); flex-wrap: wrap; letter-spacing: 0.14px; }
+.perf-sort-bar select { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: var(--radius-pill); font-size: 12px; font-family: inherit; cursor: pointer; transition: all var(--transition); box-shadow: var(--shadow-xs); }
+.perf-sort-bar select:hover { border-color: var(--text3); }
 
 .grade-legend { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
-.grade-legend .gl-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text2); }
 
 /* View toggle tabs */
 .view-tabs { display: flex; gap: 0; margin-bottom: 16px; }
-.view-tabs button { flex: 1; background: var(--surface); border: 1px solid var(--border-subtle); color: var(--text2); padding: 10px 16px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all var(--transition-fast); font-family: inherit; }
-.view-tabs button:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); }
-.view-tabs button:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
-.view-tabs button:hover { background: rgba(59,130,246,0.08); color: var(--text); }
-.view-tabs button.active { background: linear-gradient(135deg, var(--accent) 0%, #2563eb 100%); border-color: var(--accent); color: white; font-weight: 600; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+.view-tabs button { flex: 1; background: var(--surface); border: 1px solid var(--border); color: var(--text2); padding: 10px 16px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all var(--transition); font-family: inherit; letter-spacing: 0.15px; }
+.view-tabs button:first-child { border-radius: var(--radius-pill) 0 0 var(--radius-pill); }
+.view-tabs button:last-child { border-radius: 0 var(--radius-pill) var(--radius-pill) 0; }
+.view-tabs button:hover { background: var(--surface2); color: var(--text); }
+.view-tabs button.active { background: var(--text); border-color: var(--text); color: var(--surface); font-weight: 600; }
 
 /* Score breakdown card */
-.score-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+.score-card { background: var(--surface); border-radius: var(--radius-md); padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
 .score-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
 .score-card h4 .formula { font-size: 11px; font-weight: 400; color: var(--text2); }
 .score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
 .score-row .score-label { width: 110px; font-size: 12px; color: var(--text2); }
-.score-row .score-bar-track { flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
-.score-row .score-bar-fill { height: 100%; border-radius: 5px; transition: width 0.4s ease; }
+.score-row .score-bar-track { flex: 1; height: 8px; background: #e8e5e1; border-radius: 4px; overflow: hidden; }
+.score-row .score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
 .score-row .score-val { width: 50px; text-align: right; font-size: 12px; font-weight: 600; }
 .score-row .score-weight { width: 35px; text-align: right; font-size: 10px; color: var(--text2); }
 .score-row .score-icon { width: 18px; font-size: 14px; text-align: center; }
 
-/* Vendor grade card (for vendor view) */
-.vg-card { background: var(--surface); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 8px; display: grid; grid-template-columns: 42px 1fr 200px auto; gap: 14px; align-items: center; cursor: pointer; transition: all var(--transition-med); box-shadow: var(--shadow-sm); }
-.vg-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateX(4px); }
+/* Vendor grade card */
+.vg-card { background: var(--surface); border-radius: var(--radius-md); padding: 14px 16px; margin-bottom: 8px; display: grid; grid-template-columns: 42px 1fr 200px auto; gap: 14px; align-items: center; cursor: pointer; transition: all var(--transition); box-shadow: var(--shadow-sm); }
+.vg-card:hover { box-shadow: var(--shadow-md); }
 .vg-card .vg-info h3 { font-size: 14px; font-weight: 600; margin-bottom: 3px; }
 .vg-card .vg-info h3 a { color: var(--text); }
-.vg-card .vg-info h3 a:hover { color: var(--accent2); }
+.vg-card .vg-info h3 a:hover { color: var(--text2); }
 .vg-card .vg-badges { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
 .vg-card .vg-stats { display: flex; gap: 12px; font-size: 12px; color: var(--text2); flex-wrap: wrap; }
 .vg-card .vg-stats strong { color: var(--text); }
 .vg-card .vg-bars { display: flex; flex-direction: column; gap: 3px; }
 .vg-card .vg-right { text-align: right; }
-.vg-card .vg-right .spend { font-size: 15px; font-weight: 600; color: var(--accent); }
+.vg-card .vg-right .spend { font-size: 15px; font-weight: 600; }
 .vg-card .vg-right .count { font-size: 11px; color: var(--text2); }
 
 .mini-bar-labeled { display: flex; align-items: center; gap: 4px; font-size: 10px; }
 .mini-bar-labeled .mbl-label { width: 60px; color: var(--text2); text-align: right; }
-.mini-bar-labeled .mbl-track { width: 80px; height: 5px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
-.mini-bar-labeled .mbl-fill { height: 100%; border-radius: 3px; }
+.mini-bar-labeled .mbl-track { width: 80px; height: 4px; background: #e8e5e1; border-radius: 2px; overflow: hidden; }
+.mini-bar-labeled .mbl-fill { height: 100%; border-radius: 2px; }
 .mini-bar-labeled .mbl-val { width: 28px; font-weight: 600; }
 
 /* Grade distribution bar */
-.grade-dist { display: flex; height: 24px; border-radius: 6px; overflow: hidden; margin-bottom: 16px; }
+.grade-dist { display: flex; height: 24px; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 16px; }
 .grade-dist .gd-seg { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; min-width: 1px; transition: all 0.3s; }
 
 @media (max-width: 800px) { .vg-card { grid-template-columns: 42px 1fr auto; } .vg-card .vg-bars { display: none; } }
+@media (max-width: 900px) { .header { padding: 8px 12px; gap: 4px; min-height: auto; } .header .spacer { flex-basis: 100%; height: 0; } .global-filters { gap: 4px; width: 100%; justify-content: flex-start; } .global-filters .filter-label { display: none; } .global-filters .filter-sep { display: none; } .header h1 .sub { display: none; } }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: #f1f5f9; }
-::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+::selection { background: rgba(120,113,108,0.15); color: var(--text); }
+:focus-visible { outline: 2px solid var(--text2); outline-offset: 2px; }
 
-/* Text selection */
-::selection { background: rgba(37,99,235,0.2); color: var(--text); }
-
-/* Focus visible for keyboard nav */
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-
-/* Skeleton loading */
+/* Skeleton */
 @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
-.skeleton { background: linear-gradient(90deg, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
+.skeleton { background: linear-gradient(90deg, #e8e5e1 25%, #f0ede8 50%, #e8e5e1 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; border-radius: var(--radius-sm); }
 .skeleton-stat { height: 32px; margin-bottom: 6px; width: 60%; margin-left: auto; margin-right: auto; }
 .skeleton-text { height: 14px; margin-bottom: 8px; width: 80%; }
-
-/* Loading & empty states */
-.loading { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }
-.empty { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; }
+.loading { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; letter-spacing: 0.14px; }
+.empty { text-align: center; padding: 40px; color: var(--text2); font-size: 13px; letter-spacing: 0.14px; }
 </style>
 </head>
 <body>
 
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2>Navigation</h2>
+    <button class="close-sidebar" onclick="toggleSidebar()">&times;</button>
+  </div>
+  <div class="sidebar-nav">
+    <button class="active" data-page="dashboard" onclick="navTo('dashboard')"><span class="nav-icon">&#9632;</span>Dashboard</button>
+    <button data-page="analytics" onclick="navTo('analytics')"><span class="nav-icon">&#9650;</span>Analytics</button>
+    <button data-page="vendors" onclick="navTo('vendors')"><span class="nav-icon">&#9679;</span>Vendors</button>
+    <button data-page="contracts" onclick="navTo('contracts')"><span class="nav-icon">&#9644;</span>Contracts</button>
+    <button data-page="procure" onclick="navTo('procure')"><span class="nav-icon">&#9733;</span>Find Vendors</button>
+    <button data-page="performance" onclick="navTo('performance')"><span class="nav-icon">&#9670;</span>Performance</button>
+  </div>
+</div>
+
 <div class="header">
-  <h1><span>FACTS</span> Vendor Intelligence <span style="font-size:10px;font-weight:400;color:var(--header-text2);margin-left:8px;letter-spacing:0;">Florida Procurement</span></h1>
-  <div class="nav">
-    <button class="active" data-page="dashboard" onclick="navTo('dashboard')">Dashboard</button>
-    <button data-page="analytics" onclick="navTo('analytics')">Analytics</button>
-    <button data-page="vendors" onclick="navTo('vendors')">Vendors</button>
-    <button data-page="contracts" onclick="navTo('contracts')">Contracts</button>
-    <button data-page="procure" onclick="navTo('procure')">Find Vendors</button>
-    <button data-page="performance" onclick="navTo('performance')">Performance</button>
+  <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <h1><span>FACTS</span> Vendor Intelligence<span class="sub" id="header-subtitle">Procurement Intelligence</span></h1>
+  <div class="spacer"></div>
+  <div class="global-filters">
+    <span class="filter-label">State</span>
+    <select id="filter-state" onchange="onFilterChange()">
+      <option value="">All States</option>
+    </select>
+    <div class="filter-sep"></div>
+    <span class="filter-label">Agency</span>
+    <select id="filter-agency" onchange="onFilterChange()">
+      <option value="">All Agencies</option>
+    </select>
+    <div class="filter-sep"></div>
+    <span class="filter-label">From</span>
+    <select id="filter-year-from" onchange="onFilterChange()">
+      <option value="">Year</option>
+    </select>
+    <span class="filter-label">To</span>
+    <select id="filter-year-to" onchange="onFilterChange()">
+      <option value="">Year</option>
+    </select>
   </div>
 </div>
 
@@ -370,14 +419,10 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   <!-- PERFORMANCE -->
   <div id="page-performance" class="page">
     <div id="perf-state-banner" class="perf-state-banner"></div>
-
-    <!-- Dept/Vendor toggle -->
     <div class="view-tabs">
       <button id="tab-depts" class="active" onclick="switchPerfView('depts')">Departments</button>
       <button id="tab-vendors" onclick="switchPerfView('vendors')">Vendors</button>
     </div>
-
-    <!-- DEPARTMENTS VIEW -->
     <div id="perf-view-depts">
       <div id="perf-dept-score-card"></div>
       <div class="perf-sort-bar">
@@ -392,8 +437,6 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       </div>
       <div id="perf-dept-list"></div>
     </div>
-
-    <!-- VENDORS VIEW -->
     <div id="perf-view-vendors" style="display:none;">
       <div id="perf-vendor-score-card"></div>
       <div id="perf-vendor-dist"></div>
@@ -409,35 +452,22 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
         </select>
         <span>Grade:</span>
         <select id="perf-vendor-grade-filter" onchange="loadVendorPerf()">
-          <option value="">All</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
+          <option value="">All</option><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="D">D</option><option value="F">F</option>
         </select>
         <span>Tier:</span>
         <select id="perf-vendor-tier-filter" onchange="loadVendorPerf()">
-          <option value="">All</option>
-          <option value="PLATINUM">Platinum</option>
-          <option value="GOLD">Gold</option>
-          <option value="SILVER">Silver</option>
-          <option value="BRONZE">Bronze</option>
+          <option value="">All</option><option value="PLATINUM">Platinum</option><option value="GOLD">Gold</option><option value="SILVER">Silver</option><option value="BRONZE">Bronze</option>
         </select>
         <span>Min Records:</span>
         <select id="perf-vendor-min-records" onchange="loadVendorPerf()">
-          <option value="3">3+</option>
-          <option value="10">10+</option>
-          <option value="25">25+</option>
-          <option value="50">50+</option>
-          <option value="100">100+</option>
+          <option value="3">3+</option><option value="10">10+</option><option value="25">25+</option><option value="50">50+</option><option value="100">100+</option>
         </select>
       </div>
       <div id="perf-vendor-list"><div class="loading">Loading vendor grades...</div></div>
     </div>
   </div>
 
-  <!-- DEPT VENDORS PANEL (slides open inside performance page) -->
+  <!-- DEPT VENDORS MODAL -->
   <div class="modal-overlay" id="dept-vendor-modal" onclick="if(event.target===this)closeModal('dept-vendor-modal')">
     <div class="modal-panel" style="max-width:1100px;">
       <div class="modal-header">
@@ -452,7 +482,7 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   <div id="page-procure" class="page">
     <div class="card" style="margin-bottom:20px;">
       <h2>What do you need to procure?</h2>
-      <p style="color:var(--text2); font-size:13px; margin-bottom:12px;">Describe what you need and we'll find vendors with relevant experience</p>
+      <p style="color:var(--text2); font-size:13px; margin-bottom:12px; letter-spacing:0.14px;">Describe what you need and we'll find vendors with relevant experience</p>
       <div class="search-box">
         <input id="procure-search" placeholder="e.g. cybersecurity consulting, building maintenance, medical supplies..." onkeydown="if(event.key==='Enter')searchProcure()">
         <button onclick="searchProcure()">Find Vendors</button>
@@ -489,12 +519,106 @@ button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
 <script>
 const API = '';
-const COLORS = ['#2563eb','#7c3aed','#059669','#ca8a04','#dc2626','#0891b2','#db2777','#ea580c','#65a30d','#4f46e5','#0d9488','#e11d48','#6d28d9','#0284c7','#c026d3'];
+const COLORS = ['#78716c','#a8a29e','#5a8a72','#a89258','#a85a5a','#5a7a9a','#7a6a8a','#b07a4a','#6a9a7a','#8a7a5a','#5a6a7a','#9a6a5a','#7a8a6a','#6a7a8a','#8a6a7a'];
 let charts = {};
+
+// ── Global Filter State ─────────────────────────────────────────────
+let gf = { state: '', agency: '', yearStart: '', yearEnd: '' };
+let metaData = null; // store /api/meta/filters response
+
+function filterParams() {
+  let p = '';
+  if (gf.state) p += `&state=${encodeURIComponent(gf.state)}`;
+  if (gf.agency) p += `&agency=${encodeURIComponent(gf.agency)}`;
+  if (gf.yearStart) p += `&year_start=${gf.yearStart}`;
+  if (gf.yearEnd) p += `&year_end=${gf.yearEnd}`;
+  return p;
+}
+
+async function initFilters() {
+  // Load state metadata
+  metaData = await api('/api/meta/filters');
+  const stateSel = $('filter-state');
+  stateSel.innerHTML = '<option value="">All States</option>' +
+    metaData.states.sort((a,b) => (a.state||a.state_abbr).localeCompare(b.state||b.state_abbr)).map(s => {
+      const label = s.state || s.state_abbr;
+      return `<option value="${esc(s.state_abbr)}">${esc(label)} (${fmtC(s.records)})</option>`;
+    }).join('');
+
+  // Populate year selectors
+  if (metaData.year_range) {
+    const minY = Math.max(2000, metaData.year_range.min || 2000);
+    const maxY = Math.min(2030, metaData.year_range.max || 2026);
+    const fromSel = $('filter-year-from');
+    const toSel = $('filter-year-to');
+    let yearOpts = '<option value="">Year</option>';
+    for (let y = minY; y <= maxY; y++) yearOpts += `<option value="${y}">${y}</option>`;
+    fromSel.innerHTML = yearOpts;
+    toSel.innerHTML = yearOpts;
+  }
+
+  // Load agencies
+  await loadAgencies();
+
+  // Update subtitle
+  updateSubtitle();
+}
+
+async function loadAgencies() {
+  const sel = $('filter-agency');
+  if (!gf.state) {
+    sel.innerHTML = '<option value="">Select a state first</option>';
+    sel.disabled = true;
+    gf.agency = '';
+    return;
+  }
+  sel.disabled = false;
+  const data = await api('/api/filters/agencies?state=' + encodeURIComponent(gf.state));
+  const prev = sel.value;
+  sel.innerHTML = '<option value="">All Agencies</option>' +
+    data.results.map(a => `<option value="${esc(a)}">${esc(a)}</option>`).join('');
+  if (prev && Array.from(sel.options).some(o => o.value === prev)) sel.value = prev;
+  else { sel.value = ''; gf.agency = ''; }
+}
+
+function updateSubtitle() {
+  const sub = $('header-subtitle');
+  if (gf.state && metaData) {
+    const st = metaData.states.find(s => s.state_abbr === gf.state);
+    sub.textContent = st ? st.state + ' Procurement' : gf.state + ' Procurement';
+  } else {
+    sub.textContent = 'Multi-State Procurement Intelligence';
+  }
+}
+
+function toggleSidebar() {
+  $('sidebar').classList.toggle('open');
+  $('sidebar-overlay').classList.toggle('open');
+}
+
+function onFilterChange() {
+  const prevState = gf.state;
+  gf.state = $('filter-state').value;
+  gf.agency = $('filter-agency').value;
+  gf.yearStart = $('filter-year-from').value;
+  gf.yearEnd = $('filter-year-to').value;
+  // If state changed, reload agencies
+  if (prevState !== gf.state) loadAgencies();
+  updateSubtitle();
+  // Reset loaded flags
+  window._dashLoaded = false;
+  window._analyticsLoaded = false;
+  window._perfLoaded = false;
+  window._vendorPerfLoaded = false;
+  // Reload current page
+  const active = document.querySelector('.sidebar-nav button.active');
+  if (active) navTo(active.dataset.page);
+}
 
 // ── Helpers ──────────────────────────────────────────────────────────
 function $(id) { return document.getElementById(id); }
 function fmt(n) { return n == null ? '-' : Number(n).toLocaleString('en-US'); }
+function fmtC(n) { if(n==null)return'-'; n=Number(n); const a=Math.abs(n); if(a>=1e9)return(n/1e9).toFixed(1)+'B'; if(a>=1e6)return(n/1e6).toFixed(1)+'M'; if(a>=1e3)return(n/1e3).toFixed(1)+'K'; return n.toString(); }
 function fmtD(n) { if(n==null)return'-'; n=Number(n); const a=Math.abs(n); if(a>=1e12)return'$'+(n/1e12).toFixed(1)+'T'; if(a>=1e9)return'$'+(n/1e9).toFixed(1)+'B'; if(a>=1e6)return'$'+(n/1e6).toFixed(1)+'M'; if(a>=1e4)return'$'+(n/1e3).toFixed(1)+'K'; return '$'+n.toLocaleString('en-US',{maximumFractionDigits:0}); }
 function fmtDFull(n) { return n == null ? '-' : '$' + Number(n).toLocaleString('en-US', {maximumFractionDigits:0}); }
 function fmtPct(n) { return n == null ? '-' : (n * 100).toFixed(1) + '%'; }
@@ -503,103 +627,104 @@ function statusBadge(s) { return s ? `<span class="status status-${s}">${s}</spa
 function riskBadge(r) { r = r||0; return r<0.05?'<span class="risk risk-low">LOW RISK</span>':r<0.15?'<span class="risk risk-moderate">MODERATE</span>':'<span class="risk risk-high">HIGH RISK</span>'; }
 function hhiBadge(h) { const c = h<1500?'var(--green)':h<2500?'var(--yellow)':'var(--red)'; const l = h<1500?'Competitive':h<2500?'Moderate':'Concentrated'; return `<span class="hhi-badge" style="background:${c}22;color:${c}">${l} (HHI: ${h})</span>`; }
 function esc(s) { if(!s)return''; const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
-function scoreColor(s) { return s>=75?'var(--purple)':s>=55?'var(--accent)':s>=35?'var(--text2)':'var(--orange)'; }
+function scoreColor(s) { return s>=75?'var(--purple)':s>=55?'var(--blue)':s>=35?'var(--text2)':'var(--orange)'; }
 function scoreFill(s) { const p=Math.min(100,(s/100)*100); return `<div class="score-bar"><span>${s?.toFixed(1)||'-'}</span><div class="bar"><div class="fill" style="width:${p}%;background:${scoreColor(s)}"></div></div></div>`; }
 
 function scoreBreakdown(v) {
-  if(!v||v.vendor_score==null) return null;
-  const lon=Math.min(20,(v.years_active||0)*2), vol=Math.min(20,v.total_records>0?Math.log(v.total_records)*4:0);
-  const bre=Math.min(15,(v.num_agencies_served||0)*1.5), rel=25*(1-Math.min(1,(v.cancellation_rate||0)*5));
-  const comp=v.total_records>0?10*(v.completed_contracts||0)/v.total_records:0;
-  let rec=0; if(v.last_contract_date){const d=(Date.now()-new Date(v.last_contract_date))/(365.25*864e5); rec=d<=1?10:d<=3?7:d<=5?4:0;}
-  return [{label:'Reliability',pts:rel,max:25,color:'var(--green)',desc:'Low cancellation rate'},{label:'Longevity',pts:lon,max:20,color:'var(--accent2)',desc:'Years active'},{label:'Volume',pts:vol,max:20,color:'var(--purple)',desc:'Record count (log)'},{label:'Breadth',pts:bre,max:15,color:'var(--yellow)',desc:'Agencies served'},{label:'Completion',pts:comp,max:10,color:'var(--orange)',desc:'Completed ratio'},{label:'Recency',pts:rec,max:10,color:'var(--red)',desc:'Recent contracts'}];
+  // Works for both FL vendors (vendor_score from DB) and generic vendors (computed)
+  const records = v.total_records || v.transaction_count || 0;
+  const agencies = v.num_agencies_served || v.unique_agencies || v.agencies_served || 0;
+  const cancelRate = v.cancellation_rate || v.cancel_rate || 0;
+  const completed = v.completed_contracts || v.completed || 0;
+  const yearsActive = v.years_active || 0;
+  const lastDate = v.last_contract_date || v.last_date || v.last_contract;
+
+  if (!records && !v.vendor_score) return null;
+
+  const lon = Math.min(20, yearsActive * 2);
+  const vol = Math.min(20, records > 0 ? Math.log(records) * 4 : 0);
+  const bre = Math.min(15, agencies * 1.5);
+  const rel = 25 * (1 - Math.min(1, cancelRate * 5));
+  const comp = records > 0 ? 10 * completed / records : 0;
+  let rec = 0;
+  if (lastDate) { const d = (Date.now() - new Date(lastDate)) / (365.25 * 864e5); rec = d <= 1 ? 10 : d <= 3 ? 7 : d <= 5 ? 4 : 0; }
+
+  return [{label:'Reliability',pts:rel,max:25,color:'var(--green)',desc:'Low cancellation rate'},{label:'Longevity',pts:lon,max:20,color:'var(--blue)',desc:'Years active'},{label:'Volume',pts:vol,max:20,color:'var(--purple)',desc:'Record count (log)'},{label:'Breadth',pts:bre,max:15,color:'var(--yellow)',desc:'Agencies served'},{label:'Completion',pts:comp,max:10,color:'var(--orange)',desc:'Completed ratio'},{label:'Recency',pts:rec,max:10,color:'var(--red)',desc:'Recent contracts'}];
+}
+
+function computeVendorScore(v) {
+  // Compute a universal vendor score for any vendor, regardless of state
+  const bd = scoreBreakdown(v);
+  if (!bd) return null;
+  return bd.reduce((s, b) => s + b.pts, 0);
 }
 
 function scoreTooltipHTML(v) {
   const bd=scoreBreakdown(v); if(!bd)return scoreFill(0);
-  const tot=bd.reduce((s,b)=>s+b.pts,0);
+  const tot=v.vendor_score||bd.reduce((s,b)=>s+b.pts,0);
   return `<div class="score-tip">${scoreFill(v.vendor_score)}<div class="tip-content"><h4>Score Breakdown</h4>${bd.map(b=>`<div class="tip-row"><span class="tip-label">${b.label}</span><div class="tip-bar-bg"><div class="tip-bar-fill" style="width:${(b.pts/b.max*100).toFixed(0)}%;background:${b.color}"></div></div><span class="tip-val">${b.pts.toFixed(1)}/${b.max}</span></div>`).join('')}<div class="tip-total"><span>Total</span><span style="color:${scoreColor(tot)}">${tot.toFixed(1)}/100</span></div><div class="tip-desc">Reliability(25)+Longevity(20)+Volume(20)+Breadth(15)+Completion(10)+Recency(10)</div></div></div>`;
 }
 
 function scoreBreakdownFull(v) {
   const bd=scoreBreakdown(v); if(!bd) return '';
-  return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">${bd.map(b=>`<div style="background:var(--surface);border-radius:8px;padding:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:500;">${b.label}</span><span style="font-size:13px;font-weight:600;color:${b.color}">${b.pts.toFixed(1)}/${b.max}</span></div><div style="height:6px;background:var(--surface2);border-radius:3px;overflow:hidden;"><div style="height:100%;width:${(b.pts/b.max*100).toFixed(0)}%;background:${b.color};border-radius:3px;"></div></div><div style="font-size:11px;color:var(--text2);margin-top:4px;">${b.desc}</div></div>`).join('')}</div>`;
+  return `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;">${bd.map(b=>`<div style="background:#fafaf9;border-radius:8px;padding:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span style="font-size:13px;font-weight:500;">${b.label}</span><span style="font-size:13px;font-weight:600;color:${b.color}">${b.pts.toFixed(1)}/${b.max}</span></div><div style="height:5px;background:#e8e5e1;border-radius:3px;overflow:hidden;"><div style="height:100%;width:${(b.pts/b.max*100).toFixed(0)}%;background:${b.color};border-radius:3px;"></div></div><div style="font-size:11px;color:var(--text2);margin-top:4px;">${b.desc}</div></div>`).join('')}</div>`;
 }
 
 async function api(path) { const r=await fetch(API+path); return r.json(); }
 
 function makeChart(canvasId, cfg) { if(charts[canvasId]){charts[canvasId].destroy();} const ctx=$(canvasId).getContext('2d'); charts[canvasId]=new Chart(ctx,cfg); return charts[canvasId]; }
 
+// ── Chart defaults ──────────────────────────────────────────────────
+Chart.defaults.font.family = 'Inter';
+Chart.defaults.color = '#78716c';
+Chart.defaults.borderColor = 'rgba(0,0,0,0.06)';
+
 // ── Sortable Tables ──────────────────────────────────────────────────
 function parseSortVal(text) {
-  // Strip HTML tags, trim
   const clean = text.replace(/<[^>]+>/g, '').trim();
-  // Try to extract a number: $1.2B, $45.6M, 1,234, 45.6%, etc.
   const dollar = clean.match(/^\$?([\-\d,.]+)\s*([TBMK])?$/i);
   if (dollar) {
     let num = parseFloat(dollar[1].replace(/,/g, ''));
     const suffix = (dollar[2] || '').toUpperCase();
-    if (suffix === 'T') num *= 1e12;
-    else if (suffix === 'B') num *= 1e9;
-    else if (suffix === 'M') num *= 1e6;
-    else if (suffix === 'K') num *= 1e3;
+    if (suffix === 'T') num *= 1e12; else if (suffix === 'B') num *= 1e9; else if (suffix === 'M') num *= 1e6; else if (suffix === 'K') num *= 1e3;
     if (!isNaN(num)) return num;
   }
-  // Percentage
   const pct = clean.match(/^([\-\d,.]+)%$/);
   if (pct) { const n = parseFloat(pct[1]); if (!isNaN(n)) return n; }
-  // Plain number with commas
   const plain = clean.replace(/,/g, '');
   const num = parseFloat(plain);
   if (!isNaN(num) && /^[\-\d.]+$/.test(plain)) return num;
-  // Date
   if (/^\d{1,2}\/\d{1,2}\/\d{2,4}$/.test(clean) || /^\d{4}-\d{2}-\d{2}/.test(clean)) {
     const d = new Date(clean); if (!isNaN(d)) return d.getTime();
   }
-  // Text
   return clean.toLowerCase();
 }
 
 document.addEventListener('click', function(e) {
   const th = e.target.closest('th');
-  if (!th) return;
-  // Don't sort if clicking on interactive elements inside th
-  if (e.target.closest('a, button, input, select')) return;
+  if (!th || e.target.closest('a, button, input, select')) return;
   const table = th.closest('table');
   if (!table) return;
-  const thead = table.querySelector('thead');
-  const tbody = table.querySelector('tbody');
+  const thead = table.querySelector('thead'), tbody = table.querySelector('tbody');
   if (!thead || !tbody) return;
-
   const ths = Array.from(thead.querySelectorAll('th'));
   const colIdx = ths.indexOf(th);
   if (colIdx < 0) return;
-
-  // Toggle direction
   const wasAsc = th.classList.contains('sort-asc');
-  ths.forEach(t => { t.classList.remove('sort-asc', 'sort-desc'); });
+  ths.forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
   const asc = !wasAsc;
   th.classList.add(asc ? 'sort-asc' : 'sort-desc');
-
-  // Sort rows
   const rows = Array.from(tbody.querySelectorAll('tr'));
   rows.sort((a, b) => {
-    const aCell = a.children[colIdx];
-    const bCell = b.children[colIdx];
-    if (!aCell || !bCell) return 0;
-    const aVal = parseSortVal(aCell.innerHTML);
-    const bVal = parseSortVal(bCell.innerHTML);
+    const aVal = parseSortVal((a.children[colIdx]||{}).innerHTML||'');
+    const bVal = parseSortVal((b.children[colIdx]||{}).innerHTML||'');
     if (typeof aVal === 'number' && typeof bVal === 'number') return asc ? aVal - bVal : bVal - aVal;
     if (typeof aVal === 'string' && typeof bVal === 'string') return asc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
     return 0;
   });
   rows.forEach(r => tbody.appendChild(r));
-
-  // Add sort arrows to all th if not present
   ths.forEach(t => {
-    if (!t.querySelector('.sort-arrow')) {
-      t.innerHTML += ' <span class="sort-arrow">\u25B2</span>';
-    }
+    if (!t.querySelector('.sort-arrow')) t.innerHTML += ' <span class="sort-arrow">\u25B2</span>';
     const arrow = t.querySelector('.sort-arrow');
     if (t === th) arrow.textContent = asc ? '\u25B2' : '\u25BC';
     else arrow.textContent = '\u25B2';
@@ -610,10 +735,16 @@ document.addEventListener('click', function(e) {
 function navTo(name) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   $('page-'+name).classList.add('active');
-  document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
-  if(name==='dashboard'&&!window._dashLoaded) loadDashboard();
-  if(name==='analytics'&&!window._analyticsLoaded) loadAnalytics();
-  if(name==='vendors'&&!window._vendorsLoaded){searchVendors();window._vendorsLoaded=true;}
+  document.querySelectorAll('.sidebar-nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));
+  // Close sidebar after navigation
+  $('sidebar').classList.remove('open');
+  $('sidebar-overlay').classList.remove('open');
+  if(name==='dashboard') loadDashboard();
+  if(name==='analytics') loadAnalytics();
+  if(name==='vendors') searchVendors();
+  if(name==='contracts') searchContracts();
+  if(name==='procure') searchProcure();
+  if(name==='performance') loadPerformance();
 }
 
 function closeModal(id) {
@@ -621,80 +752,86 @@ function closeModal(id) {
   if(panel){panel.style.animation='modalSlideOut 0.2s ease forwards';setTimeout(()=>{el.classList.remove('open');panel.style.animation='';},200);}
   else{el.classList.remove('open');}
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>{const id=m.id;closeModal(id);});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>closeModal(m.id));});
 
 // ── Dashboard ───────────────────────────────────────────────────────
+let _dashVersion=0;
 async function loadDashboard() {
-  window._dashLoaded=true;
+  const ver=++_dashVersion;
   $('overview-stats').innerHTML=Array(6).fill('<div class="stat-card"><div class="skeleton skeleton-stat"></div><div class="skeleton skeleton-text" style="width:50%;margin:6px auto 0;"></div></div>').join('');
-  const [stats,topV,agencies,commodities]=await Promise.all([api('/api/stats/overview'),api('/api/stats/top-vendors?limit=15'),api('/api/stats/agencies'),api('/api/stats/commodities?limit=20')]);
+  const fp=filterParams();
+  const [stats,topV,agencies,commodities]=await Promise.all([api('/api/stats/overview?_=1'+fp),api('/api/stats/top-vendors?limit=15'+fp),api('/api/stats/agencies?_=1'+fp),api('/api/stats/commodities?limit=20'+fp)]);
+  if(ver!==_dashVersion) return; // stale response
 
   $('overview-stats').innerHTML=`
-    <div class="stat-card"><div class="value">${fmt(stats.total_contracts)}</div><div class="label">Total Records</div></div>
-    <div class="stat-card"><div class="value">${fmt(stats.total_vendors)}</div><div class="label">Unique Vendors</div></div>
-    <div class="stat-card"><div class="value">${fmt(stats.total_agencies)}</div><div class="label">Agencies</div></div>
+    <div class="stat-card" title="${fmt(stats.total_contracts)}"><div class="value">${fmtC(stats.total_contracts)}</div><div class="label">Total Records</div></div>
+    <div class="stat-card" title="${fmt(stats.total_vendors)}"><div class="value">${fmtC(stats.total_vendors)}</div><div class="label">Unique Vendors</div></div>
+    <div class="stat-card"><div class="value">${fmtC(stats.total_agencies)}</div><div class="label">Agencies</div></div>
     <div class="stat-card" title="${fmtDFull(stats.total_value)}"><div class="value">${fmtD(stats.total_value)}</div><div class="label">Total Value</div></div>
-    <div class="stat-card"><div class="value">${fmt(stats.active_contracts)}</div><div class="label">Active</div></div>
-    <div class="stat-card"><div class="value">${fmt(stats.tier_distribution?.PLATINUM||0)}</div><div class="label">Platinum Vendors</div></div>
+    ${stats.active_contracts!=null?`<div class="stat-card"><div class="value">${fmt(stats.active_contracts)}</div><div class="label">Active</div></div>`:`<div class="stat-card"><div class="value">${fmt(stats.yearly_trend?.length||0)}</div><div class="label">Years of Data</div></div>`}
+    ${stats.tier_distribution?`<div class="stat-card"><div class="value">${fmt(stats.tier_distribution?.PLATINUM||0)}</div><div class="label">Platinum Vendors</div></div>`:`<div class="stat-card"><div class="value">${metaData?.states?.length||0}</div><div class="label">States</div></div>`}
   `;
 
-  // Yearly chart
   if(stats.yearly_trend?.length) {
-    makeChart('chart-yearly',{type:'bar',data:{labels:stats.yearly_trend.map(y=>y.year),datasets:[{label:'Total Spend',data:stats.yearly_trend.map(y=>y.total_value),backgroundColor:'rgba(59,130,246,0.6)',borderRadius:4},{label:'Record Count',data:stats.yearly_trend.map(y=>y.count),type:'line',borderColor:'var(--purple)',yAxisID:'y1',pointRadius:2}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(203,213,225,0.5)'}},y1:{position:'right',ticks:{callback:v=>(v/1e3).toFixed(0)+'K'},grid:{display:false}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#64748b'}}}}});
+    makeChart('chart-yearly',{type:'bar',data:{labels:stats.yearly_trend.map(y=>y.year),datasets:[{label:'Total Spend',data:stats.yearly_trend.map(y=>y.total_value),backgroundColor:'rgba(120,113,108,0.35)',borderRadius:4},{label:'Record Count',data:stats.yearly_trend.map(y=>y.count),type:'line',borderColor:'#7a6a8a',yAxisID:'y1',pointRadius:2,borderWidth:2}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(0,0,0,0.05)'}},y1:{position:'right',ticks:{callback:v=>(v/1e3).toFixed(0)+'K'},grid:{display:false}},x:{grid:{display:false}}},plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}}}});
   }
 
   $('top-vendors-table').innerHTML=`<table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th></tr></thead><tbody>
-    ${topV.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc(v.vendor_name_display)}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.total_records)}</td></tr>`).join('')}</tbody></table>`;
+    ${topV.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_key||v.vendor_name_normalized)}')">${esc(v.vendor_name_clean||v.vendor_name_display||v.vendor_name_normalized)}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.total_records)}</td></tr>`).join('')}</tbody></table>`;
 
   $('agency-table').innerHTML=`<table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Total Value</th></tr></thead><tbody>
-    ${agencies.results.slice(0,15).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.total_records)}</td><td class="right">${fmtD(a.total_amount)}</td></tr>`).join('')}</tbody></table>`;
+    ${agencies.results.slice(0,15).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name_clean||a.agency_name)}')">${esc(a.agency_name_clean||a.agency_name)}</a></td><td class="right">${fmt(a.transaction_count||a.total_records)}</td><td class="right">${fmtD(a.total_spend||a.total_amount)}</td></tr>`).join('')}</tbody></table>`;
 
   $('commodity-table').innerHTML=`<table><thead><tr><th>Commodity/Service</th><th class="right">Records</th><th class="right">Total Value</th><th class="right">Vendors</th><th class="right">Agencies</th></tr></thead><tbody>
-    ${commodities.results.map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_description)}')">${esc(c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td><td class="right">${c.num_agencies}</td></tr>`).join('')}</tbody></table>`;
+    ${commodities.results.map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_category||c.commodity_description)}')">${esc(c.commodity_category||c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td><td class="right">${c.num_agencies}</td></tr>`).join('')}</tbody></table>`;
 }
 
 // ── Analytics ────────────────────────────────────────────────────────
+let _analyticsVersion=0;
 async function loadAnalytics() {
-  window._analyticsLoaded=true;
+  const ver=++_analyticsVersion;
+  const fp=filterParams();
+  const safe=p=>p.catch(e=>(console.warn('analytics fetch failed:',e),{}));
   const [agSpend,venSpend,newRet,comTrend,risk]=await Promise.all([
-    api('/api/analytics/spend-by-agency-year?top=10'),
-    api('/api/analytics/spend-by-vendor-year?top=10'),
-    api('/api/analytics/new-vs-returning'),
-    api('/api/analytics/commodity-trends'),
-    api('/api/analytics/risk-overview')
+    safe(api('/api/analytics/spend-by-agency-year?top=10'+fp)),
+    safe(api('/api/analytics/spend-by-vendor-year?top=10'+fp)),
+    safe(api('/api/analytics/new-vs-returning?_=1'+fp)),
+    safe(api('/api/analytics/commodity-trends?_=1'+fp)),
+    safe(api('/api/analytics/risk-overview?_=1'+fp))
   ]);
+  if(ver!==_analyticsVersion) return;
 
-  // Agency spend chart
   if(agSpend.agencies?.length) {
     const allYears=[...new Set(Object.values(agSpend.data).flatMap(d=>d.map(r=>r.year)))].sort();
-    makeChart('chart-agency-spend',{type:'line',data:{labels:allYears,datasets:agSpend.agencies.map((ag,i)=>({label:ag.replace('DEPARTMENT OF ','').substring(0,25),data:allYears.map(y=>{const r=(agSpend.data[ag]||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],backgroundColor:COLORS[i%COLORS.length]+'33',fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(203,213,225,0.5)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#64748b',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length){const idx=el[0].datasetIndex;openAgency(agSpend.agencies[idx]);}}}});
+    makeChart('chart-agency-spend',{type:'line',data:{labels:allYears,datasets:agSpend.agencies.map((ag,i)=>({label:ag.replace('DEPARTMENT OF ','').substring(0,25),data:allYears.map(y=>{const r=(agSpend.data[ag]||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length)openAgency(agSpend.agencies[el[0].datasetIndex]);}}});
   }
 
-  // Vendor spend chart
   if(venSpend.vendors?.length) {
     const allYears=[...new Set(Object.values(venSpend.data).flatMap(d=>d.data.map(r=>r.year)))].sort();
-    makeChart('chart-vendor-spend',{type:'line',data:{labels:allYears,datasets:venSpend.vendors.map((vn,i)=>({label:vn.substring(0,25),data:allYears.map(y=>{const r=(venSpend.data[vn]?.data||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(203,213,225,0.5)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#64748b',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length){const vn=venSpend.vendors[el[0].datasetIndex]; const norm=venSpend.data[vn]?.norm; if(norm)openVendor(norm);}}}});
+    makeChart('chart-vendor-spend',{type:'line',data:{labels:allYears,datasets:venSpend.vendors.map((vn,i)=>({label:vn.substring(0,25),data:allYears.map(y=>{const r=(venSpend.data[vn]?.data||[]).find(x=>x.year===y); return r?r.total_val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length){const vn=venSpend.vendors[el[0].datasetIndex]; const norm=venSpend.data[vn]?.norm; if(norm)openVendor(norm);}}}});
   }
 
-  // New vs returning
   if(newRet.results?.length) {
-    makeChart('chart-new-returning',{type:'bar',data:{labels:newRet.results.map(r=>r.year),datasets:[{label:'New Vendors',data:newRet.results.map(r=>r.new_vendors),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'Returning Vendors',data:newRet.results.map(r=>r.returning_vendors),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(203,213,225,0.5)'}}},plugins:{legend:{labels:{color:'#64748b'}}}}});
+    makeChart('chart-new-returning',{type:'bar',data:{labels:newRet.results.map(r=>r.year),datasets:[{label:'New Vendors',data:newRet.results.map(r=>r.new_vendors),backgroundColor:'rgba(90,122,154,0.6)',borderRadius:3},{label:'Returning Vendors',data:newRet.results.map(r=>r.returning_vendors),backgroundColor:'rgba(90,138,114,0.6)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:'rgba(0,0,0,0.05)'}}},plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}}}});
   }
 
-  // Commodity trends
   if(comTrend.results?.length) {
     const allYears=[...new Set(comTrend.results.flatMap(c=>c.years.map(y=>y.year)))].sort();
-    makeChart('chart-commodity-trend',{type:'line',data:{labels:allYears,datasets:comTrend.results.slice(0,8).map((c,i)=>({label:c.commodity.substring(0,20),data:allYears.map(y=>{const r=c.years.find(x=>x.year===y); return r?r.val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(203,213,225,0.5)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{color:'#64748b',boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length)openCommodity(comTrend.results[el[0].datasetIndex].commodity);}}});
+    makeChart('chart-commodity-trend',{type:'line',data:{labels:allYears,datasets:comTrend.results.slice(0,8).map((c,i)=>({label:c.commodity.substring(0,20),data:allYears.map(y=>{const r=c.years.find(x=>x.year===y); return r?r.val:0;}),borderColor:COLORS[i%COLORS.length],fill:false,tension:0.3,pointRadius:1,borderWidth:2}))},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},scales:{y:{ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(0,0,0,0.05)'}},x:{grid:{display:false}}},plugins:{legend:{labels:{boxWidth:12,font:{size:10}}}},onClick:(e,el)=>{if(el.length)openCommodity(comTrend.results[el[0].datasetIndex].commodity);}}});
   }
 
-  // Risk overview
-  let riskHTML='<div class="two-col">';
-  riskHTML+=`<div class="section"><h3>Cancellation Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Records</th></tr></thead><tbody>${risk.cancellation_by_agency.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:${r.cancel_rate>0.15?'var(--red)':r.cancel_rate>0.05?'var(--yellow)':'var(--green)'}">${(r.cancel_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.total)}</td></tr>`).join('')}</tbody></table></div>`;
-  riskHTML+=`<div class="section"><h3>Cost Overruns by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Avg Overrun</th><th class="right">Count</th></tr></thead><tbody>${risk.cost_overruns.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:var(--orange)">${r.avg_overrun?r.avg_overrun.toFixed(1)+'%':'-'}</td><td class="right">${fmt(r.overrun_count)}</td></tr>`).join('')}</tbody></table></div>`;
-  riskHTML+='</div><div class="two-col">';
-  riskHTML+=`<div class="section"><h3>Extension Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Extensions</th></tr></thead><tbody>${risk.extensions.slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right">${(r.ext_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.extensions)}</td></tr>`).join('')}</tbody></table></div>`;
-  riskHTML+=`<div class="section"><h3>Procurement Methods</h3><table><thead><tr><th>Method</th><th class="right">Records</th><th class="right">Total Value</th></tr></thead><tbody>${risk.procurement_methods.slice(0,12).map(r=>`<tr><td>${esc(r.procurement_method)}</td><td class="right">${fmt(r.cnt)}</td><td class="right">${fmtD(r.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
-  riskHTML+='</div>';
+  let riskHTML='';
+  if (risk.has_rich_data === false) {
+    riskHTML='<div class="empty">Risk analysis requires a state with rich data (e.g., Florida). Select a state with detailed procurement records.</div>';
+  } else {
+    riskHTML='<div class="two-col">';
+    riskHTML+=`<div class="section"><h3>Cancellation Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Records</th></tr></thead><tbody>${(risk.cancellation_by_agency||[]).slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:${r.cancel_rate>0.15?'var(--red)':r.cancel_rate>0.05?'var(--yellow)':'var(--green)'}">${(r.cancel_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.total)}</td></tr>`).join('')}</tbody></table></div>`;
+    riskHTML+=`<div class="section"><h3>Cost Overruns by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Avg Overrun</th><th class="right">Count</th></tr></thead><tbody>${(risk.cost_overruns||[]).slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right" style="color:var(--orange)">${r.avg_overrun?r.avg_overrun.toFixed(1)+'%':'-'}</td><td class="right">${fmt(r.overrun_count)}</td></tr>`).join('')}</tbody></table></div>`;
+    riskHTML+='</div><div class="two-col">';
+    riskHTML+=`<div class="section"><h3>Extension Rate by Agency</h3><table><thead><tr><th>Agency</th><th class="right">Rate</th><th class="right">Extensions</th></tr></thead><tbody>${(risk.extensions||[]).slice(0,12).map(r=>`<tr><td><a onclick="openAgency('${esc(r.agency_name)}')">${esc(r.agency_name)}</a></td><td class="right">${(r.ext_rate*100).toFixed(1)}%</td><td class="right">${fmt(r.extensions)}</td></tr>`).join('')}</tbody></table></div>`;
+    riskHTML+=`<div class="section"><h3>Procurement Methods</h3><table><thead><tr><th>Method</th><th class="right">Records</th><th class="right">Total Value</th></tr></thead><tbody>${(risk.procurement_methods||[]).slice(0,12).map(r=>`<tr><td>${esc(r.procurement_method)}</td><td class="right">${fmt(r.cnt)}</td><td class="right">${fmtD(r.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+    riskHTML+='</div>';
+  }
   $('risk-overview-content').innerHTML=riskHTML;
 }
 
@@ -702,29 +839,29 @@ async function loadAnalytics() {
 async function searchVendors() {
   const q=$('vendor-search').value, tier=$('vendor-tier-filter').value, ms=$('vendor-score-filter').value;
   $('vendor-results').innerHTML='<div class="loading">Searching...</div>';
-  const data=await api(`/api/search/vendors?q=${encodeURIComponent(q)}&tier=${tier}&min_score=${ms}&limit=100`);
+  const data=await api(`/api/search/vendors?q=${encodeURIComponent(q)}&tier=${tier}&min_score=${ms}&limit=100`+filterParams());
   if(!data.results.length){$('vendor-results').innerHTML='<div class="empty">No vendors found</div>';return;}
-  $('vendor-results').innerHTML=`<table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score <span style="color:var(--text2);cursor:help" title="Composite 0-100: Reliability(25)+Longevity(20)+Volume(20)+Breadth(15)+Completion(10)+Recency(10). Hover for details.">&#9432;</span></th><th class="right">Records</th><th class="right">Total Value</th><th class="right">Agencies</th><th class="right">Years</th><th>Risk</th></tr></thead><tbody>
-    ${data.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc(v.vendor_name_display)}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.total_records)}</td><td class="right">${fmtD(v.total_current_amount)}</td><td class="right">${v.num_agencies_served}</td><td class="right">${v.years_active}</td><td>${riskBadge(v.cancellation_rate)}</td></tr>`).join('')}</tbody></table>`;
+  $('vendor-results').innerHTML=`<table><thead><tr><th>Vendor</th><th>State</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Total Value</th><th class="right">Agencies</th><th>Risk</th></tr></thead><tbody>
+    ${data.results.map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_key||v.vendor_name_normalized)}')">${esc(v.vendor_name_clean||v.vendor_name_display)}</a></td><td>${esc(v.state_abbr||'')}</td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${scoreTooltipHTML(v)}</td><td class="right">${fmt(v.transaction_count||v.total_records)}</td><td class="right">${fmtD(v.total_spend||v.total_current_amount)}</td><td class="right">${v.unique_agencies||v.num_agencies_served||'-'}</td><td>${riskBadge(v.cancellation_rate)}</td></tr>`).join('')}</tbody></table>`;
 }
 
 // ── Contract Search ─────────────────────────────────────────────────
 async function searchContracts() {
   const q=$('contract-search').value, st=$('contract-status-filter').value, tp=$('contract-type-filter').value;
   $('contract-results').innerHTML='<div class="loading">Searching...</div>';
-  const data=await api(`/api/search/contracts?q=${encodeURIComponent(q)}&status=${st}&type=${tp}&limit=100`);
+  const data=await api(`/api/search/contracts?q=${encodeURIComponent(q)}&status=${st}&type=${tp}&limit=100`+filterParams());
   if(!data.results.length){$('contract-results').innerHTML='<div class="empty">No contracts found</div>';return;}
-  $('contract-results').innerHTML=`<table><thead><tr><th>Title</th><th>Vendor</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Type</th><th>Begin</th></tr></thead><tbody>
-    ${data.results.map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||c.short_title||'-').substring(0,55))}</td><td><a onclick="openVendor('${esc(c.vendor_name_normalized)}')">${esc((c.vendor_name||'').substring(0,30))}</a></td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,28))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.record_type_broad||''}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table>`;
+  $('contract-results').innerHTML=`<table><thead><tr><th>Title</th><th>Vendor</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Type</th><th>Date</th></tr></thead><tbody>
+    ${data.results.map(c=>`<tr><td title="${esc(c.title||c.description||'')}">${esc((c.title||c.description||'-').substring(0,55))}</td><td><a onclick="openVendor('${esc(c.vendor_key||c.vendor_name_normalized||c.vendor_name_clean)}')">${esc((c.vendor_name_clean||c.vendor_name||'').substring(0,30))}</a></td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,28))}</a></td><td class="right">${fmtD(c.amount||c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.record_type_broad||''}</td><td>${c.parsed_date||c.begin_date||'-'}</td></tr>`).join('')}</tbody></table>`;
 }
 
 // ── Procure Search ──────────────────────────────────────────────────
 async function searchProcure() {
   const q=$('procure-search').value; if(!q)return;
   $('procure-results').innerHTML='<div class="loading">Finding vendors...</div>';
-  const data=await api(`/api/search/procure?q=${encodeURIComponent(q)}&limit=30`);
+  const data=await api(`/api/search/procure?q=${encodeURIComponent(q)}&limit=30`+filterParams());
   if(!data.results.length){$('procure-results').innerHTML='<div class="empty">No matching vendors. Try different keywords.</div>';return;}
-  $('procure-results').innerHTML=`<div class="card" style="margin-bottom:12px;padding:12px 16px;"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;"><span style="font-size:13px;color:var(--text2);">${data.results.length} vendors — hover scores for breakdown</span><div class="score-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Reliability(25)</div><div class="legend-item"><div class="legend-dot" style="background:var(--accent2)"></div>Longevity(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Volume(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Breadth(15)</div><div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Completion(10)</div><div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Recency(10)</div></div></div></div><div class="procure-results">${data.results.map(v=>`<div class="procure-card" onclick="openVendor('${esc(v.vendor_name_normalized)}')"><div style="display:flex;justify-content:space-between;align-items:start;"><div class="vendor-name">${esc(v.vendor_name)}</div><div style="display:flex;align-items:center;gap:8px;">${tierBadge(v.vendor_tier)}${v.vendor_score?scoreTooltipHTML(v):''}</div></div><div class="commodity">${esc(v.commodity_description||'')}</div><div class="mini-stats"><span><strong>${v.match_count}</strong> matching</span><span><strong>${fmtD(v.total_value)}</strong> value</span>${v.years_active?`<span><strong>${v.years_active}</strong> yrs</span>`:''}<span>${riskBadge(v.cancellation_rate)}</span></div><div style="margin-top:8px;font-size:11px;color:var(--text2);">Agencies: ${esc((v.agencies||'').substring(0,100))}</div></div>`).join('')}</div>`;
+  $('procure-results').innerHTML=`<div class="card" style="margin-bottom:12px;padding:12px 16px;"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;"><span style="font-size:13px;color:var(--text2);">${data.results.length} vendors found</span><div class="score-legend"><div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Reliability(25)</div><div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Longevity(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--purple)"></div>Volume(20)</div><div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Breadth(15)</div><div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Completion(10)</div><div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>Recency(10)</div></div></div></div><div class="procure-results">${data.results.map(v=>`<div class="procure-card" onclick="openVendor('${esc(v.vendor_key||v.vendor_name_normalized)}')"><div style="display:flex;justify-content:space-between;align-items:start;"><div class="vendor-name">${esc(v.vendor_name_clean||v.vendor_name)}</div><div style="display:flex;align-items:center;gap:8px;">${tierBadge(v.vendor_tier)}${v.vendor_score?scoreTooltipHTML(v):''}</div></div><div class="commodity">${esc(v.top_category||v.commodity_description||'')}</div><div class="mini-stats"><span><strong>${fmt(v.transaction_count||v.match_count)}</strong> records</span><span><strong>${fmtD(v.total_spend||v.total_value)}</strong> value</span>${v.years_active?`<span><strong>${v.years_active}</strong> yrs</span>`:''}<span>${v.cancellation_rate!=null?riskBadge(v.cancellation_rate):''}</span></div><div style="margin-top:8px;font-size:11px;color:var(--text2);">${v.top_agency?'Top Agency: '+esc(v.top_agency):(v.agencies?'Agencies: '+esc((v.agencies||'').substring(0,100)):'')}</div></div>`).join('')}</div>`;
 }
 
 // ── Vendor Detail Modal ─────────────────────────────────────────────
@@ -734,53 +871,55 @@ async function openVendor(norm) {
   const v=await api(`/api/vendor/${encodeURIComponent(norm)}`);
   if(v.error){$('vd-body').innerHTML=`<div class="empty">${v.error}</div>`;return;}
 
-  $('vd-name').textContent=v.vendor_name_display;
-  $('vd-tier').innerHTML=`${tierBadge(v.vendor_tier)} ${scoreFill(v.vendor_score)} ${riskBadge(v.cancellation_rate)}`;
+  $('vd-name').textContent=v.vendor_name_display||v.vendor_name_clean||v.vendor_name_normalized;
+  $('vd-tier').innerHTML=`${tierBadge(v.vendor_tier)} ${v.vendor_score?scoreFill(v.vendor_score):''} ${v.cancellation_rate!=null?riskBadge(v.cancellation_rate):''}`;
 
   let html=`<div class="metric-grid">
     <div class="metric"><div class="val">${fmt(v.total_records)}</div><div class="lbl">Total Records</div></div>
-    <div class="metric" title="${fmtDFull(v.total_current_amount)}"><div class="val">${fmtD(v.total_current_amount)}</div><div class="lbl">Total Value</div></div>
-    <div class="metric"><div class="val">${v.num_agencies_served}</div><div class="lbl">Agencies</div></div>
-    <div class="metric"><div class="val">${v.years_active}</div><div class="lbl">Years Active</div></div>
-    <div class="metric" title="${fmtDFull(v.avg_contract_amount)}"><div class="val">${fmtD(v.avg_contract_amount)}</div><div class="lbl">Avg Contract</div></div>
-    <div class="metric"><div class="val">${fmtPct(v.cancellation_rate)}</div><div class="lbl">Cancel Rate</div></div>
-    <div class="metric"><div class="val">${fmt(v.active_contracts)}</div><div class="lbl">Active</div></div>
-    <div class="metric"><div class="val">${fmt(v.completed_contracts)}</div><div class="lbl">Completed</div></div>
+    <div class="metric" title="${fmtDFull(v.total_spend||v.total_current_amount)}"><div class="val">${fmtD(v.total_spend||v.total_current_amount)}</div><div class="lbl">Total Value</div></div>
+    <div class="metric"><div class="val">${v.num_agencies_served||v.num_states||'-'}</div><div class="lbl">${v.num_states?'States':'Agencies'}</div></div>
+    <div class="metric"><div class="val">${v.years_active||'-'}</div><div class="lbl">Years Active</div></div>
+    <div class="metric" title="${fmtDFull(v.avg_spend||v.avg_contract_amount)}"><div class="val">${fmtD(v.avg_spend||v.avg_contract_amount)}</div><div class="lbl">Avg Contract</div></div>
+    <div class="metric"><div class="val">${v.cancellation_rate!=null?fmtPct(v.cancellation_rate):'-'}</div><div class="lbl">Cancel Rate</div></div>
+    <div class="metric"><div class="val">${fmt(v.active_contracts||'-')}</div><div class="lbl">Active</div></div>
+    <div class="metric"><div class="val">${fmt(v.completed_contracts||'-')}</div><div class="lbl">Completed</div></div>
   </div>`;
 
-  // Score breakdown
-  html+=`<div class="section"><h3>Score Breakdown — ${v.vendor_score?.toFixed(1)}/100</h3>${scoreBreakdownFull(v)}</div>`;
-
-  // Spend chart placeholder
+  html+=`<div class="section"><h3>Score Breakdown - ${v.vendor_score?.toFixed(1)}/100</h3>${scoreBreakdownFull(v)}</div>`;
   html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-vendor-detail"></canvas></div></div>`;
 
-  // Risk metrics
   const rm=v.risk_metrics||{};
   html+=`<div class="section"><h3>Risk Assessment</h3><div class="metric-grid">
-    <div class="metric" title="Number of contracts where the final amount exceeded the original amount"><div class="val">${fmt(rm.cost_overrun_count||0)}</div><div class="lbl">Cost Overruns</div></div>
-    <div class="metric" title="Average % increase when final amount > original amount. E.g., 25% means on average contracts cost 25% more than originally budgeted."><div class="val">${rm.avg_overrun_pct?rm.avg_overrun_pct.toFixed(1)+'%':'-'}</div><div class="lbl">Avg Cost Overrun %</div></div>
-    <div class="metric" title="Contracts where the end date was extended beyond the original deadline"><div class="val">${fmt(rm.extension_count||0)}</div><div class="lbl">Extensions</div></div>
-    <div class="metric" title="Contracts awarded via sole source/single source/exempt procurement"><div class="val">${fmt(rm.sole_source_count||0)}</div><div class="lbl">Sole Source</div></div>
-  </div>
-  <div style="font-size:11px;color:var(--text2);margin-top:8px;line-height:1.5;padding:8px 12px;background:var(--surface);border-radius:6px;">
-    <strong>Avg Cost Overrun %</strong> = average percentage by which contracts exceeded their original budgeted amount (only counting contracts that did exceed budget). Calculated as: avg((final_amount - original_amount) / original_amount × 100) where final > original.
+    <div class="metric"><div class="val">${fmt(rm.cost_overrun_count||0)}</div><div class="lbl">Cost Overruns</div></div>
+    <div class="metric"><div class="val">${rm.avg_overrun_pct?rm.avg_overrun_pct.toFixed(1)+'%':'-'}</div><div class="lbl">Avg Cost Overrun %</div></div>
+    <div class="metric"><div class="val">${fmt(rm.extension_count||0)}</div><div class="lbl">Extensions</div></div>
+    <div class="metric"><div class="val">${fmt(rm.sole_source_count||0)}</div><div class="lbl">Sole Source</div></div>
   </div></div>`;
 
-  // Two-col: agencies + commodities
   html+='<div class="two-col">';
   html+=`<div class="section"><h3>Agency History</h3><table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(v.agency_history||[]).slice(0,10).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.total_records)}</td><td class="right">${fmtD(a.total_amount)}</td></tr>`).join('')}</tbody></table></div>`;
   html+=`<div class="section"><h3>Commodity Expertise</h3><table><thead><tr><th>Commodity</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(v.commodity_expertise||[]).slice(0,10).map(ce=>`<tr><td><a onclick="openCommodity('${esc(ce.commodity_description)}')">${esc(ce.commodity_description)}</a></td><td class="right">${fmt(ce.total_records)}</td><td class="right">${fmtD(ce.total_amount)}</td></tr>`).join('')}</tbody></table></div>`;
   html+='</div>';
 
-  // Recent contracts
-  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Begin</th></tr></thead><tbody>${(v.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||'-').substring(0,45))}</td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,25))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Agency</th><th class="right">Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>${(v.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||c.description||'')}">${esc((c.title||c.description||'-').substring(0,45))}</td><td><a onclick="openAgency('${esc(c.agency_name)}')">${esc((c.agency_name||'').substring(0,25))}</a></td><td class="right">${fmtD(c.amount||c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.parsed_date||c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
+
+  if(v.state_breakdown?.length) {
+    html+=`<div class="section"><h3>State Breakdown</h3><table><thead><tr><th>State</th><th class="right">Records</th><th class="right">Value</th><th class="right">Agencies</th><th>Top Agency</th></tr></thead><tbody>${v.state_breakdown.map(s=>`<tr><td>${esc(s.state_abbr)}</td><td class="right">${fmt(s.transaction_count)}</td><td class="right">${fmtD(s.total_spend)}</td><td class="right">${fmt(s.unique_agencies)}</td><td>${esc(s.top_agency||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  }
 
   $('vd-body').innerHTML=html;
 
-  // Render spend chart
   if(v.spend_over_time?.length) {
     setTimeout(()=>{
-      makeChart('chart-vendor-detail',{type:'bar',data:{labels:v.spend_over_time.map(r=>r.year),datasets:[{label:'Contracts',data:v.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'POs',data:v.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(168,85,247,0.7)',borderRadius:3},{label:'Grants',data:v.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(203,213,225,0.5)'}}},plugins:{legend:{labels:{color:'#64748b'}}}}});
+      const hasTypes = v.spend_over_time[0].contract_val != null;
+      const datasets = hasTypes ? [
+        {label:'Contracts',data:v.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(90,122,154,0.6)',borderRadius:3},
+        {label:'POs',data:v.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(122,106,138,0.6)',borderRadius:3},
+        {label:'Grants',data:v.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(90,138,114,0.6)',borderRadius:3}
+      ] : [
+        {label:'Total Spend',data:v.spend_over_time.map(r=>r.total_val),backgroundColor:'rgba(120,113,108,0.35)',borderRadius:4}
+      ];
+      makeChart('chart-vendor-detail',{type:'bar',data:{labels:v.spend_over_time.map(r=>r.year),datasets},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(0,0,0,0.05)'}}},plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}}}});
     },100);
   }
 }
@@ -809,19 +948,19 @@ async function openAgency(name) {
   html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-agency-detail"></canvas></div></div>`;
 
   html+='<div class="two-col">';
-  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(a.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
-  html+=`<div class="section"><h3>Top Commodities</h3><table><thead><tr><th>Commodity</th><th class="right">Records</th><th class="right">Value</th><th class="right">Vendors</th></tr></thead><tbody>${(a.top_commodities||[]).map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_description)}')">${esc(c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(a.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_key||v.vendor_name_normalized)}')">${esc((v.vendor_name_clean||v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Top Commodities</h3><table><thead><tr><th>Commodity</th><th class="right">Records</th><th class="right">Value</th><th class="right">Vendors</th></tr></thead><tbody>${(a.top_commodities||[]).map(c=>`<tr><td><a onclick="openCommodity('${esc(c.commodity_category||c.commodity_description)}')">${esc(c.commodity_category||c.commodity_description)}</a></td><td class="right">${fmt(c.cnt)}</td><td class="right">${fmtD(c.total_val)}</td><td class="right">${fmt(c.num_vendors)}</td></tr>`).join('')}</tbody></table></div>`;
   html+='</div>';
 
   html+=`<div class="section"><h3>Procurement Methods</h3><table><thead><tr><th>Method</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(a.procurement_methods||[]).map(m=>`<tr><td>${esc(m.procurement_method)}</td><td class="right">${fmt(m.cnt)}</td><td class="right">${fmtD(m.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
 
-  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Vendor</th><th class="right">Amount</th><th>Status</th><th>Begin</th></tr></thead><tbody>${(a.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||'')}">${esc((c.title||'-').substring(0,45))}</td><td><a onclick="openVendor('${esc(c.vendor_name_normalized)}')">${esc((c.vendor_name||'').substring(0,30))}</a></td><td class="right">${fmtD(c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Recent Contracts</h3><table><thead><tr><th>Title</th><th>Vendor</th><th class="right">Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>${(a.recent_contracts||[]).map(c=>`<tr><td title="${esc(c.title||c.description||'')}">${esc((c.title||c.description||'-').substring(0,45))}</td><td><a onclick="openVendor('${esc(c.vendor_key||c.vendor_name_normalized)}')">${esc((c.vendor_name_clean||c.vendor_name||'').substring(0,30))}</a></td><td class="right">${fmtD(c.amount||c.total_amount)}</td><td>${statusBadge(c.status_broad)}</td><td>${c.parsed_date||c.begin_date||'-'}</td></tr>`).join('')}</tbody></table></div>`;
 
   $('ad-body').innerHTML=html;
 
   if(a.spend_over_time?.length) {
     setTimeout(()=>{
-      makeChart('chart-agency-detail',{type:'bar',data:{labels:a.spend_over_time.map(r=>r.year),datasets:[{label:'Contracts',data:a.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3},{label:'POs',data:a.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(168,85,247,0.7)',borderRadius:3},{label:'Grants',data:a.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(34,197,94,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(203,213,225,0.5)'}}},plugins:{legend:{labels:{color:'#64748b'}}}}});
+      makeChart('chart-agency-detail',{type:'bar',data:{labels:a.spend_over_time.map(r=>r.year),datasets:[{label:'Contracts',data:a.spend_over_time.map(r=>r.contract_val),backgroundColor:'rgba(90,122,154,0.6)',borderRadius:3},{label:'POs',data:a.spend_over_time.map(r=>r.po_val),backgroundColor:'rgba(122,106,138,0.6)',borderRadius:3},{label:'Grants',data:a.spend_over_time.map(r=>r.grant_val),backgroundColor:'rgba(90,138,114,0.6)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>'$'+(v/1e9).toFixed(1)+'B'},grid:{color:'rgba(0,0,0,0.05)'}}},plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}}}});
     },100);
   }
 }
@@ -849,7 +988,7 @@ async function openCommodity(name) {
   html+=`<div class="section"><h3>Spend Over Time</h3><div class="chart-container"><canvas id="chart-commodity-detail"></canvas></div></div>`;
 
   html+='<div class="two-col">';
-  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(d.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_name_normalized)}')">${esc((v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
+  html+=`<div class="section"><h3>Top Vendors</h3><table><thead><tr><th>Vendor</th><th>Tier</th><th class="right">Score</th><th class="right">Records</th><th class="right">Value</th></tr></thead><tbody>${(d.top_vendors||[]).map(v=>`<tr><td><a onclick="openVendor('${esc(v.vendor_key||v.vendor_name_normalized)}')">${esc((v.vendor_name_clean||v.vendor_name||'').substring(0,35))}</a></td><td>${tierBadge(v.vendor_tier)}</td><td class="right">${v.vendor_score?scoreTooltipHTML(v):'-'}</td><td class="right">${fmt(v.record_count)}</td><td class="right">${fmtD(v.total_val)}</td></tr>`).join('')}</tbody></table></div>`;
   html+=`<div class="section"><h3>Agencies Using This</h3><table><thead><tr><th>Agency</th><th class="right">Records</th><th class="right">Value</th><th class="right">Vendors</th></tr></thead><tbody>${(d.agencies||[]).map(a=>`<tr><td><a onclick="openAgency('${esc(a.agency_name)}')">${esc(a.agency_name)}</a></td><td class="right">${fmt(a.cnt)}</td><td class="right">${fmtD(a.total_val)}</td><td class="right">${fmt(a.num_vendors)}</td></tr>`).join('')}</tbody></table></div>`;
   html+='</div>';
 
@@ -861,14 +1000,14 @@ async function openCommodity(name) {
 
   if(d.spend_over_time?.length) {
     setTimeout(()=>{
-      makeChart('chart-commodity-detail',{type:'bar',data:{labels:d.spend_over_time.map(r=>r.year),datasets:[{label:'Total Spend',data:d.spend_over_time.map(r=>r.total_val),backgroundColor:'rgba(59,130,246,0.7)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(203,213,225,0.5)'}}},plugins:{legend:{labels:{color:'#64748b'}}}}});
+      makeChart('chart-commodity-detail',{type:'bar',data:{labels:d.spend_over_time.map(r=>r.year),datasets:[{label:'Total Spend',data:d.spend_over_time.map(r=>r.total_val),backgroundColor:'rgba(120,113,108,0.35)',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{grid:{display:false}},y:{ticks:{callback:v=>'$'+(v/1e6).toFixed(1)+'M'},grid:{color:'rgba(0,0,0,0.05)'}}},plugins:{legend:{labels:{boxWidth:12,font:{size:11}}}}}});
     },100);
   }
 }
 
 // ── Performance Page ─────────────────────────────────────────────────
 let _perfData = null;
-const SCORE_COLORS = {reliability:'#059669',cost_control:'#2563eb',timeliness:'#ca8a04',delivery:'#7c3aed',scale:'#ea580c',competition:'#0891b2',cancel:'#059669',overrun:'#2563eb',extensions:'#ca8a04',completion:'#7c3aed',experience:'#ea580c'};
+const SCORE_COLORS = {reliability:'#5a8a72',cost_control:'#5a7a9a',timeliness:'#a89258',delivery:'#7a6a8a',scale:'#b07a4a',competition:'#5a7a9a',cancel:'#5a8a72',overrun:'#5a7a9a',extensions:'#a89258',completion:'#7a6a8a',experience:'#b07a4a'};
 const SCORE_ICONS = {reliability:'\u{1F6E1}',cost_control:'\u{1F4B0}',timeliness:'\u{23F1}',delivery:'\u{2705}',scale:'\u{1F4C8}',competition:'\u{1F3AF}',cancel:'\u{1F6E1}',overrun:'\u{1F4B0}',extensions:'\u{23F1}',completion:'\u{2705}',experience:'\u{1F4C8}'};
 const SCORE_DESCS = {
   reliability:'Low cancellation rate = reliable partner',
@@ -884,18 +1023,14 @@ const SCORE_DESCS = {
   experience:'Track record within this department'
 };
 
-function gradeHTML(g, size) {
-  const cls = size || '';
-  return `<div class="grade grade-${cls} grade-${g}">${g}</div>`;
-}
-
+function gradeHTML(g, size) { return `<div class="grade grade-${size||''} grade-${g}">${g}</div>`; }
 function gradeColor(g) {
   if (!g) return 'var(--text2)';
-  if (g.startsWith('A')) return '#059669';
-  if (g.startsWith('B')) return '#2563eb';
-  if (g.startsWith('C')) return '#ca8a04';
-  if (g.startsWith('D')) return '#ea580c';
-  return '#dc2626';
+  if (g.startsWith('A')) return '#5a8a72';
+  if (g.startsWith('B')) return '#5a7a9a';
+  if (g.startsWith('C')) return '#a89258';
+  if (g.startsWith('D')) return '#b07a4a';
+  return '#a85a5a';
 }
 
 function scoreCardHTML(title, subScores, weights, total) {
@@ -915,9 +1050,6 @@ function scoreCardHTML(title, subScores, weights, total) {
         <div class="score-weight">${(w*100).toFixed(0)}%</div>
       </div>`;
     }).join('')}
-    <div style="margin-top:8px;font-size:10px;color:var(--text2);display:flex;gap:12px;flex-wrap:wrap;">
-      ${entries.map(([k]) => `<span>${SCORE_ICONS[k]||''} ${k.replace(/_/g,' ')}: ${SCORE_DESCS[k]||''}</span>`).join('')}
-    </div>
   </div>`;
 }
 
@@ -927,14 +1059,13 @@ function miniBarLabeled(label, val, color) {
 
 function gradeDistHTML(dist) {
   const letters = ['A','B','C','D','F'];
-  const colors = {'A':'#059669','B':'#2563eb','C':'#ca8a04','D':'#ea580c','F':'#dc2626'};
-  const textColors = {'A':'#ffffff','B':'#ffffff','C':'#ffffff','D':'#ffffff','F':'#ffffff'};
+  const colors = {'A':'#5a8a72','B':'#5a7a9a','C':'#a89258','D':'#b07a4a','F':'#a85a5a'};
   const total = Object.values(dist).reduce((s,v)=>s+v,0);
   return `<div class="grade-dist">${letters.map(g => {
     const cnt = dist[g]||0;
     const pct = total>0?(cnt/total*100):0;
     if(pct<1) return '';
-    return `<div class="gd-seg" style="width:${pct}%;background:${colors[g]};color:${textColors[g]}" title="${g}: ${cnt} vendors (${pct.toFixed(1)}%)">${g}:${cnt}</div>`;
+    return `<div class="gd-seg" style="width:${pct}%;background:${colors[g]};color:#fff" title="${g}: ${cnt} vendors (${pct.toFixed(1)}%)">${g}:${cnt}</div>`;
   }).join('')}</div>`;
 }
 
@@ -946,15 +1077,18 @@ function switchPerfView(view) {
   if(view==='vendors' && !window._vendorPerfLoaded) loadVendorPerf();
 }
 
+let _perfVersion=0;
 async function loadPerformance() {
-  window._perfLoaded = true;
-  $('perf-state-banner').innerHTML = '<div class="loading">Loading state performance data...</div>';
+  const ver=++_perfVersion;
+  $('perf-state-banner').innerHTML = '<div class="loading">Loading performance data...</div>';
   $('perf-dept-list').innerHTML = '';
+  const fp=filterParams();
 
   const [state, depts] = await Promise.all([
-    api('/api/performance/state'),
-    api('/api/performance/departments')
+    api('/api/performance/state?_=1'+fp),
+    api('/api/performance/departments?_=1'+fp)
   ]);
+  if(ver!==_perfVersion) return;
 
   _perfData = depts.results;
 
@@ -962,20 +1096,19 @@ async function loadPerformance() {
   $('perf-state-banner').innerHTML = `
     <div class="grade-box">
       ${gradeHTML(state.grade, 'xl')}
-      <div class="grade-label">State Grade</div>
+      <div class="grade-label" style="font-size:11px;color:var(--text3);margin-top:6px;">State Grade</div>
     </div>
     <div class="state-info">
-      <h2>State of Florida — Procurement Performance</h2>
+      <h2>State of Florida - Procurement Performance</h2>
       <div class="subtitle">${fmt(state.total_records)} records &middot; <span title="${fmtDFull(state.total_spend)}">${fmtD(state.total_spend)}</span> total spend &middot; ${fmt(state.total_vendors)} vendors across ${fmt(state.total_agencies)} agencies</div>
-      <div class="subtitle" style="margin-top:4px;">${fmtPct(state.cancel_rate)} cancellation &middot; ${fmtPct(state.extension_rate)} extensions &middot; <span title="% of contracts where final amount exceeded original by >10%">${state.overrun_rate ? (state.overrun_rate * 100).toFixed(1) + '% overrun rate' : 'No overrun data'}</span>${state.avg_cost_overrun?' &middot; <span title=\"Average % by which over-budget contracts exceeded original amount\">avg +'+state.avg_cost_overrun.toFixed(1)+'% when over budget</span>':''}</div>
+      <div class="subtitle" style="margin-top:4px;">${fmtPct(state.cancel_rate)} cancellation &middot; ${fmtPct(state.extension_rate)} extensions &middot; ${state.overrun_rate ? (state.overrun_rate * 100).toFixed(1) + '% overrun rate' : 'No overrun data'}${state.avg_cost_overrun?' &middot; avg +'+state.avg_cost_overrun.toFixed(1)+'% when over budget':''}</div>
     </div>
     <div style="text-align:center;">
-      <div style="font-size:36px;font-weight:700;color:#60a5fa;">${state.efficiency_score}</div>
-      <div style="font-size:11px;color:#94a3b8;">/ 100</div>
+      <div style="font-size:32px;font-weight:700;color:var(--text);">${state.efficiency_score}</div>
+      <div style="font-size:11px;color:var(--text3);">/ 100</div>
     </div>
   `;
 
-  // Dept score methodology card
   $('perf-dept-score-card').innerHTML = scoreCardHTML(
     'Department Grading Methodology',
     {cancel: ss.cancel_score, overrun: ss.overrun_score, extensions: ss.ext_score, competition: ss.vendor_quality},
@@ -1006,16 +1139,16 @@ function renderDeptCards() {
         <div class="dept-meta">
           <span>Score: <strong>${d.efficiency_score}</strong>/100</span>
           <span>Cancel: <strong style="color:${d.cancel_rate > 0.05 ? 'var(--red)' : 'var(--green)'}">${(d.cancel_rate * 100).toFixed(1)}%</strong></span>
-          <span title="% of contracts exceeding budget by >10%${d.avg_cost_overrun ? '. Avg overrun: +' + d.avg_cost_overrun.toFixed(1) + '%' : ''}">Overruns: <strong style="color:${d.overrun_rate > 0.05 ? 'var(--orange)' : 'var(--green)'}">${(d.overrun_rate * 100).toFixed(1)}%</strong>${d.avg_cost_overrun ? ' <span style="font-size:10px;color:var(--text2)">(avg +' + d.avg_cost_overrun.toFixed(1) + '%)</span>' : ''}</span>
+          <span>Overruns: <strong style="color:${d.overrun_rate > 0.05 ? 'var(--orange)' : 'var(--green)'}">${(d.overrun_rate * 100).toFixed(1)}%</strong>${d.avg_cost_overrun ? ' <span style="font-size:10px;color:var(--text2)">(avg +' + d.avg_cost_overrun.toFixed(1) + '%)</span>' : ''}</span>
           <span>Extensions: <strong>${(d.extension_rate * 100).toFixed(1)}%</strong></span>
           <span>HHI: <strong style="color:${d.hhi < 1500 ? 'var(--green)' : d.hhi < 2500 ? 'var(--yellow)' : 'var(--red)'}">${d.hhi}</strong></span>
           <span><strong>${fmt(d.num_vendors)}</strong> vendors</span>
         </div>
         <div style="display:flex;gap:4px;margin-top:6px;">
-          ${miniBarLabeled('\u{1F6E1} Reliability', ss.cancel, SCORE_COLORS.cancel)}
-          ${miniBarLabeled('\u{1F4B0} Cost', ss.overrun, SCORE_COLORS.cost_control)}
-          ${miniBarLabeled('\u{23F1} Time', ss.extensions, SCORE_COLORS.timeliness)}
-          ${miniBarLabeled('\u{1F3AF} Compete', ss.competition, SCORE_COLORS.competition)}
+          ${miniBarLabeled('Reliability', ss.cancel, SCORE_COLORS.cancel)}
+          ${miniBarLabeled('Cost', ss.overrun, SCORE_COLORS.cost_control)}
+          ${miniBarLabeled('Time', ss.extensions, SCORE_COLORS.timeliness)}
+          ${miniBarLabeled('Compete', ss.competition, SCORE_COLORS.competition)}
         </div>
       </div>
       <div class="dept-right">
@@ -1033,44 +1166,23 @@ async function loadVendorPerf() {
   const grade = $('perf-vendor-grade-filter')?.value || '';
   const tier = $('perf-vendor-tier-filter')?.value || '';
   const minRec = $('perf-vendor-min-records')?.value || '3';
+  const fp=filterParams();
 
   $('perf-vendor-list').innerHTML = '<div class="loading">Loading vendor grades...</div>';
 
-  const data = await api(`/api/performance/vendors?sort=${sort}&grade=${grade}&tier=${tier}&min_records=${minRec}&limit=100`);
+  const data = await api(`/api/performance/vendors?sort=${sort}&grade=${grade}&tier=${tier}&min_records=${minRec}&limit=100`+fp);
 
-  // Score methodology
-  $('perf-vendor-score-card').innerHTML = scoreCardHTML(
-    'Vendor Grading Methodology',
-    {reliability:85, cost_control:75, timeliness:80, delivery:70, scale:60},
-    {reliability:0.30, cost_control:0.25, timeliness:0.15, delivery:0.15, scale:0.15},
-    75
-  ).replace(/>85</g,'>Example<').replace(/>75</g,'>Example<').replace(/>80</g,'>Example<').replace(/>70</g,'>Example<').replace(/>60</g,'>Example<')
-   // Actually just show methodology without example values
-   .replace(/Example/g,'—');
-
-  // Simpler: just render a real score card
   $('perf-vendor-score-card').innerHTML = `<div class="score-card">
-    <h4>Vendor Grading Formula <span class="formula">5 weighted dimensions \u2192 0-100 score \u2192 A+ to F grade</span></h4>
+    <h4>Vendor Grading Formula <span class="formula">5 weighted dimensions &rarr; 0-100 score &rarr; A+ to F grade</span></h4>
     <div class="score-row"><div class="score-icon">\u{1F6E1}</div><div class="score-label">Reliability</div><div class="score-bar-track"><div class="score-bar-fill" style="width:100%;background:${SCORE_COLORS.reliability}"></div></div><div class="score-val" style="color:${SCORE_COLORS.reliability}">30%</div><div class="score-weight">wt</div></div>
     <div class="score-row"><div class="score-icon">\u{1F4B0}</div><div class="score-label">Cost Control</div><div class="score-bar-track"><div class="score-bar-fill" style="width:83%;background:${SCORE_COLORS.cost_control}"></div></div><div class="score-val" style="color:${SCORE_COLORS.cost_control}">25%</div><div class="score-weight">wt</div></div>
     <div class="score-row"><div class="score-icon">\u{23F1}</div><div class="score-label">Timeliness</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.timeliness}"></div></div><div class="score-val" style="color:${SCORE_COLORS.timeliness}">15%</div><div class="score-weight">wt</div></div>
     <div class="score-row"><div class="score-icon">\u{2705}</div><div class="score-label">Delivery</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.delivery}"></div></div><div class="score-val" style="color:${SCORE_COLORS.delivery}">15%</div><div class="score-weight">wt</div></div>
     <div class="score-row"><div class="score-icon">\u{1F4C8}</div><div class="score-label">Scale &amp; Reach</div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%;background:${SCORE_COLORS.scale}"></div></div><div class="score-val" style="color:${SCORE_COLORS.scale}">15%</div><div class="score-weight">wt</div></div>
-    <div style="margin-top:8px;font-size:10px;color:var(--text2);line-height:1.6;">
-      \u{1F6E1} <strong>Reliability</strong>: Low cancellation rate &nbsp;|&nbsp;
-      \u{1F4B0} <strong>Cost Control</strong>: Few contracts over budget by >10% &nbsp;|&nbsp;
-      \u{23F1} <strong>Timeliness</strong>: Few deadline extensions &nbsp;|&nbsp;
-      \u{2705} <strong>Delivery</strong>: High completion rate &nbsp;|&nbsp;
-      \u{1F4C8} <strong>Scale</strong>: Records + agencies served + years active
-    </div>
   </div>`;
 
-  // Grade distribution
-  if (data.grade_distribution) {
-    $('perf-vendor-dist').innerHTML = gradeDistHTML(data.grade_distribution);
-  }
+  if (data.grade_distribution) $('perf-vendor-dist').innerHTML = gradeDistHTML(data.grade_distribution);
 
-  // Render vendor cards
   if (!data.results?.length) {
     $('perf-vendor-list').innerHTML = '<div class="empty">No vendors match these filters</div>';
     return;
@@ -1088,18 +1200,17 @@ async function loadVendorPerf() {
         </div>
         <div class="vg-stats">
           <span>Cancel: <strong style="color:${v.cancel_rate>0.05?'var(--red)':'var(--green)'}">${(v.cancel_rate*100).toFixed(1)}%</strong></span>
-          <span title="% of contracts exceeding budget by >10%">Overrun: <strong style="color:${v.overrun_rate>0.1?'var(--orange)':'var(--green)'}">${(v.overrun_rate*100).toFixed(1)}%</strong></span>
-          <span title="Average % by which over-budget contracts exceeded their original amount">${v.avg_cost_overrun_pct?'Avg +'+v.avg_cost_overrun_pct.toFixed(1)+'%':''}</span>
+          <span>Overrun: <strong style="color:${v.overrun_rate>0.1?'var(--orange)':'var(--green)'}">${(v.overrun_rate*100).toFixed(1)}%</strong></span>
           <span>Completed: <strong>${(v.completion_rate*100).toFixed(0)}%</strong></span>
           <span>Active: <strong>${v.active}</strong></span>
         </div>
       </div>
       <div class="vg-bars">
-        ${miniBarLabeled('\u{1F6E1} Reliable', ss.reliability, SCORE_COLORS.reliability)}
-        ${miniBarLabeled('\u{1F4B0} Cost', ss.cost_control, SCORE_COLORS.cost_control)}
-        ${miniBarLabeled('\u{23F1} Time', ss.timeliness, SCORE_COLORS.timeliness)}
-        ${miniBarLabeled('\u{2705} Deliver', ss.delivery, SCORE_COLORS.delivery)}
-        ${miniBarLabeled('\u{1F4C8} Scale', ss.scale, SCORE_COLORS.scale)}
+        ${miniBarLabeled('Reliable', ss.reliability, SCORE_COLORS.reliability)}
+        ${miniBarLabeled('Cost', ss.cost_control, SCORE_COLORS.cost_control)}
+        ${miniBarLabeled('Time', ss.timeliness, SCORE_COLORS.timeliness)}
+        ${miniBarLabeled('Deliver', ss.delivery, SCORE_COLORS.delivery)}
+        ${miniBarLabeled('Scale', ss.scale, SCORE_COLORS.scale)}
       </div>
       <div class="vg-right">
         <div class="spend">${fmtD(v.total_spend)}</div>
@@ -1127,13 +1238,11 @@ async function openDeptVendors(agencyName) {
   $('dv-subtitle').innerHTML = `Department Grade: ${gradeHTML(deptGrade, 'sm')} <strong>${deptScore}/100</strong> &middot; ${data.results.length} vendors`;
 
   let vendors = data.results;
-
-  // Dept score card
   let html = '';
   if (dept) {
     const ss = dept.sub_scores;
     html += scoreCardHTML(
-      `${agencyName} — Score Breakdown`,
+      `${agencyName} - Score Breakdown`,
       {cancel:ss.cancel, overrun:ss.overrun, extensions:ss.extensions, competition:ss.competition},
       {cancel:0.30, overrun:0.25, extensions:0.20, competition:0.25},
       deptScore
@@ -1148,7 +1257,6 @@ async function openDeptVendors(agencyName) {
       <option value="spend">Total Spend</option>
       <option value="records">Records</option>
     </select>
-    <span style="margin-left:auto;font-size:10px;color:var(--text2);">\u{1F6E1} Reliability(30%) + \u{1F4B0} Cost(25%) + \u{23F1} Time(15%) + \u{2705} Completion(15%) + \u{1F4C8} Experience(15%)</span>
   </div>`;
 
   html += `<div id="dv-vendor-rows">${renderVendorPerfRows(vendors)}</div>`;
@@ -1171,11 +1279,11 @@ function renderVendorPerfRows(vendors) {
         </div>
       </div>
       <div class="vg-bars">
-        ${miniBarLabeled('\u{1F6E1} Reliable', ss.cancel, SCORE_COLORS.cancel)}
-        ${miniBarLabeled('\u{1F4B0} Cost', ss.overrun, SCORE_COLORS.cost_control)}
-        ${miniBarLabeled('\u{23F1} Time', ss.extensions, SCORE_COLORS.timeliness)}
-        ${miniBarLabeled('\u{2705} Complete', ss.completion, SCORE_COLORS.delivery)}
-        ${miniBarLabeled('\u{1F4C8} Exp', ss.experience, SCORE_COLORS.scale)}
+        ${miniBarLabeled('Reliable', ss.cancel, SCORE_COLORS.cancel)}
+        ${miniBarLabeled('Cost', ss.overrun, SCORE_COLORS.cost_control)}
+        ${miniBarLabeled('Time', ss.extensions, SCORE_COLORS.timeliness)}
+        ${miniBarLabeled('Complete', ss.completion, SCORE_COLORS.delivery)}
+        ${miniBarLabeled('Exp', ss.experience, SCORE_COLORS.scale)}
       </div>
       <div class="vg-right">
         <div class="spend">${fmtD(v.total_val)}</div>
@@ -1196,14 +1304,8 @@ function sortDeptVendors(by) {
   $('dv-vendor-rows').innerHTML = renderVendorPerfRows(v);
 }
 
-// ── Updated Nav ─────────────────────────────────────────────────────
-const _origNavTo = navTo;
-navTo = function(name) {
-  _origNavTo(name);
-  if (name === 'performance' && !window._perfLoaded) loadPerformance();
-};
-
-// Boot
+// ── Boot ─────────────────────────────────────────────────────────────
+initFilters();
 loadDashboard();
 </script>
 </body>
